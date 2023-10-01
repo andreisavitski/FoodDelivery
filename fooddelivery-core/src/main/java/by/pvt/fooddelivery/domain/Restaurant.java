@@ -10,14 +10,12 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(schema = "fooddeliverysch", name = "food_establishment")
+@Table(schema = "fooddeliverysch", name = "restaurant")
 public class Restaurant {
     @Id
-    @SequenceGenerator(name = "food_establishment_id", sequenceName = "food_establishment_seq", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "food_establishment_id")
+    @SequenceGenerator(name = "restaurant_id_seq", sequenceName = "restaurant_seq", allocationSize = 1, schema = "fooddeliverysch")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "restaurant_id_seq")
     private Long id;
-    @Column(name = "food_id")
-    private Long foodId;
     private String name;
     @Embedded
     private Address address;

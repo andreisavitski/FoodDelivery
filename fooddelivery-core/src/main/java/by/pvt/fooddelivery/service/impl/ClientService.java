@@ -1,35 +1,40 @@
 package by.pvt.fooddelivery.service.impl;
 
-import by.pvt.fooddelivery.dao.ClientDAO;
 import by.pvt.fooddelivery.domain.user.Client;
+import by.pvt.fooddelivery.repository.ClientRepository;
 import by.pvt.fooddelivery.service.ClientApi;
 
 import java.util.List;
 
 public class ClientService implements ClientApi {
-    private final ClientDAO clientDAO;
+    private final ClientRepository clientRepository;
 
-    public ClientService(ClientDAO clientDAO) {
-        this.clientDAO = clientDAO;
+    public ClientService(ClientRepository clientRepository) {
+        this.clientRepository = clientRepository;
     }
 
     @Override
     public void addClient(Client client) {
-        clientDAO.addClient(client);
+        clientRepository.addClient(client);
     }
 
     @Override
-    public void deleteClientById(Long id) {
-        clientDAO.deleteClientById(id);
+    public void deleteClientById(Long clientId) {
+        clientRepository.deleteClientById(clientId);
     }
 
     @Override
-    public Client getClientById(Long id) {
-        return clientDAO.getClientById(id);
+    public Client getClientById(Long clientId) {
+        return clientRepository.getClientById(clientId).orElseThrow(() -> new RuntimeException("Client does not exist"));
     }
 
     @Override
     public List<Client> getAllClients() {
-        return clientDAO.getAllClients();
+        return clientRepository.getAllClients();
+    }
+
+    @Override
+    public void updateClient(Client client) {
+        clientRepository.updateClient(client);
     }
 }

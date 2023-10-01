@@ -1,16 +1,16 @@
 package by.pvt.fooddelivery.domain.user;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.Entity;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
+@Getter
+@Setter
+@ToString(callSuper = true)
 @Entity
 @Table(schema = "fooddeliverysch", name = "admin")
+@PrimaryKeyJoinColumn(name = "id")
 public class Admin extends User {
 }

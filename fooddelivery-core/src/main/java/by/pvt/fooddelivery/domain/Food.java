@@ -14,11 +14,12 @@ import java.math.BigDecimal;
 @Table(schema = "fooddeliverysch", name = "food")
 public class Food {
     @Id
-    @SequenceGenerator(name = "food_id", sequenceName = "food_seq", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "food_id")
+    @SequenceGenerator(name = "food_id_seq", sequenceName = "food_seq", allocationSize = 1, schema = "fooddeliverysch")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "food_id_seq")
     private Long id;
-    @Column(name = "food_establishment_id")
-    private Long foodEstablishmentId;
+    @ManyToOne
+    @JoinColumn(name = "restaurant_id")
+    private Restaurant restaurant;
     private String name;
     private String description;
     private BigDecimal price;

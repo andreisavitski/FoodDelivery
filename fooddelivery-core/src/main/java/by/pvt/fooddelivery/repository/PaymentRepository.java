@@ -1,10 +1,10 @@
-package by.pvt.fooddelivery.service;
+package by.pvt.fooddelivery.repository;
 
 import by.pvt.fooddelivery.domain.payment.Payment;
 
 import java.util.List;
 
-public interface PaymentApi {
+public interface PaymentRepository {
     void addPayment(Payment payment);
 
     Payment getPaymentById(Long paymentId);

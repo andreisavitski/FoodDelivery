@@ -13,12 +13,14 @@ import javax.persistence.*;
 @Table(schema = "fooddeliverysch", name = "cart")
 public class Cart {
     @Id
-    @SequenceGenerator(name = "cart_id", sequenceName = "cart_seq", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "cart_id")
+    @SequenceGenerator(name = "cart_id_seq", sequenceName = "cart_seq", allocationSize = 1, schema = "fooddeliverysch")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "cart_id_seq")
     private Long id;
-    @Column(name = "order_id")
-    private Long orderId;
-    @Column (name = "food_id")
-    private Long foodId;
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    private Order order;
+    @OneToOne
+    @JoinColumn(name = "food_id")
+    private Food food;
     private Integer quantity;
 }

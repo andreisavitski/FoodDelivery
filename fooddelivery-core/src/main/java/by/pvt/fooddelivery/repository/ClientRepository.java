@@ -1,15 +1,16 @@
-package by.pvt.fooddelivery.service;
+package by.pvt.fooddelivery.repository;
 
 import by.pvt.fooddelivery.domain.user.Client;
 
 import java.util.List;
+import java.util.Optional;
 
-public interface ClientApi {
+public interface ClientRepository {
     void addClient(Client client);
 
     void deleteClientById(Long clientId);
 
-    Client getClientById(Long clientId);
+    Optional<Client> getClientById(Long clientId);
 
     List<Client> getAllClients();
 

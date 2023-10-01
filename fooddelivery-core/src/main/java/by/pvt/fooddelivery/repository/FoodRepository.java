@@ -1,13 +1,14 @@
-package by.pvt.fooddelivery.service;
+package by.pvt.fooddelivery.repository;
 
 import by.pvt.fooddelivery.domain.Food;
 
 import java.util.List;
+import java.util.Optional;
 
-public interface FoodApi {
+public interface FoodRepository {
     void addFood(Food food);
 
-    Food getFoodById(Long foodId);
+    Optional<Food> getFoodById(Long foodId);
 
     List<Food> gelAllFoods();
 
