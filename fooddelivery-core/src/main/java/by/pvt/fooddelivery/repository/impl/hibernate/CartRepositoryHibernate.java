@@ -1,7 +1,7 @@
-package by.pvt.fooddelivery.dao.impl;
+package by.pvt.fooddelivery.repository.impl.hibernate;
 
 import by.pvt.fooddelivery.config.HibernateJavaConfig;
-import by.pvt.fooddelivery.dao.CartDAO;
+import by.pvt.fooddelivery.repository.CartRepository;
 import by.pvt.fooddelivery.domain.Cart;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -9,12 +9,12 @@ import org.hibernate.SessionFactory;
 import javax.persistence.Query;
 import java.util.List;
 
-public class CartDAOHibernate implements CartDAO {
+public class CartRepositoryHibernate implements CartRepository {
     private final SessionFactory sessionFactory;
     private final String GET_ALL_CARTS = "select u from Cart u";
     private final String DELETE_CART_BY_ID = "delete from Cart u where u.id =:id";
 
-    public CartDAOHibernate() {
+    public CartRepositoryHibernate() {
         this.sessionFactory = HibernateJavaConfig.getSessionFactory();
     }
 
@@ -28,12 +28,13 @@ public class CartDAOHibernate implements CartDAO {
     }
 
     @Override
-    public Cart getCartById(Long id) {
+    public Cart getCartById(Long cartId) {
         Session session = sessionFactory.openSession();
-        Cart cart = session.get(Cart.class, id);
+        Cart cart = session.get(Cart.class, cartId);
         if (cart == null) {
             throw new RuntimeException("Cart does not exist");
         }
+        session.close();
         return cart;
     }
 
@@ -41,15 +42,17 @@ public class CartDAOHibernate implements CartDAO {
     public List<Cart> getAllCarts() {
         Session session = sessionFactory.openSession();
         Query query = session.createQuery(GET_ALL_CARTS);
-        return (List<Cart>) query.getResultList();
+        List<Cart> carts = query.getResultList();
+        session.close();
+        return carts;
     }
 
     @Override
-    public void deleteCartById(Long id) {
+    public void deleteCartById(Long cartId) {
         Session session = sessionFactory.openSession();
         session.getTransaction().begin();
         Query query = session.createQuery(DELETE_CART_BY_ID);
-        query.setParameter("id", id);
+        query.setParameter("id", cartId);
         query.executeUpdate();
         session.getTransaction().commit();
         session.close();

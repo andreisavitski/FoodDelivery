@@ -1,7 +1,7 @@
-package by.pvt.fooddelivery.dao.impl;
+package by.pvt.fooddelivery.repository.impl.hibernate;
 
 import by.pvt.fooddelivery.config.HibernateJavaConfig;
-import by.pvt.fooddelivery.dao.PaymentDAO;
+import by.pvt.fooddelivery.repository.PaymentRepository;
 import by.pvt.fooddelivery.domain.payment.Payment;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -9,12 +9,12 @@ import org.hibernate.SessionFactory;
 import javax.persistence.Query;
 import java.util.List;
 
-public class PaymentDAOHibernate implements PaymentDAO {
+public class PaymentRepositoryHibernate implements PaymentRepository {
     private final SessionFactory sessionFactory;
     private final String GET_ALL_PAYMENTS = "select u from Payment u";
     private final String DELETE_PAYMENT_BY_ID = "delete from Payment u where u.id =:id";
 
-    public PaymentDAOHibernate() {
+    public PaymentRepositoryHibernate() {
         this.sessionFactory = HibernateJavaConfig.getSessionFactory();
     }
 
@@ -28,12 +28,13 @@ public class PaymentDAOHibernate implements PaymentDAO {
     }
 
     @Override
-    public Payment getPaymentById(Long id) {
+    public Payment getPaymentById(Long paymentId) {
         Session session = sessionFactory.openSession();
-        Payment payment = session.get(Payment.class, id);
+        Payment payment = session.get(Payment.class, paymentId);
         if (payment == null) {
             throw new RuntimeException("Payment does not exist");
         }
+        session.close();
         return payment;
     }
 
@@ -41,15 +42,17 @@ public class PaymentDAOHibernate implements PaymentDAO {
     public List<Payment> getAllPayments() {
         Session session = sessionFactory.openSession();
         Query query = session.createQuery(GET_ALL_PAYMENTS);
-        return (List<Payment>) query.getResultList();
+        List<Payment> payments = query.getResultList();
+        session.close();
+        return payments;
     }
 
     @Override
-    public void deletePaymentById(Long id) {
+    public void deletePaymentById(Long paymentId) {
         Session session = sessionFactory.openSession();
         session.getTransaction().begin();
         Query query = session.createQuery(DELETE_PAYMENT_BY_ID);
-        query.setParameter("id", id);
+        query.setParameter("id", paymentId);
         query.executeUpdate();
         session.getTransaction().commit();
         session.close();

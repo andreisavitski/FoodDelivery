@@ -1,13 +1,14 @@
-package by.pvt.fooddelivery.service;
+package by.pvt.fooddelivery.repository;
 
 import by.pvt.fooddelivery.domain.Order;
 
 import java.util.List;
+import java.util.Optional;
 
-public interface OrderApi {
+public interface OrderRepository {
     void addOrder(Order order);
 
-    Order getOrderById(Long orderId);
+    Optional<Order> getOrderById(Long orderId);
 
     List<Order> getAllOrders();
 

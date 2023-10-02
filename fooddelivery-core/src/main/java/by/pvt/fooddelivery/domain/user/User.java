@@ -7,15 +7,15 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Data
-@Inheritance(strategy = InheritanceType.JOINED)
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(schema = "fooddeliverysch", name = "user")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class User {
     @Id
-    @SequenceGenerator(name = "user_id", sequenceName = "user_seq", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_id")
+    @SequenceGenerator(name = "user_id_seq", sequenceName = "user_seq", allocationSize = 1, schema = "fooddeliverysch")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_id_seq")
     private Long id;
     private String name;
     private String surname;

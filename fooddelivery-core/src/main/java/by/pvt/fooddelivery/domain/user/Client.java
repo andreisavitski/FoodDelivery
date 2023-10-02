@@ -1,20 +1,18 @@
 package by.pvt.fooddelivery.domain.user;
 
 import by.pvt.fooddelivery.domain.Address;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
-@Data
+@Getter
+@Setter
+@ToString(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(schema = "fooddeliverysch", name = "client")
+@PrimaryKeyJoinColumn(name = "id")
 public class Client extends User {
     @Embedded
     private Address address;

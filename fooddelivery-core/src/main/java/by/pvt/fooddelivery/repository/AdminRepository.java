@@ -1,15 +1,16 @@
-package by.pvt.fooddelivery.service;
+package by.pvt.fooddelivery.repository;
 
 import by.pvt.fooddelivery.domain.user.Admin;
 
 import java.util.List;
+import java.util.Optional;
 
-public interface AdminApi {
+public interface AdminRepository {
     void addAdmin(Admin admin);
 
     void deleteAdminById(Long adminId);
 
-    Admin getAdminById(Long adminId);
+    Optional<Admin> getAdminById(Long adminId);
 
     List<Admin> getAllAdmins();
 

@@ -1,35 +1,40 @@
 package by.pvt.fooddelivery.service.impl;
 
-import by.pvt.fooddelivery.dao.AdminDAO;
 import by.pvt.fooddelivery.domain.user.Admin;
+import by.pvt.fooddelivery.repository.AdminRepository;
 import by.pvt.fooddelivery.service.AdminApi;
 
 import java.util.List;
 
 public class AdminService implements AdminApi {
-    private final AdminDAO adminDAO;
+    private final AdminRepository adminRepository;
 
-    public AdminService(AdminDAO adminDAO) {
-        this.adminDAO = adminDAO;
+    public AdminService(AdminRepository adminRepository) {
+        this.adminRepository = adminRepository;
     }
 
     @Override
     public void addAdmin(Admin admin) {
-        adminDAO.addAdmin(admin);
+        adminRepository.addAdmin(admin);
     }
 
     @Override
-    public void deleteAdminById(Long id) {
-        adminDAO.deleteAdminById(id);
+    public void deleteAdminById(Long adminId) {
+        adminRepository.deleteAdminById(adminId);
     }
 
     @Override
-    public Admin getAdminById(Long id) {
-        return adminDAO.getAdminById(id);
+    public Admin getAdminById(Long adminId) {
+        return adminRepository.getAdminById(adminId).orElseThrow(() -> new RuntimeException("Admin does not exist"));
     }
 
     @Override
     public List<Admin> getAllAdmins() {
-        return adminDAO.getAllAdmins();
+        return adminRepository.getAllAdmins();
+    }
+
+    @Override
+    public void updateAdmin(Admin admin) {
+        adminRepository.updateAdmin(admin);
     }
 }

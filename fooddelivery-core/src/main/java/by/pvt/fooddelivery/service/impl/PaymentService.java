@@ -1,35 +1,35 @@
 package by.pvt.fooddelivery.service.impl;
 
-import by.pvt.fooddelivery.dao.PaymentDAO;
+import by.pvt.fooddelivery.repository.PaymentRepository;
 import by.pvt.fooddelivery.domain.payment.Payment;
 import by.pvt.fooddelivery.service.PaymentApi;
 
 import java.util.List;
 
 public class PaymentService implements PaymentApi {
-    private final PaymentDAO paymentDAO;
+    private final PaymentRepository paymentRepository;
 
-    public PaymentService(PaymentDAO paymentDAO) {
-        this.paymentDAO = paymentDAO;
+    public PaymentService(PaymentRepository paymentRepository) {
+        this.paymentRepository = paymentRepository;
     }
 
     @Override
     public void addPayment(Payment payment) {
-        paymentDAO.addPayment(payment);
+        paymentRepository.addPayment(payment);
     }
 
     @Override
-    public Payment getPaymentById(Long id) {
-        return paymentDAO.getPaymentById(id);
+    public Payment getPaymentById(Long paymentId) {
+        return paymentRepository.getPaymentById(paymentId);
     }
 
     @Override
     public List<Payment> getAllPayments() {
-        return paymentDAO.getAllPayments();
+        return paymentRepository.getAllPayments();
     }
 
     @Override
-    public void deletePaymentById(Long id) {
-        paymentDAO.deletePaymentById(id);
+    public void deletePaymentById(Long paymentId) {
+        paymentRepository.deletePaymentById(paymentId);
     }
 }
