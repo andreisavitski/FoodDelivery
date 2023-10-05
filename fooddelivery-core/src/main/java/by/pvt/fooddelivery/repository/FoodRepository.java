@@ -16,6 +16,8 @@ public interface FoodRepository {
 
     List<Food> getFoodsByName(String foodName);
 
+    List<Food> getFoodsByFoodNameAndRestaurantName(String foodName, String restaurantName);
+
     List<Food> getFoodsByRestaurantName(String restaurantName);
 
     List<Food> getFoodsByRestaurantId(Long restaurantId);

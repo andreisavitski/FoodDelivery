@@ -1,18 +1,17 @@
 package by.pvt.fooddelivery.repository.impl.hibernate;
 
 import by.pvt.fooddelivery.config.HibernateJavaConfig;
-import by.pvt.fooddelivery.repository.CartRepository;
 import by.pvt.fooddelivery.domain.Cart;
+import by.pvt.fooddelivery.repository.CartRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import javax.persistence.Query;
 import java.util.List;
+import java.util.Optional;
 
-public class CartRepositoryHibernate implements CartRepository {
+public class CartRepositoryHibernate extends RepositoryCRUD implements CartRepository {
     private final SessionFactory sessionFactory;
-    private final String GET_ALL_CARTS = "select u from Cart u";
-    private final String DELETE_CART_BY_ID = "delete from Cart u where u.id =:id";
 
     public CartRepositoryHibernate() {
         this.sessionFactory = HibernateJavaConfig.getSessionFactory();
@@ -20,41 +19,31 @@ public class CartRepositoryHibernate implements CartRepository {
 
     @Override
     public void addCart(Cart cart) {
-        Session session = sessionFactory.openSession();
-        session.getTransaction().begin();
-        session.persist(cart);
-        session.getTransaction().commit();
-        session.close();
+        add(cart);
     }
 
     @Override
-    public Cart getCartById(Long cartId) {
-        Session session = sessionFactory.openSession();
-        Cart cart = session.get(Cart.class, cartId);
-        if (cart == null) {
-            throw new RuntimeException("Cart does not exist");
-        }
-        session.close();
-        return cart;
+    public Optional<Cart> getCartById(Long cartId) {
+        return getById(Cart.class, cartId);
     }
 
     @Override
     public List<Cart> getAllCarts() {
-        Session session = sessionFactory.openSession();
-        Query query = session.createQuery(GET_ALL_CARTS);
-        List<Cart> carts = query.getResultList();
-        session.close();
-        return carts;
+        return getAll(Cart.class);
     }
 
     @Override
     public void deleteCartById(Long cartId) {
+        deleteById(Cart.class, cartId);
+    }
+
+    @Override
+    public List<Cart> getCartsByOrderId(Long orderId) {
         Session session = sessionFactory.openSession();
-        session.getTransaction().begin();
-        Query query = session.createQuery(DELETE_CART_BY_ID);
-        query.setParameter("id", cartId);
-        query.executeUpdate();
-        session.getTransaction().commit();
+        Query query = session.createQuery("select c from Cart c where c.order.id =:orderId");
+        query.setParameter("orderId", orderId);
+        List<Cart> carts = query.getResultList();
         session.close();
+        return carts;
     }
 }

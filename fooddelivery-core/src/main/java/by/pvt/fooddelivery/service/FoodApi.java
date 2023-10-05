@@ -20,4 +20,6 @@ public interface FoodApi {
     List<Food> getFoodsByRestaurantId(Long restaurantId);
 
     void updateFood(Food food);
+
+    List<Food> getFoodsByFoodNameAndRestaurantName(String foodName, String restaurantName);
 }
