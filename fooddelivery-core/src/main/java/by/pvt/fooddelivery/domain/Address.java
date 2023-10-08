@@ -1,15 +1,16 @@
 package by.pvt.fooddelivery.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
-@Data
+@EqualsAndHashCode
+@Setter
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 @Embeddable
 public class Address {
     private String city;

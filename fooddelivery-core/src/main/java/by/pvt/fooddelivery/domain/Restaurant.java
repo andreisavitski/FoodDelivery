@@ -1,24 +1,28 @@
 package by.pvt.fooddelivery.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
+@EqualsAndHashCode
+@Getter
+@Setter
+@ToString
 @Entity
-@Table(schema = "fooddeliverysch", name = "restaurant")
+@Cacheable
+@Table(name = "restaurant")
 public class Restaurant {
     @Id
-    @SequenceGenerator(name = "restaurant_id_seq", sequenceName = "restaurant_seq", allocationSize = 1, schema = "fooddeliverysch")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "restaurant_id_seq")
+    @GeneratedValue
     private Long id;
     private String name;
     @Embedded
     private Address address;
     @Column(name = "phone_number")
     private String phoneNumber;
+    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.REMOVE)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private List<Product> products;
 }

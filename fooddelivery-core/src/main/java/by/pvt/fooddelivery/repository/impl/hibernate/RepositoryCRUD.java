@@ -23,7 +23,7 @@ public abstract class RepositoryCRUD {
         session.close();
     }
 
-    public <E> void deleteById(Class<E> type, Long id) {
+    public <T> void deleteById(Class<T> type, Long id) {
         Session session = sessionFactory.openSession();
         session.getTransaction().begin();
         Query query = session.createQuery("delete from " + type.getName() + " o where o.id =:id");
@@ -33,17 +33,17 @@ public abstract class RepositoryCRUD {
         session.close();
     }
 
-    public <E> Optional<E> getById(Class<E> type, Long id) {
+    public <T> Optional<T> getById(Class<T> type, Long id) {
         Session session = sessionFactory.openSession();
-        Optional<E> opt = Optional.ofNullable(session.get(type, id));
+        Optional<T> opt = Optional.ofNullable(session.get(type, id));
         session.close();
         return opt;
     }
 
-    public <E> List<E> getAll(Class<E> type) {
+    public <T> List<T> getAll(Class<T> type) {
         Session session = sessionFactory.openSession();
         Query query = session.createQuery("select o from " + type.getName() + " o");
-        List<E> queryResultList = query.getResultList();
+        List<T> queryResultList = query.getResultList();
         session.close();
         return queryResultList;
     }
