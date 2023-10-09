@@ -1,9 +1,6 @@
 package by.pvt.fooddelivery.config;
 
 import by.pvt.fooddelivery.domain.*;
-import by.pvt.fooddelivery.domain.payment.Cash;
-import by.pvt.fooddelivery.domain.payment.CreditCard;
-import by.pvt.fooddelivery.domain.payment.Payment;
 import by.pvt.fooddelivery.domain.user.*;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -34,9 +31,6 @@ public class HibernateJavaConfig {
         configuration.addAnnotatedClass(Address.class);
         configuration.addAnnotatedClass(Courier.class);
         configuration.addAnnotatedClass(RestaurantEmployee.class);
-        configuration.addAnnotatedClass(Cash.class);
-        configuration.addAnnotatedClass(CreditCard.class);
-        configuration.addAnnotatedClass(Payment.class);
         configuration.addAnnotatedClass(Cart.class);
         configuration.addAnnotatedClass(Food.class);
         configuration.addAnnotatedClass(Order.class);

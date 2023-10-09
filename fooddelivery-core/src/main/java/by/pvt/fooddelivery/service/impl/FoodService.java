@@ -53,4 +53,9 @@ public class FoodService implements FoodApi {
     public void updateFood(Food food) {
         foodRepository.updateFood(food);
     }
+
+    @Override
+    public List<Food> getFoodsByFoodNameAndRestaurantName(String foodName, String restaurantName) {
+        return foodRepository.getFoodsByFoodNameAndRestaurantName(foodName, restaurantName);
+    }
 }

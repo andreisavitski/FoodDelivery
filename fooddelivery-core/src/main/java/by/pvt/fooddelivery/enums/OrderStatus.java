@@ -1,4 +1,4 @@
-package by.pvt.fooddelivery.enam;
+package by.pvt.fooddelivery.enums;
 
 public enum OrderStatus {
     NOT_FORMED,

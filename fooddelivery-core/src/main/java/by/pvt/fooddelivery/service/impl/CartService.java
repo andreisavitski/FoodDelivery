@@ -1,7 +1,7 @@
 package by.pvt.fooddelivery.service.impl;
 
-import by.pvt.fooddelivery.repository.CartRepository;
 import by.pvt.fooddelivery.domain.Cart;
+import by.pvt.fooddelivery.repository.CartRepository;
 import by.pvt.fooddelivery.service.CartApi;
 
 import java.util.List;
@@ -15,12 +15,20 @@ public class CartService implements CartApi {
 
     @Override
     public void addCart(Cart cart) {
+        List<Cart> cartsByOrderId = cartRepository.getCartsByOrderId(cart.getOrder().getId());
+        if (cartsByOrderId.isEmpty()) {
+            cartRepository.addCart(cart);
+
+        }
+
+
         cartRepository.addCart(cart);
     }
 
     @Override
     public Cart getCartById(Long cartId) {
-        return cartRepository.getCartById(cartId);
+        return cartRepository.getCartById(cartId).orElseThrow(
+                () -> new RuntimeException("Cart does not exist"));
     }
 
     @Override

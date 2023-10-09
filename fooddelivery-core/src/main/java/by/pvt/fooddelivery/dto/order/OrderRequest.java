@@ -1,6 +1,6 @@
 package by.pvt.fooddelivery.dto.order;
 
-import by.pvt.fooddelivery.enam.OrderStatus;
+import by.pvt.fooddelivery.enums.OrderStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
