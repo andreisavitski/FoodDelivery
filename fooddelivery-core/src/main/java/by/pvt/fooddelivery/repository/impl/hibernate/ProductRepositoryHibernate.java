@@ -5,6 +5,7 @@ import by.pvt.fooddelivery.domain.Product;
 import by.pvt.fooddelivery.domain.Restaurant;
 import by.pvt.fooddelivery.repository.ProductRepository;
 import org.hibernate.SessionFactory;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -14,6 +15,7 @@ import javax.persistence.criteria.Root;
 import java.util.List;
 import java.util.Optional;
 
+@Repository
 public class ProductRepositoryHibernate extends RepositoryCRUD implements ProductRepository {
     private final EntityManager entityManager;
 

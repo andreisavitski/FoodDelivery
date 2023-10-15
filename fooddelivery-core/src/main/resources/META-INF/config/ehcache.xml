@@ -1,23 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <ehcache>
-
-    <cache name="by.pvt.fooddelivery.entity.Restaurant"
-           maxEntriesLocalDisk="500"
+    <defaultCache maxElementsInMemory="100" eternal="false"
+                  timeToIdleSeconds="500" timeToLiveSeconds="1000"/>
+    <cache name="by.pvt.fooddelivery.domain.Restaurant"
+           maxElementsInMemory="500"
            eternal="false"
-           diskSpoolBufferSizeMB="20"
-           timeToIdleSeconds="300" timeToLiveSeconds="60">
-    </cache>
-    <cache name="by.pvt.fooddelivery.entity.Product"
-           maxEntriesLocalDisk="500"
+           timeToIdleSeconds="30"
+           timeToLiveSeconds="60"/>
+    <cache name="by.pvt.fooddelivery.domain.Admin"
+           maxElementsInMemory="500"
            eternal="false"
-           diskSpoolBufferSizeMB="20"
-           timeToIdleSeconds="300" timeToLiveSeconds="60">
-    </cache>
-    <cache name="by.pvt.fooddelivery.entity.Admin"
-           maxEntriesLocalDisk="500"
+           timeToIdleSeconds="30"
+           timeToLiveSeconds="60"/>
+    <cache name="by.pvt.fooddelivery.domain.Product"
+           maxElementsInMemory="500"
            eternal="false"
-           diskSpoolBufferSizeMB="20"
-           timeToIdleSeconds="300" timeToLiveSeconds="60">
-    </cache>
-
+           timeToIdleSeconds="30"
+           timeToLiveSeconds="60"/>
 </ehcache>

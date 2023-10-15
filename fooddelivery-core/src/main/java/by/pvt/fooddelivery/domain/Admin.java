@@ -1,24 +1,20 @@
-package by.pvt.fooddelivery.domain.user;
+package by.pvt.fooddelivery.domain;
 
-import by.pvt.fooddelivery.domain.Address;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 
-@EqualsAndHashCode
 @Getter
 @Setter
-@ToString
 @Entity
-@Table(name = "user")
-@Inheritance(strategy = InheritanceType.JOINED)
-public class User {
-    @Id
-    @GeneratedValue
-    private Long id;
+@Table(name = "admin")
+@Cacheable
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_ONLY, region = "admin")
+@SequenceGenerator(name = AbstractEntity.SEQUENCE_GENERATOR, sequenceName = "admin_seq",
+        allocationSize = 1, schema = "fooddeliverysch")
+public class Admin extends AbstractEntity {
     @Column(name = "first_name")
     private String firstName;
     @Column(name = "last_name")
@@ -29,7 +25,4 @@ public class User {
     private String password;
     @Column(name = "phone_number", unique = true)
     private String phoneNumber;
-    @Embedded
-    private Address address;
-
 }

@@ -1,19 +1,19 @@
 package by.pvt.fooddelivery.service;
 
-import by.pvt.fooddelivery.domain.Comment;
+import by.pvt.fooddelivery.dto.CommentDTO;
 
 import java.util.List;
 
 public interface CommentApi {
-    void addComment(Comment comment);
+    void addComment(CommentDTO commentDTO);
 
     void deleteCommentById(Long commentId);
 
-    Comment getCommentById(Long commentId);
+    CommentDTO getCommentById(Long commentId);
 
-    List<Comment> getAllComments();
+    List<CommentDTO> getAllComments();
 
-    List<Comment> getAllCommentsByUserId(Long userId);
+    List<CommentDTO> getAllCommentsByUserId(Long userId);
 
-    void updateComment(Comment comment);
+    void updateComment(CommentDTO commentDTO);
 }

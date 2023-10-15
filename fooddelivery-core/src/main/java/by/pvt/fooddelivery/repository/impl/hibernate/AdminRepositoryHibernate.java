@@ -1,11 +1,13 @@
 package by.pvt.fooddelivery.repository.impl.hibernate;
 
-import by.pvt.fooddelivery.domain.user.Admin;
+import by.pvt.fooddelivery.domain.Admin;
 import by.pvt.fooddelivery.repository.AdminRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
+@Repository
 public class AdminRepositoryHibernate extends RepositoryCRUD implements AdminRepository {
 
     @Override

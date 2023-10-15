@@ -1,17 +1,18 @@
 package by.pvt.fooddelivery.service;
 
-import by.pvt.fooddelivery.domain.user.Courier;
+import by.pvt.fooddelivery.domain.Courier;
+import by.pvt.fooddelivery.dto.CourierDTO;
 
 import java.util.List;
 
 public interface CourierApi {
-    void addCourier(Courier courier);
+    void registration(CourierDTO courierDTO);
 
-    Courier getCourierById(Long courierId);
+    CourierDTO getCourierById(Long courierId);
 
-    List<Courier> getAllCouriers();
+    List<CourierDTO> getAllCouriers();
 
     void deleteCourierById(Long courierId);
 
-    void updateCourier(Courier courier);
+    void updateCourier(CourierDTO courierDTO);
 }

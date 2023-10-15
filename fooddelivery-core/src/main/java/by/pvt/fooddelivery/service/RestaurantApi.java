@@ -1,18 +1,18 @@
 package by.pvt.fooddelivery.service;
 
-import by.pvt.fooddelivery.domain.Restaurant;
+import by.pvt.fooddelivery.dto.RestaurantDTO;
 
 import java.util.List;
 
 public interface RestaurantApi {
-    void addRestaurant(Restaurant restaurant);
+    void addRestaurant(RestaurantDTO restaurantDTO);
 
-    Restaurant getRestaurantById(Long restaurantId);
+    RestaurantDTO getRestaurantById(Long restaurantId);
 
-    List<Restaurant> getAllRestaurants();
+    List<RestaurantDTO> getAllRestaurants();
 
     void deleteRestaurantById(Long restaurantId);
 
-    void updateRestaurant(Restaurant restaurant);
+    void updateRestaurant(RestaurantDTO restaurantDTO);
 
 }

@@ -2,10 +2,12 @@ package by.pvt.fooddelivery.repository.impl.hibernate;
 
 import by.pvt.fooddelivery.domain.Restaurant;
 import by.pvt.fooddelivery.repository.RestaurantRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
+@Repository
 public class RestaurantRepositoryHibernate extends RepositoryCRUD implements RestaurantRepository {
     @Override
     public void addRestaurant(Restaurant restaurant) {

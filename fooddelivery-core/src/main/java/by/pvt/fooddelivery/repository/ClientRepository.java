@@ -1,6 +1,6 @@
 package by.pvt.fooddelivery.repository;
 
-import by.pvt.fooddelivery.domain.user.Client;
+import by.pvt.fooddelivery.domain.Client;
 
 import java.util.List;
 import java.util.Optional;

@@ -1,11 +1,13 @@
 package by.pvt.fooddelivery.repository.impl.hibernate;
 
-import by.pvt.fooddelivery.domain.user.Client;
+import by.pvt.fooddelivery.domain.Client;
 import by.pvt.fooddelivery.repository.ClientRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
+@Repository
 public class ClientRepositoryHibernate extends RepositoryCRUD implements ClientRepository {
 
     @Override

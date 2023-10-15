@@ -1,32 +1,34 @@
 package by.pvt.fooddelivery.service.impl;
 
-import by.pvt.fooddelivery.domain.Product;
+import by.pvt.fooddelivery.dto.ProductDTO;
+import by.pvt.fooddelivery.mapper.ProductMapper;
 import by.pvt.fooddelivery.repository.ProductRepository;
 import by.pvt.fooddelivery.service.ProductApi;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
+@RequiredArgsConstructor
 public class ProductService implements ProductApi {
     private final ProductRepository productRepository;
+    private final ProductMapper productMapper;
 
-    public ProductService(ProductRepository productRepository) {
-        this.productRepository = productRepository;
+    @Override
+    public void addProduct(ProductDTO productDTO) {
+        productRepository.addFood(productMapper.toProduct(productDTO));
     }
 
     @Override
-    public void addProduct(Product product) {
-        productRepository.addFood(product);
+    public ProductDTO getProductById(Long productId) {
+        return productMapper.toDTO(productRepository.getProductById(productId).orElseThrow(
+                () -> new RuntimeException("Food does not exist")));
     }
 
     @Override
-    public Product getProductById(Long productId) {
-        return productRepository.getProductById(productId).orElseThrow(
-                () -> new RuntimeException("Food does not exist"));
-    }
-
-    @Override
-    public List<Product> gelAllProducts() {
-        return productRepository.gelAllProducts();
+    public List<ProductDTO> gelAllProducts() {
+        return productRepository.gelAllProducts().stream().map(productMapper::toDTO).toList();
     }
 
     @Override
@@ -35,27 +37,29 @@ public class ProductService implements ProductApi {
     }
 
     @Override
-    public List<Product> getProductsByName(String productName) {
-        return productRepository.getProductsByName(productName);
+    public List<ProductDTO> getProductsByName(String productName) {
+        return productRepository.getProductsByName(productName).stream().map(productMapper::toDTO).toList();
     }
 
     @Override
-    public List<Product> getProductsByRestaurantName(String restaurantName) {
-        return productRepository.getProductsByRestaurantName(restaurantName);
+    public List<ProductDTO> getProductsByRestaurantName(String restaurantName) {
+        return productRepository.getProductsByRestaurantName(restaurantName)
+                .stream().map(productMapper::toDTO).toList();
     }
 
     @Override
-    public List<Product> getProductsByRestaurantId(Long restaurantId) {
-        return productRepository.getProductsByRestaurantId(restaurantId);
+    public List<ProductDTO> getProductsByRestaurantId(Long restaurantId) {
+        return productRepository.getProductsByRestaurantId(restaurantId).stream().map(productMapper::toDTO).toList();
     }
 
     @Override
-    public void updateProduct(Product product) {
-        productRepository.updateProduct(product);
+    public void updateProduct(ProductDTO productDTO) {
+        productRepository.updateProduct(productMapper.toProduct(productDTO));
     }
 
     @Override
-    public List<Product> getProductsByProductNameAndRestaurantName(String productName, String restaurantName) {
-        return productRepository.getProductsByProductNameAndRestaurantName(productName, restaurantName);
+    public List<ProductDTO> getProductsByProductNameAndRestaurantName(String productName, String restaurantName) {
+        return productRepository.getProductsByProductNameAndRestaurantName(productName, restaurantName)
+                .stream().map(productMapper::toDTO).toList();
     }
 }

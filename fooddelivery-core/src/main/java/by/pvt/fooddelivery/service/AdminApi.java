@@ -1,17 +1,17 @@
 package by.pvt.fooddelivery.service;
 
-import by.pvt.fooddelivery.domain.user.Admin;
+import by.pvt.fooddelivery.dto.AdminDTO;
 
 import java.util.List;
 
 public interface AdminApi {
-    void register(Admin admin);
+    void registration(AdminDTO adminDTO);
 
     void deleteAdminById(Long adminId);
 
-    Admin getAdminById(Long adminId);
+    AdminDTO getAdminById(Long adminId);
 
-    List<Admin> getAllAdmins();
+    List<AdminDTO> getAllAdmins();
 
-    void updateAdmin(Admin admin);
+    void updateAdmin(AdminDTO adminDTO);
 }
