@@ -2,10 +2,11 @@ package by.pvt.fooddelivery;
 
 import by.pvt.fooddelivery.domain.Address;
 import by.pvt.fooddelivery.domain.Comment;
-import by.pvt.fooddelivery.domain.Food;
+import by.pvt.fooddelivery.domain.Product;
 import by.pvt.fooddelivery.domain.Restaurant;
 import by.pvt.fooddelivery.domain.user.Admin;
 import by.pvt.fooddelivery.domain.user.Client;
+import by.pvt.fooddelivery.enums.ProductType;
 import by.pvt.fooddelivery.repository.*;
 import by.pvt.fooddelivery.repository.impl.hibernate.*;
 import by.pvt.fooddelivery.service.*;
@@ -15,30 +16,30 @@ import java.math.BigDecimal;
 
 
 public class Main {
-    public static FoodRepository foodRepository = new FoodRepositoryHibernate();
+    public static ProductRepository productRepository = new ProductRepositoryHibernate();
     public static RestaurantRepository restaurantRepository = new RestaurantRepositoryHibernate();
     public static AdminRepository adminRepository = new AdminRepositoryHibernate();
-    public static CartRepository cartRepository = new CartRepositoryHibernate();
     public static CommentRepository commentRepository = new CommentRepositoryHibernate();
     public static ClientRepository clientRepository = new ClientRepositoryHibernate();
     public static RestaurantApi restaurantApi = new RestaurantService(restaurantRepository);
     public static AdminApi adminApi = new AdminService(adminRepository);
-    public static CartApi cartApi = new CartService(cartRepository);
     public static CommentApi commentApi = new CommentService(commentRepository);
     public static ClientApi clientApi = new ClientService(clientRepository);
-    public static FoodApi foodApi = new FoodService(foodRepository);
+    public static ProductApi productApi = new ProductService(productRepository);
 
     public static void main(String[] args) {
+//        addRestaurants();
+//        addProducts();
 //        addClients();
 //        addAdmins();
-//        addRestaurants();
-//        addFoods();
+
+
     }
 
     public static Client addClient1() {
         Client client = new Client();
-        client.setName("bob");
-        client.setSurname("bob");
+        client.setFirstName("bob");
+        client.setLastName("bob");
         client.setEmail("bob");
         client.setLogin("bob");
         client.setPassword("bob");
@@ -49,8 +50,8 @@ public class Main {
 
     public static Client addClient2() {
         Client client = new Client();
-        client.setName("cat");
-        client.setSurname("cat");
+        client.setFirstName("cat");
+        client.setLastName("cat");
         client.setEmail("cat");
         client.setLogin("cat");
         client.setPassword("cat");
@@ -66,8 +67,8 @@ public class Main {
 
     public static Admin addAdmin1() {
         Admin admin = new Admin();
-        admin.setName("admin1");
-        admin.setSurname("admin1");
+        admin.setFirstName("admin1");
+        admin.setLastName("admin1");
         admin.setLogin("admin1");
         admin.setPassword("admin1");
         admin.setEmail("myemail1");
@@ -76,8 +77,8 @@ public class Main {
 
     public static Admin addAdmin2() {
         Admin admin = new Admin();
-        admin.setName("admin2");
-        admin.setSurname("admin2");
+        admin.setFirstName("admin2");
+        admin.setLastName("admin2");
         admin.setLogin("admin2");
         admin.setPassword("admin2");
         admin.setEmail("myemail2");
@@ -85,8 +86,8 @@ public class Main {
     }
 
     public static void addAdmins() {
-        adminApi.addAdmin(addAdmin1());
-        adminApi.addAdmin(addAdmin2());
+        adminApi.register(addAdmin1());
+        adminApi.register(addAdmin2());
     }
 
     public static Comment addComment1() {
@@ -129,32 +130,32 @@ public class Main {
         restaurantApi.addRestaurant(addRestaurant2());
     }
 
-    public static Food addFood1() {
-        Food food = new Food();
-        food.setName("basket S");
-        food.setTypeOfFood("chicken");
-        food.setDescription("12 wings");
-        food.setPrice(new BigDecimal(20));
+    public static Product addFood1() {
+        Product product = new Product();
+        product.setName("basket S");
+        product.setType(ProductType.CHICKEN);
+        product.setDescription("12 wings");
+        product.setPrice(new BigDecimal(20));
         Restaurant restaurant = new Restaurant();
         restaurant.setId(1L);
-        food.setRestaurant(restaurant);
-        return food;
+        product.setRestaurant(restaurant);
+        return product;
     }
 
-    public static Food addFood2() {
-        Food food = new Food();
-        food.setName("basket L");
-        food.setTypeOfFood("chicken");
-        food.setDescription("28 wings");
-        food.setPrice(new BigDecimal(40));
+    public static Product addFood2() {
+        Product product = new Product();
+        product.setName("basket L");
+        product.setType(ProductType.CHICKEN);
+        product.setDescription("28 wings");
+        product.setPrice(new BigDecimal(40));
         Restaurant restaurant = new Restaurant();
         restaurant.setId(1L);
-        food.setRestaurant(restaurant);
-        return food;
+        product.setRestaurant(restaurant);
+        return product;
     }
 
-    public static void addFoods() {
-        foodApi.addFood(addFood1());
-        foodApi.addFood(addFood2());
+    public static void addProducts() {
+        productApi.addProduct(addFood1());
+        productApi.addProduct(addFood2());
     }
 }

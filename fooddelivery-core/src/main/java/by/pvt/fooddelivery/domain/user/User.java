@@ -1,26 +1,35 @@
 package by.pvt.fooddelivery.domain.user;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import by.pvt.fooddelivery.domain.Address;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
+@EqualsAndHashCode
+@Getter
+@Setter
+@ToString
 @Entity
-@Table(schema = "fooddeliverysch", name = "user")
+@Table(name = "user")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class User {
     @Id
-    @SequenceGenerator(name = "user_id_seq", sequenceName = "user_seq", allocationSize = 1, schema = "fooddeliverysch")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_id_seq")
+    @GeneratedValue
     private Long id;
-    private String name;
-    private String surname;
+    @Column(name = "first_name")
+    private String firstName;
+    @Column(name = "last_name")
+    private String lastName;
     private String email;
+    @Column(unique = true)
     private String login;
     private String password;
+    @Column(name = "phone_number", unique = true)
+    private String phoneNumber;
+    @Embedded
+    private Address address;
 
 }

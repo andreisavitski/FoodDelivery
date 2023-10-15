@@ -1,21 +1,22 @@
 package by.pvt.fooddelivery.domain;
 
 import by.pvt.fooddelivery.domain.user.User;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
+@EqualsAndHashCode
+@Getter
+@Setter
+@ToString
 @Entity
-@Table(schema = "fooddeliverysch", name = "comment")
+@Table(name = "comment")
 public class Comment {
     @Id
-    @SequenceGenerator(name = "comment_id_seq", sequenceName = "comment_seq", allocationSize = 1, schema = "fooddeliverysch")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "comment_id_seq")
+    @GeneratedValue
     private Long id;
     @ManyToOne
     @JoinColumn(name = "user_id")
