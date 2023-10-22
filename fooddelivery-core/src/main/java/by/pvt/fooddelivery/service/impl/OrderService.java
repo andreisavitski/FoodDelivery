@@ -22,7 +22,7 @@ public class OrderService implements OrderApi {
 
     @Override
     public void addOrder(OrderDTO orderDTO) {
-        orderRepository.addOrder(orderMapper.toOrder(orderDTO));
+        orderRepository.save(orderMapper.toOrder(orderDTO));
     }
 
     @Override

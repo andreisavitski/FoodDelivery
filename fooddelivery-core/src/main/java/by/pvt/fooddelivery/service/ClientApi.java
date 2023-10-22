@@ -1,6 +1,5 @@
 package by.pvt.fooddelivery.service;
 
-import by.pvt.fooddelivery.domain.Client;
 import by.pvt.fooddelivery.dto.ClientDTO;
 
 import java.util.List;

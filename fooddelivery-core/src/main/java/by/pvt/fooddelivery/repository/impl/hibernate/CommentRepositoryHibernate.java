@@ -5,9 +5,9 @@ import by.pvt.fooddelivery.domain.Comment;
 import by.pvt.fooddelivery.repository.CommentRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.Query;
 import java.util.List;
 import java.util.Optional;
 

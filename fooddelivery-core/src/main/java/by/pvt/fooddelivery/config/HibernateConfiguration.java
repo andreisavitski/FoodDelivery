@@ -1,11 +1,11 @@
 package by.pvt.fooddelivery.config;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
 
 public class HibernateConfiguration {
-    public static EntityManager getEntityManager(){
+    public static EntityManager getEntityManager() {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("FoodDelivery");
         return emf.createEntityManager();
     }

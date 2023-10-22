@@ -22,8 +22,7 @@ public class RestaurantService implements RestaurantApi {
 
     @Override
     public RestaurantDTO getRestaurantById(Long restaurantId) {
-        return restaurantMapper.toDTO(restaurantRepository.getRestaurantById(restaurantId).orElseThrow(
-                () -> new RuntimeException("Restaurant does not exist")));
+        return restaurantMapper.toDTO(restaurantRepository.getRestaurantById(restaurantId).orElseThrow(() -> new RuntimeException("Restaurant does not exist")));
     }
 
     @Override

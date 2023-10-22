@@ -1,11 +1,11 @@
 package by.pvt.fooddelivery.domain;
 
 import by.pvt.fooddelivery.enums.ProductType;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
-import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Getter
