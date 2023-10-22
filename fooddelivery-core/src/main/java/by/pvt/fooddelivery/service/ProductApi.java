@@ -1,25 +1,26 @@
 package by.pvt.fooddelivery.service;
 
 import by.pvt.fooddelivery.domain.Product;
+import by.pvt.fooddelivery.dto.ProductDTO;
 
 import java.util.List;
 
 public interface ProductApi {
-    void addProduct(Product product);
+    void addProduct(ProductDTO productDTO);
 
-    Product getProductById(Long productId);
+    ProductDTO getProductById(Long productId);
 
-    List<Product> gelAllProducts();
+    List<ProductDTO> gelAllProducts();
 
     void deleteProductById(Long productId);
 
-    List<Product> getProductsByName(String productName);
+    List<ProductDTO> getProductsByName(String productName);
 
-    List<Product> getProductsByRestaurantName(String restaurantName);
+    List<ProductDTO> getProductsByRestaurantName(String restaurantName);
 
-    List<Product> getProductsByRestaurantId(Long restaurantId);
+    List<ProductDTO> getProductsByRestaurantId(Long restaurantId);
 
-    void updateProduct(Product product);
+    void updateProduct(ProductDTO productDTO);
 
-    List<Product> getProductsByProductNameAndRestaurantName(String productName, String restaurantName);
+    List<ProductDTO> getProductsByProductNameAndRestaurantName(String productName, String restaurantName);
 }

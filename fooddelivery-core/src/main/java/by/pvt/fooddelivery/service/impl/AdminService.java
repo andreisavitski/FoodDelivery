@@ -1,27 +1,23 @@
 package by.pvt.fooddelivery.service.impl;
 
-import by.pvt.fooddelivery.domain.user.Admin;
+import by.pvt.fooddelivery.dto.AdminDTO;
+import by.pvt.fooddelivery.mapper.AdminMapper;
 import by.pvt.fooddelivery.repository.AdminRepository;
 import by.pvt.fooddelivery.service.AdminApi;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
+@Service
+@RequiredArgsConstructor
 public class AdminService implements AdminApi {
     private final AdminRepository adminRepository;
-    public static final Pattern VALID_EMAIL_ADDRESS_REGEX =
-            Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
-
-    public AdminService(AdminRepository adminRepository) {
-        this.adminRepository = adminRepository;
-    }
+    private final AdminMapper adminMapper;
 
     @Override
-    public void register(Admin admin) {
-        if (validate(admin.getEmail())){
-            adminRepository.addAdmin(admin);
-        }
+    public void registration(AdminDTO adminDTO) {
+        adminRepository.addAdmin(adminMapper.toAdmin(adminDTO));
     }
 
     @Override
@@ -30,22 +26,18 @@ public class AdminService implements AdminApi {
     }
 
     @Override
-    public Admin getAdminById(Long adminId) {
-        return adminRepository.getAdminById(adminId).orElseThrow(() -> new RuntimeException("Admin does not exist"));
+    public AdminDTO getAdminById(Long adminId) {
+        return adminMapper.toDTO(adminRepository.getAdminById(adminId).orElseThrow(
+                () -> new RuntimeException("Admin does not exist")));
     }
 
     @Override
-    public List<Admin> getAllAdmins() {
-        return adminRepository.getAllAdmins();
+    public List<AdminDTO> getAllAdmins() {
+        return adminRepository.getAllAdmins().stream().map(adminMapper::toDTO).toList();
     }
 
     @Override
-    public void updateAdmin(Admin admin) {
-        adminRepository.updateAdmin(admin);
-    }
-
-    private static boolean validate(String emailStr) {
-        Matcher matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(emailStr.toUpperCase());
-        return matcher.matches();
+    public void updateAdmin(AdminDTO adminDTO) {
+        adminRepository.updateAdmin(adminMapper.toAdmin(adminDTO));
     }
 }

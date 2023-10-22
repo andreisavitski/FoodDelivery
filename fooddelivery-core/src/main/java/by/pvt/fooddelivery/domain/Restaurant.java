@@ -1,21 +1,23 @@
 package by.pvt.fooddelivery.domain;
 
-import lombok.*;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import java.util.List;
 
-@EqualsAndHashCode
 @Getter
 @Setter
-@ToString
 @Entity
-@Cacheable
 @Table(name = "restaurant")
-public class Restaurant {
-    @Id
-    @GeneratedValue
-    private Long id;
+@Cacheable
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_ONLY, region = "restaurant")
+@SequenceGenerator(name = AbstractEntity.SEQUENCE_GENERATOR, sequenceName = "restaurant_seq",
+        allocationSize = 1, schema = "fooddeliverysch")
+public class Restaurant extends AbstractEntity {
     private String name;
     @Embedded
     private Address address;

@@ -1,17 +1,20 @@
 package by.pvt.fooddelivery.service;
 
-import by.pvt.fooddelivery.domain.Order;
+import by.pvt.fooddelivery.domain.Product;
+import by.pvt.fooddelivery.dto.OrderDTO;
+import by.pvt.fooddelivery.dto.ProductDTO;
 
 import java.util.List;
 
 public interface OrderApi {
-    void addOrder(Order order);
+    void addOrder(OrderDTO orderDTO);
 
-    Order getOrderById(Long orderId);
+    OrderDTO getOrderById(Long orderId);
 
-    List<Order> getAllOrders();
+    List<OrderDTO> getAllOrders();
 
     void deleteOrderById(Long orderId);
 
-    void updateOrder(Order order);
+    void updateOrder(OrderDTO orderDTO);
+    void addProductToOrder(Long orderId, ProductDTO productDTO);
 }

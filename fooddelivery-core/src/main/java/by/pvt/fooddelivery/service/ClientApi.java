@@ -1,17 +1,18 @@
 package by.pvt.fooddelivery.service;
 
-import by.pvt.fooddelivery.domain.user.Client;
+import by.pvt.fooddelivery.domain.Client;
+import by.pvt.fooddelivery.dto.ClientDTO;
 
 import java.util.List;
 
 public interface ClientApi {
-    void addClient(Client client);
+    void registration(ClientDTO clientDTO);
 
     void deleteClientById(Long clientId);
 
-    Client getClientById(Long clientId);
+    ClientDTO getClientById(Long clientId);
 
-    List<Client> getAllClients();
+    List<ClientDTO> getAllClients();
 
-    void updateClient(Client client);
+    void updateClient(ClientDTO clientDTO);
 }

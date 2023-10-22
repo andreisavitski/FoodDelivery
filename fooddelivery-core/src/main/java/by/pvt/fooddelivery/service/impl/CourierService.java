@@ -1,32 +1,34 @@
 package by.pvt.fooddelivery.service.impl;
 
-import by.pvt.fooddelivery.domain.user.Courier;
+import by.pvt.fooddelivery.dto.CourierDTO;
+import by.pvt.fooddelivery.mapper.CourierMapper;
 import by.pvt.fooddelivery.repository.CourierRepository;
 import by.pvt.fooddelivery.service.CourierApi;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
+@RequiredArgsConstructor
 public class CourierService implements CourierApi {
     private final CourierRepository courierRepository;
+    private final CourierMapper courierMapper;
 
-    public CourierService(CourierRepository courierRepository) {
-        this.courierRepository = courierRepository;
+    @Override
+    public void registration(CourierDTO courierDTO) {
+        courierRepository.addCourier(courierMapper.toCourier(courierDTO));
     }
 
     @Override
-    public void addCourier(Courier courier) {
-        courierRepository.addCourier(courier);
+    public CourierDTO getCourierById(Long courierId) {
+        return courierMapper.toDTO(courierRepository.getCourierById(courierId).orElseThrow(
+                () -> new RuntimeException("Courier does not exist")));
     }
 
     @Override
-    public Courier getCourierById(Long courierId) {
-        return courierRepository.getCourierById(courierId).orElseThrow(
-                () -> new RuntimeException("Courier does not exist"));
-    }
-
-    @Override
-    public List<Courier> getAllCouriers() {
-        return courierRepository.getAllCouriers();
+    public List<CourierDTO> getAllCouriers() {
+        return courierRepository.getAllCouriers().stream().map(courierMapper::toDTO).toList();
     }
 
     @Override
@@ -35,7 +37,7 @@ public class CourierService implements CourierApi {
     }
 
     @Override
-    public void updateCourier(Courier courier) {
-        courierRepository.updateCourier(courier);
+    public void updateCourier(CourierDTO courierDTO) {
+        courierRepository.updateCourier(courierMapper.toCourier(courierDTO));
     }
 }
