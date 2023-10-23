@@ -1,21 +1,26 @@
 package by.pvt.fooddelivery;
 
+import by.pvt.fooddelivery.config.HibernateSpringConfiguration;
 import by.pvt.fooddelivery.dto.*;
 import by.pvt.fooddelivery.enums.OrderStatus;
 import by.pvt.fooddelivery.enums.ProductType;
+import by.pvt.fooddelivery.service.OrderApi;
 import by.pvt.fooddelivery.service.impl.*;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-
+@Configuration
+@ComponentScan("by.pvt.fooddelivery")
 public class Main {
     public static ApplicationContext applicationContext =
-            new AnnotationConfigApplicationContext("by.pvt.fooddelivery");
+            new AnnotationConfigApplicationContext(HibernateSpringConfiguration.class);
 
     public static void main(String[] args) {
 //        addRestaurants();
@@ -23,7 +28,8 @@ public class Main {
 //        addClients();
 //        addAdmins();
 //        addOrder();
-//        addOrder2();
+        OrderService orderService = applicationContext.getBean("orderService", OrderService.class);
+        orderService.addOrder(new OrderDTO());
     }
 
     public static ClientDTO addClient1() {

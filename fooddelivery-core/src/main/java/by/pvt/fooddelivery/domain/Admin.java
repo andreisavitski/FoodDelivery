@@ -1,10 +1,9 @@
 package by.pvt.fooddelivery.domain;
 
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-
-import javax.persistence.*;
 
 @Getter
 @Setter
