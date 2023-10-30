@@ -4,8 +4,8 @@ import by.pvt.fooddelivery.config.HibernateSpringConfiguration;
 import by.pvt.fooddelivery.dto.*;
 import by.pvt.fooddelivery.enums.OrderStatus;
 import by.pvt.fooddelivery.enums.ProductType;
-import by.pvt.fooddelivery.service.OrderApi;
-import by.pvt.fooddelivery.service.impl.*;
+import by.pvt.fooddelivery.service.*;
+import by.pvt.fooddelivery.service.impl.OrderServiceImpl;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
@@ -27,43 +27,49 @@ public class Main {
 //        addProducts();
 //        addClients();
 //        addAdmins();
-//        addOrder();
-        OrderService orderService = applicationContext.getBean("orderService", OrderService.class);
-        orderService.addOrder(new OrderDTO());
+
+        OrderService orderService = applicationContext.getBean(OrderService.class);
+        orderService.addProductToOrder(1L, 2L);
+//        List<ProductDTO> products = new ArrayList<>();
+//        products.add(productDTO);
+//        products.add(productDTO);
+//        OrderDTO order = new OrderDTO();
+//        order.setProducts(products);
+//        orderService.addOrder(order);
     }
 
-    public static ClientDTO addClient1() {
-        ClientDTO clientDTO = new ClientDTO();
-        clientDTO.setFirstName("bob");
-        clientDTO.setLastName("bob");
-        clientDTO.setEmail("bob@mail.com");
-        clientDTO.setLogin("bob");
-        clientDTO.setPassword("bob");
+    public static ClientRequestDTO addClient1() {
+        ClientRequestDTO clientRequestDTO = new ClientRequestDTO();
+        clientRequestDTO.setFirstName("bob");
+        clientRequestDTO.setLastName("bob");
+        clientRequestDTO.setEmail("bob@mail.com");
+        clientRequestDTO.setLogin("bob");
+        clientRequestDTO.setPassword("bob");
         AddressDTO addressDTO = new AddressDTO();
         addressDTO.setCity("minsk");
         addressDTO.setIndex("453534");
         addressDTO.setStreet("shtrasse");
         addressDTO.setNumberOfHouse("55b");
-        clientDTO.setAddressDTO(addressDTO);
-        clientDTO.setPhoneNumber("+5455432432");
-        return clientDTO;
+        clientRequestDTO.setAddressDTO(addressDTO);
+        clientRequestDTO.setPhoneNumber("+5455432432");
+        return clientRequestDTO;
     }
 
-    public static ClientDTO addClient2() {
-        ClientDTO clientDTO = new ClientDTO();
-        clientDTO.setFirstName("cat");
-        clientDTO.setLastName("cat");
-        clientDTO.setEmail("cat@mail.com");
-        clientDTO.setLogin("cat");
-        clientDTO.setPassword("cat");
+    public static ClientRequestDTO addClient2() {
+        ClientRequestDTO clientRequestDTO = new ClientRequestDTO();
+        clientRequestDTO.setFirstName("cat");
+        clientRequestDTO.setLastName("cat");
+        clientRequestDTO.setEmail("cat@mail.com");
+        clientRequestDTO.setLogin("cat");
+        clientRequestDTO.setPassword("cat");
         AddressDTO addressDTO = new AddressDTO();
         addressDTO.setCity("grodno");
         addressDTO.setIndex("3243342");
         addressDTO.setStreet("koshachaya");
         addressDTO.setNumberOfHouse("43");
-        clientDTO.setAddressDTO(addressDTO);
-        clientDTO.setPhoneNumber("+32343242332");
-        return clientDTO;
+        clientRequestDTO.setAddressDTO(addressDTO);
+        clientRequestDTO.setPhoneNumber("+32343242332");
+        return clientRequestDTO;
     }
 
     public static void addClients() {
@@ -96,15 +102,6 @@ public class Main {
     public static void addAdmins() {
         applicationContext.getBean(AdminService.class).registration(addAdmin1());
         applicationContext.getBean(AdminService.class).registration(addAdmin2());
-    }
-
-    public static CommentDTO addComment1() {
-        CommentDTO commentDTO = new CommentDTO();
-        ClientDTO clientDTO = new ClientDTO();
-        clientDTO.setId(2L);
-        commentDTO.setText("good food");
-        commentDTO.setClient(clientDTO);
-        return commentDTO;
     }
 
     public static RestaurantDTO addRestaurant1() {
@@ -162,24 +159,37 @@ public class Main {
         return productDTO;
     }
 
+    public static ProductDTO addProduct3() {
+        ProductDTO productDTO = new ProductDTO();
+        productDTO.setName("basket M");
+        productDTO.setType(ProductType.CHICKEN);
+        productDTO.setDescription("18 wings");
+        productDTO.setPrice(new BigDecimal(30));
+        RestaurantDTO restaurantDTO = new RestaurantDTO();
+        restaurantDTO.setId(1L);
+        productDTO.setRestaurantDTO(restaurantDTO);
+        return productDTO;
+    }
+
     public static void addProducts() {
         applicationContext.getBean(ProductService.class).addProduct(addProduct1());
         applicationContext.getBean(ProductService.class).addProduct(addProduct2());
+        applicationContext.getBean(ProductService.class).addProduct(addProduct3());
     }
 
     public static void addOrder1() {
         OrderDTO orderDTO = new OrderDTO();
-        ClientDTO clientDTO = new ClientDTO();
-        clientDTO.setId(1L);
-        orderDTO.setClient(clientDTO);
+        ClientRequestDTO clientRequestDTO = new ClientRequestDTO();
+        clientRequestDTO.setId(1L);
+        orderDTO.setClient(clientRequestDTO);
         orderDTO.setOrderStatus(OrderStatus.NOT_FORMED);
         orderDTO.setOrdered(LocalDateTime.now());
-        applicationContext.getBean(OrderService.class).addOrder(orderDTO);
+        applicationContext.getBean(OrderServiceImpl.class).addOrder(orderDTO);
     }
 
     public static void addOrder2() {
         OrderDTO orderDTO = new OrderDTO();
-        ClientDTO clientDTO = new ClientDTO();
+        ClientRequestDTO clientRequestDTO = new ClientRequestDTO();
         List<ProductDTO> products = new ArrayList<>();
         ProductDTO productDTO = new ProductDTO();
         ProductDTO productDTO1 = new ProductDTO();
@@ -188,10 +198,10 @@ public class Main {
         products.add(productDTO);
         products.add(productDTO1);
         orderDTO.setProducts(products);
-        clientDTO.setId(1L);
-        orderDTO.setClient(clientDTO);
+        clientRequestDTO.setId(1L);
+        orderDTO.setClient(clientRequestDTO);
         orderDTO.setOrderStatus(OrderStatus.NOT_FORMED);
         orderDTO.setOrdered(LocalDateTime.now());
-        applicationContext.getBean(OrderService.class).addOrder(orderDTO);
+        applicationContext.getBean(OrderServiceImpl.class).addOrder(orderDTO);
     }
 }

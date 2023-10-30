@@ -12,9 +12,8 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table(name = "order")
-@SequenceGenerator(name = AbstractEntity.SEQUENCE_GENERATOR, sequenceName = "order_seq",
-        allocationSize = 1, schema = "fooddeliverysch")
+@Table(name = "orders")
+@SequenceGenerator(name = AbstractEntity.SEQUENCE_GENERATOR, sequenceName = "order_seq", allocationSize = 1)
 public class Order extends AbstractEntity {
     @ManyToOne
     @JoinColumn(name = "client_id")
@@ -22,9 +21,9 @@ public class Order extends AbstractEntity {
     @Column(name = "total_cost")
     private BigDecimal totalCost;
     private LocalDateTime ordered;
-    @OneToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
-    @JoinTable(name = "order_product",
-            joinColumns = @JoinColumn(name = "order_id"),
+    @ManyToMany
+    @JoinTable(name = "orders_product",
+            joinColumns = @JoinColumn(name = "orders_id"),
             inverseJoinColumns = @JoinColumn(name = "product_id"))
     private List<Product> products;
     @Column(name = "order_status")

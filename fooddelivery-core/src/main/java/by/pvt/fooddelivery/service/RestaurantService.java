@@ -4,14 +4,14 @@ import by.pvt.fooddelivery.dto.RestaurantDTO;
 
 import java.util.List;
 
-public interface RestaurantApi {
+public interface RestaurantService {
     void addRestaurant(RestaurantDTO restaurantDTO);
 
-    RestaurantDTO getRestaurantById(Long restaurantId);
-
-    List<RestaurantDTO> getAllRestaurants();
-
     void deleteRestaurantById(Long restaurantId);
+
+    RestaurantDTO findRestaurantById(Long restaurantId);
+
+    List<RestaurantDTO> findAllRestaurants();
 
     void updateRestaurant(RestaurantDTO restaurantDTO);
 

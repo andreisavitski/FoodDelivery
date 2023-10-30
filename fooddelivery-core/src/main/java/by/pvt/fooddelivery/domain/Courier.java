@@ -1,9 +1,6 @@
 package by.pvt.fooddelivery.domain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.SequenceGenerator;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,8 +8,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "courier")
-@SequenceGenerator(name = AbstractEntity.SEQUENCE_GENERATOR, sequenceName = "courier_seq",
-        allocationSize = 1, schema = "fooddeliverysch")
+@SequenceGenerator(name = AbstractEntity.SEQUENCE_GENERATOR, sequenceName = "courier_seq", allocationSize = 1)
 public class Courier extends AbstractEntity {
     @Column(name = "first_name")
     private String firstName;

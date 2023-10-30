@@ -2,14 +2,12 @@ package by.pvt.fooddelivery.config;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
@@ -23,7 +21,7 @@ import java.util.Properties;
 @ComponentScan("by.pvt.fooddelivery")
 @EnableTransactionManagement
 @EnableJpaRepositories("by.pvt.fooddelivery")
-@PropertySource("application.properties")
+@PropertySource("classpath:application.properties")
 public class HibernateSpringConfiguration {
     @Value("${server.url}")
     private String url;
@@ -75,16 +73,6 @@ public class HibernateSpringConfiguration {
         entityManagerFactoryBean.setJpaProperties(hibernateProperties());
         entityManagerFactoryBean.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
         return entityManagerFactoryBean;
-    }
-
-    @Bean
-    public SessionFactory sessionFactory(DataSource dataSource, Properties hibernateProperties) throws Exception {
-        LocalSessionFactoryBean sessionFactoryBean = new LocalSessionFactoryBean();
-        sessionFactoryBean.setDataSource(dataSource);
-        sessionFactoryBean.setHibernateProperties(hibernateProperties);
-        sessionFactoryBean.setPackagesToScan(packagesToScan);
-        sessionFactoryBean.afterPropertiesSet();
-        return sessionFactoryBean.getObject();
     }
 
     @Bean

@@ -8,11 +8,10 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Getter
 @Setter
 @Entity
-@Table(name = "admin")
+@Table(name = "admins")
 @Cacheable
 @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_ONLY, region = "admin")
-@SequenceGenerator(name = AbstractEntity.SEQUENCE_GENERATOR, sequenceName = "admin_seq",
-        allocationSize = 1, schema = "fooddeliverysch")
+@SequenceGenerator(name = AbstractEntity.SEQUENCE_GENERATOR, sequenceName = "admin_seq", allocationSize = 1)
 public class Admin extends AbstractEntity {
     @Column(name = "first_name")
     private String firstName;

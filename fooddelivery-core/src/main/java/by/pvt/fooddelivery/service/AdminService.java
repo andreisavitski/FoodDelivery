@@ -4,14 +4,14 @@ import by.pvt.fooddelivery.dto.AdminDTO;
 
 import java.util.List;
 
-public interface AdminApi {
+public interface AdminService {
     void registration(AdminDTO adminDTO);
 
     void deleteAdminById(Long adminId);
 
-    AdminDTO getAdminById(Long adminId);
+    AdminDTO findAdminById(Long adminId);
 
-    List<AdminDTO> getAllAdmins();
+    List<AdminDTO> findAllAdmins();
 
     void updateAdmin(AdminDTO adminDTO);
 }
