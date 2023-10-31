@@ -16,60 +16,108 @@
     <properties>
         <maven.compiler.source>19</maven.compiler.source>
         <maven.compiler.target>19</maven.compiler.target>
+        <maven.compiler.plugin>3.5.1</maven.compiler.plugin>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <spring.version>6.0.12</spring.version>
+        <springdata.version>3.1.1</springdata.version>
+        <springdatabom.version>2023.0.0</springdatabom.version>
+        <hibernate.version>6.1.7.Final</hibernate.version>
+        <hibernateentitymanager.version>5.6.15.Final</hibernateentitymanager.version>
+        <hibernatecache.version>6.0.0.Alpha7</hibernatecache.version>
+        <hikaricp.version>5.0.1</hikaricp.version>
+        <postgresql.version>42.6.0</postgresql.version>
+        <lombok.version>1.18.28</lombok.version>
+        <lombokmapstructbinding.version>0.2.0</lombokmapstructbinding.version>
+        <mapstruct.version>1.5.5.Final</mapstruct.version>
+        <ehcache.version>2.10.9.2</ehcache.version>
     </properties>
 
     <dependencies>
 
-        <!-- Hibernate EntityManager Relocation -->
+        <!-- Spring Data -->
         <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-entitymanager</artifactId>
-            <version>5.6.15.Final</version>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-jpa</artifactId>
+            <version>${springdata.version}</version>
         </dependency>
+
+        <!-- Spring DATA BOM -->
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-bom</artifactId>
+            <version>${springdatabom.version}</version>
+            <type>pom</type>
+        </dependency>
+
+        <!-- Spring Core -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <!-- Spring Context -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <!-- Spring Beans -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <!-- Spring ORM -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-orm</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <!-- Hibernate EntityManager Relocation -->
+<!--        <dependency>-->
+<!--            <groupId>org.hibernate</groupId>-->
+<!--            <artifactId>hibernate-entitymanager</artifactId>-->
+<!--            <version>${hibernateentitymanager.version}</version>-->
+<!--        </dependency>-->
 
         <!-- Hibernate Core -->
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
-            <version>6.1.5.Final</version>
+            <version>${hibernate.version}</version>
             <type>pom</type>
         </dependency>
 
-        <!-- Hibernate HikariCP -->
+        <!-- HikariCP -->
         <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-hikaricp</artifactId>
-            <version>5.6.13.Final</version>
-            <type>pom</type>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
+            <version>${hikaricp.version}</version>
         </dependency>
 
         <!-- Hibernate Ehcache Relocation -->
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-ehcache</artifactId>
-            <version>5.6.15.Final</version>
-        </dependency>
-
-        <!-- Ehcache -->
-        <dependency>
-            <groupId>net.sf.ehcache</groupId>
-            <artifactId>ehcache</artifactId>
-            <version>2.10.9.2</version>
+            <version>${hibernatecache.version}</version>
         </dependency>
 
         <!-- PostgreSQL JDBC Driver -->
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <version>42.6.0</version>
+            <version>${postgresql.version}</version>
         </dependency>
 
         <!-- Project Lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.28</version>
+            <version>${lombok.version}</version>
             <scope>provided</scope>
         </dependency>
 
@@ -77,93 +125,50 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok-mapstruct-binding</artifactId>
-            <version>0.2.0</version>
-        </dependency>
-
-        <!-- Spring Core -->
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-core</artifactId>
-            <version>6.0.12</version>
-        </dependency>
-
-        <!-- Spring Context -->
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
-            <version>6.0.12</version>
-        </dependency>
-
-        <!-- Spring Beans -->
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-beans</artifactId>
-            <version>6.0.12</version>
-        </dependency>
-
-        <!-- Spring AOP -->
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-aop</artifactId>
-            <version>6.0.12</version>
+            <version>${lombokmapstructbinding.version}</version>
         </dependency>
 
         <!-- MapStruct Core -->
         <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct</artifactId>
-            <version>1.5.5.Final</version>
+            <version>${mapstruct.version}</version>
         </dependency>
 
-        <!-- Spring ORM -->
+        <!-- Ehcache -->
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-orm</artifactId>
-            <version>5.3.22</version>
-        </dependency>
-
-        <!-- Spring Data -->
-        <dependency>
-            <groupId>org.springframework.data</groupId>
-            <artifactId>spring-data-jpa</artifactId>
-            <version>3.1.5</version>
-        </dependency>
-
-        <!-- Spring DATA BOM -->
-        <dependency>
-            <groupId>org.springframework.data</groupId>
-            <artifactId>spring-data-bom</artifactId>
-            <version>2023.0.0</version>
-            <type>pom</type>
+            <groupId>net.sf.ehcache</groupId>
+            <artifactId>ehcache</artifactId>
+            <version>${ehcache.version}</version>
         </dependency>
 
     </dependencies>
 
     <build>
-        <finalName>FoodDelivery</finalName>
+        <finalName>FitnessClub</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.5.1</version>
+                <version>${maven.compiler.plugin}</version>
                 <configuration>
-                    <source>19</source>
-                    <target>19</target>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
                     <annotationProcessorPaths>
                         <path>
                             <groupId>org.mapstruct</groupId>
                             <artifactId>mapstruct-processor</artifactId>
-                            <version>1.5.5.Final</version>
+                            <version>${mapstruct.version}</version>
                         </path>
                         <path>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
-                            <version>1.18.28</version>
+                            <version>${lombok.version}</version>
                         </path>
                         <path>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok-mapstruct-binding</artifactId>
-                            <version>0.2.0</version>
+                            <version>${lombokmapstructbinding.version}</version>
                         </path>
                     </annotationProcessorPaths>
                 </configuration>

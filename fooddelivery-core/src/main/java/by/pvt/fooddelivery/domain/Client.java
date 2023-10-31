@@ -10,8 +10,7 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name = "client")
-@SequenceGenerator(name = AbstractEntity.SEQUENCE_GENERATOR, sequenceName = "client_seq",
-        allocationSize = 1, schema = "fooddeliverysch")
+@SequenceGenerator(name = AbstractEntity.SEQUENCE_GENERATOR, sequenceName = "client_seq", allocationSize = 1)
 public class Client extends AbstractEntity {
     @Column(name = "first_name")
     private String firstName;

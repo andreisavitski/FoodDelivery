@@ -10,7 +10,7 @@ import java.util.List;
 @Data
 public class OrderDTO {
     private Long id;
-    private ClientDTO client;
+    private ClientRequestDTO client;
     private BigDecimal totalCost;
     private LocalDateTime ordered;
     private List<ProductDTO> products;

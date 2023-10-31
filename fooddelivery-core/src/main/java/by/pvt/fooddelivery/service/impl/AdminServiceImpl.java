@@ -3,41 +3,45 @@ package by.pvt.fooddelivery.service.impl;
 import by.pvt.fooddelivery.dto.AdminDTO;
 import by.pvt.fooddelivery.mapper.AdminMapper;
 import by.pvt.fooddelivery.repository.AdminRepository;
-import by.pvt.fooddelivery.service.AdminApi;
+import by.pvt.fooddelivery.service.AdminService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class AdminService implements AdminApi {
+public class AdminServiceImpl implements AdminService {
     private final AdminRepository adminRepository;
     private final AdminMapper adminMapper;
 
     @Override
+    @Transactional
     public void registration(AdminDTO adminDTO) {
-        adminRepository.addAdmin(adminMapper.toAdmin(adminDTO));
+        adminRepository.save(adminMapper.toAdmin(adminDTO));
     }
 
     @Override
+    @Transactional
     public void deleteAdminById(Long adminId) {
-        adminRepository.deleteAdminById(adminId);
+        adminRepository.deleteById(adminId);
     }
 
     @Override
-    public AdminDTO getAdminById(Long adminId) {
-        return adminMapper.toDTO(adminRepository.getAdminById(adminId).orElseThrow(
+    public AdminDTO findAdminById(Long adminId) {
+        return adminMapper.toDTO(adminRepository.findById(adminId).orElseThrow(
                 () -> new RuntimeException("Admin does not exist")));
     }
 
     @Override
-    public List<AdminDTO> getAllAdmins() {
-        return adminRepository.getAllAdmins().stream().map(adminMapper::toDTO).toList();
+    public List<AdminDTO> findAllAdmins() {
+        return adminRepository.findAll().stream().map(adminMapper::toDTO).toList();
     }
 
     @Override
+    @Transactional
     public void updateAdmin(AdminDTO adminDTO) {
-        adminRepository.updateAdmin(adminMapper.toAdmin(adminDTO));
+        adminRepository.save(adminMapper.toAdmin(adminDTO));
     }
 }
