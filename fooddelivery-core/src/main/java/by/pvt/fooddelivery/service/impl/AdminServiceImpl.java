@@ -18,8 +18,8 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     @Transactional
-    public void registration(AdminDTO adminDTO) {
-        adminRepository.save(adminMapper.toAdmin(adminDTO));
+    public AdminDTO registration(AdminDTO adminDTO) {
+        return adminMapper.toDTO(adminRepository.save(adminMapper.toAdmin(adminDTO)));
     }
 
     @Override
@@ -41,7 +41,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     @Transactional
-    public void updateAdmin(AdminDTO adminDTO) {
-        adminRepository.save(adminMapper.toAdmin(adminDTO));
+    public AdminDTO updateAdmin(AdminDTO adminDTO) {
+        return adminMapper.toDTO(adminRepository.save(adminMapper.toAdmin(adminDTO)));
     }
 }

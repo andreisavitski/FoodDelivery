@@ -5,7 +5,7 @@ import by.pvt.fooddelivery.dto.AdminDTO;
 import java.util.List;
 
 public interface AdminService {
-    void registration(AdminDTO adminDTO);
+    AdminDTO registration(AdminDTO adminDTO);
 
     void deleteAdminById(Long adminId);
 
@@ -13,5 +13,5 @@ public interface AdminService {
 
     List<AdminDTO> findAllAdmins();
 
-    void updateAdmin(AdminDTO adminDTO);
+    AdminDTO updateAdmin(AdminDTO adminDTO);
 }

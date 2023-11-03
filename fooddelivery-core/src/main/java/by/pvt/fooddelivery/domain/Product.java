@@ -4,7 +4,6 @@ import by.pvt.fooddelivery.enums.ProductType;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import java.math.BigDecimal;
@@ -15,7 +14,7 @@ import java.util.List;
 @Entity
 @Table(name = "product")
 @Cacheable
-@Cache(usage = CacheConcurrencyStrategy.READ_ONLY, region = "product")
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_ONLY, region = "product")
 @SequenceGenerator(name = AbstractEntity.SEQUENCE_GENERATOR, sequenceName = "product_seq", allocationSize = 1)
 public class Product extends AbstractEntity {
     @ManyToOne

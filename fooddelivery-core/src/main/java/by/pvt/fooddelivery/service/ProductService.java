@@ -5,7 +5,7 @@ import by.pvt.fooddelivery.dto.ProductDTO;
 import java.util.List;
 
 public interface ProductService {
-    void addProduct(ProductDTO productDTO);
+    ProductDTO addProduct(ProductDTO productDTO);
 
     void deleteProductById(Long productId);
 
@@ -19,5 +19,5 @@ public interface ProductService {
 
     List<ProductDTO> findProductsByRestaurantId(Long restaurantId);
 
-    void updateProduct(ProductDTO productDTO);
+    ProductDTO updateProduct(ProductDTO productDTO);
 }

@@ -12,19 +12,18 @@
         <module>fooddelivery-api</module>
         <module>fooddelivery-core</module>
     </modules>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.1.5</version>
+    </parent>
 
     <properties>
         <maven.compiler.source>19</maven.compiler.source>
         <maven.compiler.target>19</maven.compiler.target>
         <maven.compiler.plugin>3.5.1</maven.compiler.plugin>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spring.version>6.0.12</spring.version>
-        <springdata.version>3.1.1</springdata.version>
-        <springdatabom.version>2023.0.0</springdatabom.version>
-        <hibernate.version>6.1.7.Final</hibernate.version>
-        <hibernateentitymanager.version>5.6.15.Final</hibernateentitymanager.version>
         <hibernatecache.version>6.0.0.Alpha7</hibernatecache.version>
-        <hikaricp.version>5.0.1</hikaricp.version>
         <postgresql.version>42.6.0</postgresql.version>
         <lombok.version>1.18.28</lombok.version>
         <lombokmapstructbinding.version>0.2.0</lombokmapstructbinding.version>
@@ -34,69 +33,40 @@
 
     <dependencies>
 
-        <!-- Spring Data -->
+        <!-- Spring Jpa -->
         <dependency>
-            <groupId>org.springframework.data</groupId>
-            <artifactId>spring-data-jpa</artifactId>
-            <version>${springdata.version}</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
 
-        <!-- Spring DATA BOM -->
         <dependency>
-            <groupId>org.springframework.data</groupId>
-            <artifactId>spring-data-bom</artifactId>
-            <version>${springdatabom.version}</version>
-            <type>pom</type>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>${postgresql.version}</version>
         </dependency>
 
-        <!-- Spring Core -->
+        <!-- Spring Boot Starter Web -->
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-core</artifactId>
-            <version>${spring.version}</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
-        <!-- Spring Context -->
+        <!-- Spring Boot Starter Validation -->
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
-            <version>${spring.version}</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
 
-        <!-- Spring Beans -->
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-beans</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
-
-        <!-- Spring ORM -->
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-orm</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
-
-        <!-- Hibernate EntityManager Relocation -->
 <!--        <dependency>-->
-<!--            <groupId>org.hibernate</groupId>-->
-<!--            <artifactId>hibernate-entitymanager</artifactId>-->
-<!--            <version>${hibernateentitymanager.version}</version>-->
+<!--            <groupId>org.hibernate.validator</groupId>-->
+<!--            <artifactId>hibernate-validator</artifactId>-->
+<!--            <version>8.0.0.Final</version>-->
 <!--        </dependency>-->
 
-        <!-- Hibernate Core -->
+        <!-- Thymeleaf -->
         <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-core</artifactId>
-            <version>${hibernate.version}</version>
-            <type>pom</type>
-        </dependency>
-
-        <!-- HikariCP -->
-        <dependency>
-            <groupId>com.zaxxer</groupId>
-            <artifactId>HikariCP</artifactId>
-            <version>${hikaricp.version}</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
 
         <!-- Hibernate Ehcache Relocation -->
@@ -104,13 +74,6 @@
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-ehcache</artifactId>
             <version>${hibernatecache.version}</version>
-        </dependency>
-
-        <!-- PostgreSQL JDBC Driver -->
-        <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <version>${postgresql.version}</version>
         </dependency>
 
         <!-- Project Lombok -->
@@ -121,7 +84,6 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- Lombok Mapstruct Binding -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok-mapstruct-binding</artifactId>

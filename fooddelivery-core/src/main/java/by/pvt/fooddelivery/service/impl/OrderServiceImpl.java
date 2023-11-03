@@ -23,8 +23,8 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
-    public void addOrder(OrderDTO orderDTO) {
-        orderRepository.save(orderMapper.toOrder(orderDTO));
+    public OrderDTO addOrder(OrderDTO orderDTO) {
+        return orderMapper.toDTO(orderRepository.save(orderMapper.toOrder(orderDTO)));
     }
 
     @Override
@@ -46,14 +46,14 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
-    public void updateOrder(OrderDTO orderDTO) {
-        orderRepository.save(orderMapper.toOrder(orderDTO));
+    public OrderDTO updateOrder(OrderDTO orderDTO) {
+        return orderMapper.toDTO(orderRepository.save(orderMapper.toOrder(orderDTO)));
     }
 
     @Override
     @Transactional
     public void addProductToOrder(Long orderId, Long productId) {
-        List<Product> orderProducts = productRepository.findByOrdersId(orderId);
+        List<Product> orderProducts = orderRepository.findProductById(orderId);
         orderProducts.add(productRepository.findById(productId).orElseThrow(
                 () -> new RuntimeException("There is no product with this id")));
         Order order = orderRepository.findById(orderId).orElseThrow(

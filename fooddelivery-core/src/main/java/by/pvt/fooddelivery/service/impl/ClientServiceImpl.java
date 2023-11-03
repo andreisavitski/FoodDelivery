@@ -1,6 +1,7 @@
 package by.pvt.fooddelivery.service.impl;
 
 import by.pvt.fooddelivery.dto.ClientRequestDTO;
+import by.pvt.fooddelivery.dto.ClientResponseDTO;
 import by.pvt.fooddelivery.mapper.ClientMapper;
 import by.pvt.fooddelivery.repository.ClientRepository;
 import by.pvt.fooddelivery.service.ClientService;
@@ -19,8 +20,8 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     @Transactional
-    public void registration(ClientRequestDTO clientRequestDTO) {
-        clientRepository.save(clientMapper.toClient(clientRequestDTO));
+    public ClientResponseDTO registration(ClientRequestDTO clientRequestDTO) {
+        return clientMapper.toDTO(clientRepository.save(clientMapper.toClient(clientRequestDTO)));
     }
 
     @Override
@@ -30,19 +31,19 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public ClientRequestDTO findClientById(Long clientId) {
+    public ClientResponseDTO findClientById(Long clientId) {
         return clientMapper.toDTO(clientRepository.findById(clientId).orElseThrow(
                 () -> new RuntimeException("Client does not exist")));
     }
 
     @Override
-    public List<ClientRequestDTO> findAllClients() {
+    public List<ClientResponseDTO> findAllClients() {
         return clientRepository.findAll().stream().map(clientMapper::toDTO).collect(Collectors.toList());
     }
 
     @Override
     @Transactional
-    public void updateClient(ClientRequestDTO clientRequestDTO) {
-        clientRepository.save(clientMapper.toClient(clientRequestDTO));
+    public ClientResponseDTO updateClient(ClientRequestDTO clientRequestDTO) {
+        return clientMapper.toDTO(clientRepository.save(clientMapper.toClient(clientRequestDTO)));
     }
 }

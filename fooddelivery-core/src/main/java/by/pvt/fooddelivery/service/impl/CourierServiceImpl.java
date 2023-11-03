@@ -18,8 +18,8 @@ public class CourierServiceImpl implements CourierService {
 
     @Override
     @Transactional
-    public void registration(CourierDTO courierDTO) {
-        courierRepository.save(courierMapper.toCourier(courierDTO));
+    public CourierDTO registration(CourierDTO courierDTO) {
+        return courierMapper.toDTO(courierRepository.save(courierMapper.toCourier(courierDTO)));
     }
 
     @Override
@@ -41,7 +41,7 @@ public class CourierServiceImpl implements CourierService {
 
     @Override
     @Transactional
-    public void updateCourier(CourierDTO courierDTO) {
-        courierRepository.save(courierMapper.toCourier(courierDTO));
+    public CourierDTO updateCourier(CourierDTO courierDTO) {
+        return courierMapper.toDTO(courierRepository.save(courierMapper.toCourier(courierDTO)));
     }
 }
