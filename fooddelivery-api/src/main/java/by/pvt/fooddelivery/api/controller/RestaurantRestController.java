@@ -13,28 +13,27 @@ import java.util.List;
 public class RestaurantRestController {
     private final RestaurantService restaurantService;
 
-    @GetMapping("/getAll")
+    @GetMapping
     public List<RestaurantDTO> getRestaurants() {
         return restaurantService.findAllRestaurants();
     }
 
-
-    @PostMapping("/addRestaurant")
+    @PostMapping
     public RestaurantDTO addRestaurant(@RequestBody RestaurantDTO dto) {
         return restaurantService.addRestaurant(dto);
     }
 
-    @GetMapping("/getRestaurant/{id}")
+    @GetMapping("{id}")
     public RestaurantDTO getRestaurant(@PathVariable("id") Long id) {
         return restaurantService.findRestaurantById(id);
     }
 
-    @PutMapping("/updateRestaurant")
+    @PutMapping
     public RestaurantDTO updateRestaurant(@RequestBody RestaurantDTO dto) {
         return restaurantService.updateRestaurant(dto);
     }
 
-    @DeleteMapping("/deleteProduct/{id}")
+    @DeleteMapping("{id}")
     public void deleteRestaurant(@PathVariable("id") Long id) {
         restaurantService.deleteRestaurantById(id);
     }

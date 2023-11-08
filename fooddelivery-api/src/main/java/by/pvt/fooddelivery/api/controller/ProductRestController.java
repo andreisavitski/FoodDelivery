@@ -8,33 +8,32 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/product")
+@RequestMapping("product")
 @RequiredArgsConstructor
 public class ProductRestController {
     private final ProductService productService;
 
-    @GetMapping("/getAll")
+    @GetMapping
     public List<ProductDTO> getProducts() {
         return productService.findAllProducts();
     }
 
-
-    @PostMapping("/addProduct")
+    @PostMapping
     public ProductDTO addProduct(@RequestBody ProductDTO dto) {
         return productService.addProduct(dto);
     }
 
-    @GetMapping("/getProduct/{id}")
+    @GetMapping("{id}")
     public ProductDTO getProduct(@PathVariable("id") Long id) {
         return productService.findProductById(id);
     }
 
-    @PutMapping("/updateProduct")
+    @PutMapping
     public ProductDTO updateProduct(@RequestBody ProductDTO dto) {
         return productService.updateProduct(dto);
     }
 
-    @DeleteMapping("/deleteProduct/{id}")
+    @DeleteMapping("{id}")
     public void deleteProduct(@PathVariable("id") Long id) {
         productService.deleteProductById(id);
     }

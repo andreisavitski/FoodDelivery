@@ -1,13 +1,15 @@
 package by.pvt.fooddelivery.mapper;
 
 import by.pvt.fooddelivery.domain.Client;
-import by.pvt.fooddelivery.dto.ClientRequestDTO;
-import by.pvt.fooddelivery.dto.ClientResponseDTO;
+import by.pvt.fooddelivery.dto.ClientRequest;
+import by.pvt.fooddelivery.dto.ClientResponse;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring", uses = AddressMapper.class)
 public interface ClientMapper {
-    Client toClient(ClientRequestDTO clientRequestDTO);
+    Client toClient(ClientRequest clientRequest);
 
-    ClientResponseDTO toDTO(Client client);
+    Client toClient(ClientResponse clientResponse);
+
+    ClientResponse toDTO(Client client);
 }

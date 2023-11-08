@@ -1,17 +1,20 @@
 package by.pvt.fooddelivery.service;
 
-import by.pvt.fooddelivery.dto.AdminDTO;
+import by.pvt.fooddelivery.dto.AdminRequest;
+import by.pvt.fooddelivery.dto.AdminResponse;
 
 import java.util.List;
 
 public interface AdminService {
-    AdminDTO registration(AdminDTO adminDTO);
+    AdminResponse register(AdminRequest adminRequest);
+
+    AdminResponse authorize(AdminRequest adminRequest);
 
     void deleteAdminById(Long adminId);
 
-    AdminDTO findAdminById(Long adminId);
+    AdminResponse findAdminById(Long adminId);
 
-    List<AdminDTO> findAllAdmins();
+    List<AdminResponse> findAllAdmins();
 
-    AdminDTO updateAdmin(AdminDTO adminDTO);
+    AdminResponse updateAdmin(AdminRequest adminRequest);
 }

@@ -4,11 +4,13 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import static by.pvt.fooddelivery.domain.AbstractEntity.*;
+
 @Getter
 @Setter
 @Entity
 @Table(name = "courier")
-@SequenceGenerator(name = AbstractEntity.SEQUENCE_GENERATOR, sequenceName = "courier_seq", allocationSize = 1)
+@SequenceGenerator(name = SEQUENCE_GENERATOR, sequenceName = "courier_seq", allocationSize = 1)
 public class Courier extends AbstractEntity {
     @Column(name = "first_name")
     private String firstName;

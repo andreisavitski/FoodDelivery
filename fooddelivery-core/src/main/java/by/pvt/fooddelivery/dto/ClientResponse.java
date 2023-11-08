@@ -2,13 +2,13 @@ package by.pvt.fooddelivery.dto;
 
 import lombok.Data;
 
-import java.util.List;
-
 @Data
-public class RestaurantDTO {
+public class ClientResponse {
     private Long id;
-    private String name;
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String login;
     private AddressDTO addressDTO;
     private String phoneNumber;
-    private List<ProductDTO> products;
 }

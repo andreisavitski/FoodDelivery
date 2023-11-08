@@ -1,4 +1,4 @@
-package by.pvt.fooddelivery.config;
+package by.pvt.fooddelivery.api.config;
 
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;

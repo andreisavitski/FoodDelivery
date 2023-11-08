@@ -1,17 +1,20 @@
 package by.pvt.fooddelivery.service;
 
-import by.pvt.fooddelivery.dto.CourierDTO;
+import by.pvt.fooddelivery.dto.CourierRequest;
+import by.pvt.fooddelivery.dto.CourierResponse;
 
 import java.util.List;
 
 public interface CourierService {
-    CourierDTO registration(CourierDTO courierDTO);
+    CourierResponse register(CourierRequest courierRequest);
+
+    CourierResponse authorize(CourierRequest courierRequest);
 
     void deleteCourierById(Long courierId);
 
-    CourierDTO findCourierById(Long courierId);
+    CourierResponse findCourierById(Long courierId);
 
-    List<CourierDTO> findAllCouriers();
+    List<CourierResponse> findAllCouriers();
 
-    CourierDTO updateCourier(CourierDTO courierDTO);
+    CourierResponse updateCourier(CourierRequest courierRequest);
 }

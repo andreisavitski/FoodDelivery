@@ -3,7 +3,7 @@ package by.pvt.fooddelivery.dto;
 import lombok.Data;
 
 @Data
-public class ClientRequestDTO {
+public class ClientRequest {
     private Long id;
     private String firstName;
     private String lastName;

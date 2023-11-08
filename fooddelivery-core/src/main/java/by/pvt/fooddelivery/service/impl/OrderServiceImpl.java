@@ -3,6 +3,7 @@ package by.pvt.fooddelivery.service.impl;
 import by.pvt.fooddelivery.domain.Order;
 import by.pvt.fooddelivery.domain.Product;
 import by.pvt.fooddelivery.dto.OrderDTO;
+import by.pvt.fooddelivery.exception.ApplicationException;
 import by.pvt.fooddelivery.mapper.OrderMapper;
 import by.pvt.fooddelivery.repository.OrderRepository;
 import by.pvt.fooddelivery.repository.ProductRepository;
@@ -13,6 +14,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.List;
+
+import static by.pvt.fooddelivery.exception.ApplicationError.ORDER_NOT_FOUND;
+import static by.pvt.fooddelivery.exception.ApplicationError.PRODUCT_NOT_FOUND;
 
 @Service
 @RequiredArgsConstructor
@@ -30,18 +34,21 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public void deleteOrderById(Long orderId) {
-        orderRepository.deleteById(orderId);
+        orderRepository.delete(orderMapper.toOrder(findOrderById(orderId)));
     }
 
     @Override
     public OrderDTO findOrderById(Long orderId) {
-        return orderMapper.toDTO(orderRepository.findById(orderId).orElseThrow(
-                () -> new RuntimeException("Order does not exist")));
+        return orderMapper.toDTO(orderRepository.findById(orderId).orElseThrow(() -> new ApplicationException(ORDER_NOT_FOUND)));
     }
 
     @Override
     public List<OrderDTO> findAllOrders() {
-        return orderRepository.findAll().stream().map(orderMapper::toDTO).toList();
+        List<OrderDTO> orders = orderRepository.findAll().stream().map(orderMapper::toDTO).toList();
+        if (orders.isEmpty()) {
+            throw new ApplicationException(ORDER_NOT_FOUND);
+        }
+        return orders;
     }
 
     @Override
@@ -53,11 +60,9 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public void addProductToOrder(Long orderId, Long productId) {
-        List<Product> orderProducts = orderRepository.findProductById(orderId);
-        orderProducts.add(productRepository.findById(productId).orElseThrow(
-                () -> new RuntimeException("There is no product with this id")));
-        Order order = orderRepository.findById(orderId).orElseThrow(
-                () -> new RuntimeException("There is no order with this id"));
+        Order order = orderMapper.toOrder(findOrderById(orderId));
+        List<Product> orderProducts = order.getProducts();
+        orderProducts.add(productRepository.findById(productId).orElseThrow(() -> new ApplicationException(PRODUCT_NOT_FOUND)));
         order.setProducts(orderProducts);
         order.setTotalCost(calculationTotalCost(orderProducts));
         orderRepository.save(order);

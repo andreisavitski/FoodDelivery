@@ -1,7 +1,7 @@
 package by.pvt.fooddelivery.service.impl;
 
 import by.pvt.fooddelivery.dto.ProductDTO;
-import by.pvt.fooddelivery.exception.ProductNotFoundException;
+import by.pvt.fooddelivery.exception.ApplicationException;
 import by.pvt.fooddelivery.mapper.ProductMapper;
 import by.pvt.fooddelivery.repository.ProductRepository;
 import by.pvt.fooddelivery.service.ProductService;
@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+
+import static by.pvt.fooddelivery.exception.ApplicationError.PRODUCT_NOT_FOUND;
 
 @Service
 @RequiredArgsConstructor
@@ -26,18 +28,21 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional
     public void deleteProductById(Long productId) {
-        productRepository.deleteById(productId);
+        productRepository.delete(productMapper.toProduct(findProductById(productId)));
     }
 
     @Override
     public ProductDTO findProductById(Long productId) {
-        return productMapper.toDTO(productRepository.findById(productId).orElseThrow(
-                () -> new ProductNotFoundException("Product id " + productId + " not found")));
+        return productMapper.toDTO(productRepository.findById(productId).orElseThrow(() -> new ApplicationException(PRODUCT_NOT_FOUND)));
     }
 
     @Override
     public List<ProductDTO> findAllProducts() {
-        return productRepository.findAll().stream().map(productMapper::toDTO).toList();
+        List<ProductDTO> products = productRepository.findAll().stream().map(productMapper::toDTO).toList();
+        if (products.isEmpty()) {
+            throw new ApplicationException(PRODUCT_NOT_FOUND);
+        }
+        return products;
     }
 
     @Override

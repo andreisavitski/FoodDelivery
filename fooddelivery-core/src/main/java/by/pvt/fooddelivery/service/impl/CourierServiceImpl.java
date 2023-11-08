@@ -1,6 +1,9 @@
 package by.pvt.fooddelivery.service.impl;
 
-import by.pvt.fooddelivery.dto.CourierDTO;
+import by.pvt.fooddelivery.domain.Courier;
+import by.pvt.fooddelivery.dto.CourierRequest;
+import by.pvt.fooddelivery.dto.CourierResponse;
+import by.pvt.fooddelivery.exception.ApplicationException;
 import by.pvt.fooddelivery.mapper.CourierMapper;
 import by.pvt.fooddelivery.repository.CourierRepository;
 import by.pvt.fooddelivery.service.CourierService;
@@ -10,6 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import static by.pvt.fooddelivery.exception.ApplicationError.COURIER_NOT_FOUND;
+
 @Service
 @RequiredArgsConstructor
 public class CourierServiceImpl implements CourierService {
@@ -18,30 +23,43 @@ public class CourierServiceImpl implements CourierService {
 
     @Override
     @Transactional
-    public CourierDTO registration(CourierDTO courierDTO) {
-        return courierMapper.toDTO(courierRepository.save(courierMapper.toCourier(courierDTO)));
+    public CourierResponse register(CourierRequest courierRequest) {
+        return courierMapper.toDTO(courierRepository.save(courierMapper.toCourier(courierRequest)));
+    }
+
+    @Override
+    public CourierResponse authorize(CourierRequest courierRequest) {
+        Courier courier = courierRepository.findByEmail(courierRequest.getEmail()).orElseThrow(() -> new ApplicationException(COURIER_NOT_FOUND));
+        if (courier.getPassword().equals(courierRequest.getPassword())) {
+            return courierMapper.toDTO(courier);
+        } else {
+            throw new ApplicationException(COURIER_NOT_FOUND);
+        }
     }
 
     @Override
     @Transactional
     public void deleteCourierById(Long courierId) {
-        courierRepository.deleteById(courierId);
+        courierRepository.delete(courierMapper.toCourier(findCourierById(courierId)));
     }
 
     @Override
-    public CourierDTO findCourierById(Long courierId) {
-        return courierMapper.toDTO(courierRepository.findById(courierId).orElseThrow(
-                () -> new RuntimeException("Courier does not exist")));
+    public CourierResponse findCourierById(Long courierId) {
+        return courierMapper.toDTO(courierRepository.findById(courierId).orElseThrow(() -> new ApplicationException(COURIER_NOT_FOUND)));
     }
 
     @Override
-    public List<CourierDTO> findAllCouriers() {
-        return courierRepository.findAll().stream().map(courierMapper::toDTO).toList();
+    public List<CourierResponse> findAllCouriers() {
+        List<CourierResponse> couriers = courierRepository.findAll().stream().map(courierMapper::toDTO).toList();
+        if (couriers.isEmpty()) {
+            throw new ApplicationException(COURIER_NOT_FOUND);
+        }
+        return couriers;
     }
 
     @Override
     @Transactional
-    public CourierDTO updateCourier(CourierDTO courierDTO) {
-        return courierMapper.toDTO(courierRepository.save(courierMapper.toCourier(courierDTO)));
+    public CourierResponse updateCourier(CourierRequest courierRequest) {
+        return courierMapper.toDTO(courierRepository.save(courierMapper.toCourier(courierRequest)));
     }
 }
