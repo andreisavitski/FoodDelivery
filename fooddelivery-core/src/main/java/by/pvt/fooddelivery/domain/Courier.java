@@ -1,10 +1,13 @@
 package by.pvt.fooddelivery.domain;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
-import static by.pvt.fooddelivery.domain.AbstractEntity.*;
+import static by.pvt.fooddelivery.domain.AbstractEntity.SEQUENCE_GENERATOR;
 
 @Getter
 @Setter
@@ -16,6 +19,7 @@ public class Courier extends AbstractEntity {
     private String firstName;
     @Column(name = "last_name")
     private String lastName;
+    @Column(unique = true)
     private String email;
     @Column(unique = true)
     private String login;

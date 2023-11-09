@@ -9,9 +9,9 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static by.pvt.fooddelivery.domain.AbstractEntity.*;
-import static jakarta.persistence.EnumType.*;
-import static jakarta.persistence.FetchType.*;
+import static by.pvt.fooddelivery.domain.AbstractEntity.SEQUENCE_GENERATOR;
+import static jakarta.persistence.EnumType.STRING;
+import static jakarta.persistence.FetchType.EAGER;
 
 @Getter
 @Setter
@@ -22,6 +22,10 @@ public class Order extends AbstractEntity {
     @ManyToOne
     @JoinColumn(name = "client_id")
     private Client client;
+    @JoinColumn(name = "service_fee")
+    private BigDecimal serviceFee;
+    @JoinColumn(name = "cost_of_delivery")
+    private BigDecimal costOfDelivery;
     @Column(name = "total_cost")
     private BigDecimal totalCost;
     private LocalDateTime ordered;

@@ -4,9 +4,13 @@ import by.pvt.fooddelivery.dto.AdminRequest;
 import by.pvt.fooddelivery.dto.AdminResponse;
 import by.pvt.fooddelivery.service.AdminService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import static org.springframework.http.HttpStatus.CREATED;
 
 @RestController
 @RequestMapping("admin")
@@ -20,8 +24,8 @@ public class AdminRestController {
     }
 
     @PostMapping("register")
-    public AdminResponse addAdmin(@RequestBody AdminRequest dto) {
-        return adminService.register(dto);
+    public ResponseEntity<AdminResponse> addAdmin(@RequestBody @Validated AdminRequest dto) {
+        return new ResponseEntity<>(adminService.register(dto), CREATED);
     }
 
     @GetMapping("{id}")
@@ -30,7 +34,7 @@ public class AdminRestController {
     }
 
     @PutMapping
-    public AdminResponse updateAdmin(@RequestBody AdminRequest dto) {
+    public AdminResponse updateAdmin(@RequestBody @Validated AdminRequest dto) {
         return adminService.updateAdmin(dto);
     }
 

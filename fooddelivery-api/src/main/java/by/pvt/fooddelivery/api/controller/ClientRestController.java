@@ -4,6 +4,7 @@ import by.pvt.fooddelivery.dto.ClientRequest;
 import by.pvt.fooddelivery.dto.ClientResponse;
 import by.pvt.fooddelivery.service.ClientService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,8 +19,9 @@ public class ClientRestController {
     public List<ClientResponse> getClients() {
         return clientService.findAllClients();
     }
+
     @PostMapping("register")
-    public ClientResponse addClient(@RequestBody ClientRequest dto) {
+    public ClientResponse addClient(@RequestBody @Validated ClientRequest dto) {
         return clientService.register(dto);
     }
 
@@ -29,7 +31,7 @@ public class ClientRestController {
     }
 
     @PutMapping
-    public ClientResponse updateClient(@RequestBody ClientRequest dto) {
+    public ClientResponse updateClient(@RequestBody @Validated ClientRequest dto) {
         return clientService.updateClient(dto);
     }
 

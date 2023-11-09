@@ -3,6 +3,7 @@ package by.pvt.fooddelivery.api.controller;
 import by.pvt.fooddelivery.dto.RestaurantDTO;
 import by.pvt.fooddelivery.service.RestaurantService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,7 +20,7 @@ public class RestaurantRestController {
     }
 
     @PostMapping
-    public RestaurantDTO addRestaurant(@RequestBody RestaurantDTO dto) {
+    public RestaurantDTO addRestaurant(@RequestBody @Validated RestaurantDTO dto) {
         return restaurantService.addRestaurant(dto);
     }
 
@@ -29,7 +30,7 @@ public class RestaurantRestController {
     }
 
     @PutMapping
-    public RestaurantDTO updateRestaurant(@RequestBody RestaurantDTO dto) {
+    public RestaurantDTO updateRestaurant(@RequestBody @Validated RestaurantDTO dto) {
         return restaurantService.updateRestaurant(dto);
     }
 

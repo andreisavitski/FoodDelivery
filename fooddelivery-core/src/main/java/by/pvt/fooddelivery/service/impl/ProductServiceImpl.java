@@ -1,9 +1,11 @@
 package by.pvt.fooddelivery.service.impl;
 
+import by.pvt.fooddelivery.domain.Product;
 import by.pvt.fooddelivery.dto.ProductDTO;
 import by.pvt.fooddelivery.exception.ApplicationException;
 import by.pvt.fooddelivery.mapper.ProductMapper;
 import by.pvt.fooddelivery.repository.ProductRepository;
+import by.pvt.fooddelivery.repository.RestaurantRepository;
 import by.pvt.fooddelivery.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,17 +14,21 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 import static by.pvt.fooddelivery.exception.ApplicationError.PRODUCT_NOT_FOUND;
+import static by.pvt.fooddelivery.exception.ApplicationError.RESTAURANT_NOT_FOUND;
 
 @Service
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
+    private final RestaurantRepository restaurantRepository;
     private final ProductMapper productMapper;
 
     @Override
     @Transactional
     public ProductDTO addProduct(ProductDTO productDTO) {
-        return productMapper.toDTO(productRepository.save(productMapper.toProduct(productDTO)));
+        Product product = productMapper.toProduct(productDTO);
+        product.setRestaurant(restaurantRepository.findByName(productDTO.getRestaurantName()).orElseThrow(() -> new ApplicationException(RESTAURANT_NOT_FOUND)));
+        return productMapper.toDTO(productRepository.save(product));
     }
 
     @Override

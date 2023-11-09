@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.util.List;
 
+import static by.pvt.fooddelivery.constant.Constant.*;
 import static by.pvt.fooddelivery.exception.ApplicationError.ORDER_NOT_FOUND;
 import static by.pvt.fooddelivery.exception.ApplicationError.PRODUCT_NOT_FOUND;
 
@@ -28,7 +29,12 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public OrderDTO addOrder(OrderDTO orderDTO) {
-        return orderMapper.toDTO(orderRepository.save(orderMapper.toOrder(orderDTO)));
+//        return orderMapper.toDTO(orderRepository.save(orderMapper.toOrder(orderDTO)));
+        Order order = orderMapper.toOrder(orderDTO);
+        order.setCostOfDelivery(COST_OF_DELIVERY);
+        order.setServiceFee(SERVICE_FEE);
+        order.setTotalCost(COST_OF_DELIVERY.add(SERVICE_FEE));
+        return orderMapper.toDTO(orderRepository.save(order));
     }
 
     @Override
@@ -59,16 +65,33 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
-    public void addProductToOrder(Long orderId, Long productId) {
-        Order order = orderMapper.toOrder(findOrderById(orderId));
+    public void updateProductOrder(Long quantity, Long orderId, Long productId, String condition) {
+        Order order = orderRepository.findById(orderId).orElseThrow(() -> new ApplicationException(ORDER_NOT_FOUND));
         List<Product> orderProducts = order.getProducts();
-        orderProducts.add(productRepository.findById(productId).orElseThrow(() -> new ApplicationException(PRODUCT_NOT_FOUND)));
+        updateProductOrder(quantity, productId, orderProducts, condition);
         order.setProducts(orderProducts);
-        order.setTotalCost(calculationTotalCost(orderProducts));
+        BigDecimal totalCost = calculationTotalCost(orderProducts);
+        if (totalCost.compareTo(FREE_DELIVERY_CONDITION) < 0) {
+            order.setTotalCost(totalCost);
+        } else {
+            order.setTotalCost(FREE_DELIVERY);
+        }
         orderRepository.save(order);
     }
 
     private BigDecimal calculationTotalCost(List<Product> products) {
-        return products.stream().map(Product::getPrice).reduce(BigDecimal.ZERO, BigDecimal::add);
+        return products.stream().map(Product::getPrice).reduce(BigDecimal.ZERO, BigDecimal::add).add(SERVICE_FEE).add(COST_OF_DELIVERY);
+    }
+
+    private void updateProductOrder(Long quantity, Long productId, List<Product> orderProducts, String condition) {
+        while (quantity > 0) {
+            switch (condition) {
+                case DELETE_PRODUCT_ORDER ->
+                        orderProducts.remove(productRepository.findById(productId).orElseThrow(() -> new ApplicationException(PRODUCT_NOT_FOUND)));
+                case ADD_PRODUCT_ORDER ->
+                        orderProducts.add(productRepository.findById(productId).orElseThrow(() -> new ApplicationException(PRODUCT_NOT_FOUND)));
+            }
+            quantity--;
+        }
     }
 }

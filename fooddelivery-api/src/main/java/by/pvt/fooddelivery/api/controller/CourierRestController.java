@@ -4,6 +4,7 @@ import by.pvt.fooddelivery.dto.CourierRequest;
 import by.pvt.fooddelivery.dto.CourierResponse;
 import by.pvt.fooddelivery.service.CourierService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,7 +21,7 @@ public class CourierRestController {
     }
 
     @PostMapping("register")
-    public CourierResponse addCourier(@RequestBody CourierRequest dto) {
+    public CourierResponse addCourier(@RequestBody @Validated CourierRequest dto) {
         return courierService.register(dto);
     }
 
@@ -30,7 +31,7 @@ public class CourierRestController {
     }
 
     @PutMapping
-    public CourierResponse updateCourier(@RequestBody CourierRequest dto) {
+    public CourierResponse updateCourier(@RequestBody @Validated CourierRequest dto) {
         return courierService.updateCourier(dto);
     }
 

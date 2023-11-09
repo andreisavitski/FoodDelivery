@@ -28,13 +28,13 @@ public enum ApplicationError implements AppError, Supplier<ApplicationException>
     }
 
     @Override
-    public final HttpStatus getStatus() {
-        return status;
+    public ApplicationException get() {
+        return new ApplicationException(this);
     }
 
     @Override
-    public ApplicationException get() {
-        return new ApplicationException(this);
+    public final HttpStatus getStatus() {
+        return status;
     }
 
     @Override

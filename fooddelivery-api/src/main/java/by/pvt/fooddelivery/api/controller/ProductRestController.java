@@ -3,6 +3,7 @@ package by.pvt.fooddelivery.api.controller;
 import by.pvt.fooddelivery.dto.ProductDTO;
 import by.pvt.fooddelivery.service.ProductService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,7 +20,7 @@ public class ProductRestController {
     }
 
     @PostMapping
-    public ProductDTO addProduct(@RequestBody ProductDTO dto) {
+    public ProductDTO addProduct(@RequestBody @Validated ProductDTO dto) {
         return productService.addProduct(dto);
     }
 
@@ -29,7 +30,7 @@ public class ProductRestController {
     }
 
     @PutMapping
-    public ProductDTO updateProduct(@RequestBody ProductDTO dto) {
+    public ProductDTO updateProduct(@RequestBody @Validated ProductDTO dto) {
         return productService.updateProduct(dto);
     }
 
