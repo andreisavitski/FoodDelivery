@@ -16,4 +16,6 @@ public interface OrderService {
     OrderDTO updateOrder(OrderDTO orderDTO);
 
     void updateProductOrder(Long quantity, Long orderId, Long productId, String condition);
+
+    OrderDTO checkout(Long orderId);
 }

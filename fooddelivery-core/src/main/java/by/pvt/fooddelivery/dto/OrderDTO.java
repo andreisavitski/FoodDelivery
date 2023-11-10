@@ -10,8 +10,10 @@ import java.util.List;
 @Data
 public class OrderDTO {
     private Long id;
-    private ClientRequest clientRequest;
+    private String clientLogin;
     private BigDecimal totalCost;
+    private BigDecimal serviceFee;
+    private BigDecimal costOfDelivery;
     private LocalDateTime ordered;
     private List<ProductDTO> products;
     private OrderStatus orderStatus;

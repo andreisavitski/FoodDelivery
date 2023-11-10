@@ -3,5 +3,11 @@ package by.pvt.fooddelivery.enums;
 public enum ProductType {
     SOUP,
     CHICKEN,
-    PIZZA
+    PIZZA,
+    BURGER,
+    SHAURMA,
+    SALAD,
+    STEAK,
+    PANCAKES,
+    SODA
 }

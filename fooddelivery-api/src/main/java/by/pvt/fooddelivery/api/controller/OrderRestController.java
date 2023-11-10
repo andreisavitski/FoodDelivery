@@ -43,13 +43,18 @@ public class OrderRestController {
         orderService.deleteOrderById(id);
     }
 
-    @PostMapping("product/{quantity}")
-    public void addProductToOrder(@PathVariable("quantity") Long quantity, @RequestBody OrderProductsDTO orderProductsDTO) {
-        orderService.updateProductOrder(quantity, orderProductsDTO.getOrderDTO().getId(), orderProductsDTO.getProductDTO().getId(), ADD_PRODUCT_ORDER);
+    @PostMapping("product")
+    public void addProductToOrder(@RequestBody @Validated OrderProductsDTO orderProductsDTO) {
+        orderService.updateProductOrder(orderProductsDTO.getQuantityProducts(), orderProductsDTO.getOrderId(), orderProductsDTO.getProductId(), ADD_PRODUCT_ORDER);
     }
 
-    @DeleteMapping("product/{quantity}")
-    public void deleteProductToOrder(@PathVariable("quantity") Long quantity, @RequestBody OrderProductsDTO orderProductsDTO) {
-        orderService.updateProductOrder(quantity, orderProductsDTO.getOrderDTO().getId(), orderProductsDTO.getProductDTO().getId(), DELETE_PRODUCT_ORDER);
+    @DeleteMapping("product")
+    public void deleteProductToOrder(@RequestBody @Validated OrderProductsDTO orderProductsDTO) {
+        orderService.updateProductOrder(orderProductsDTO.getQuantityProducts(), orderProductsDTO.getOrderId(), orderProductsDTO.getProductId(), DELETE_PRODUCT_ORDER);
+    }
+
+    @GetMapping("checkout/{id}")
+    public OrderDTO checkout(@PathVariable("id") Long id) {
+        return orderService.checkout(id);
     }
 }

@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 
 import java.util.function.Supplier;
 
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 public enum ApplicationError implements AppError, Supplier<ApplicationException> {
@@ -17,7 +18,8 @@ public enum ApplicationError implements AppError, Supplier<ApplicationException>
 
     CLIENT_NOT_FOUND(NOT_FOUND, "Client not found"),
 
-    COURIER_NOT_FOUND(NOT_FOUND, "Courier not found");
+    COURIER_NOT_FOUND(NOT_FOUND, "Courier not found"),
+    ERROR_ADDING_A_PRODUCT(BAD_REQUEST, "You cannot add a product from another restaurant");
 
     private final HttpStatus status;
     private final String code;
