@@ -1,5 +1,6 @@
 package by.pvt.fooddelivery.dto;
 
+import by.pvt.fooddelivery.enums.CourierStatus;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -27,4 +28,5 @@ public class CourierRequest {
     private String password;
     @Pattern(regexp = PHONE_NUMBER_VALIDATION)
     private String phoneNumber;
+    private CourierStatus status;
 }

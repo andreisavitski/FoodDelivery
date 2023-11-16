@@ -6,11 +6,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 import static by.pvt.fooddelivery.domain.AbstractEntity.SEQUENCE_GENERATOR;
-import static jakarta.persistence.EnumType.*;
-import static jakarta.persistence.FetchType.*;
+import static jakarta.persistence.EnumType.STRING;
 import static org.hibernate.annotations.CacheConcurrencyStrategy.READ_ONLY;
 
 @Getter
@@ -29,6 +27,6 @@ public class Product extends AbstractEntity {
     private BigDecimal price;
     @Enumerated(STRING)
     private ProductType type;
-    @ManyToMany(mappedBy = "products", fetch = EAGER)
-    private List<Order> orders;
+//    @ManyToMany(mappedBy = "products", fetch = EAGER)
+//    private Set<Order> orders;
 }

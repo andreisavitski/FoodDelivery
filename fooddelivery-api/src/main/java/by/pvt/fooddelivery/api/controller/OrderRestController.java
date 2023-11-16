@@ -9,8 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static by.pvt.fooddelivery.constant.Constant.ADD_PRODUCT_ORDER;
-import static by.pvt.fooddelivery.constant.Constant.DELETE_PRODUCT_ORDER;
+import static by.pvt.fooddelivery.constant.Constant.*;
 
 @RestController
 @RequestMapping("order")
@@ -24,8 +23,8 @@ public class OrderRestController {
     }
 
     @PostMapping
-    public OrderDTO addOrder(@RequestBody @Validated OrderDTO dto) {
-        return orderService.addOrder(dto);
+    public OrderDTO addOrder(@RequestBody String clientLogin) {
+        return orderService.addOrder(clientLogin);
     }
 
     @GetMapping("{id}")
@@ -56,5 +55,25 @@ public class OrderRestController {
     @GetMapping("checkout/{id}")
     public OrderDTO checkout(@PathVariable("id") Long id) {
         return orderService.checkout(id);
+    }
+
+    @GetMapping("free")
+    List<OrderDTO> findOrdersForDelivery() {
+        return orderService.findOrdersForDelivery();
+    }
+
+    @PostMapping("select")
+    OrderDTO selectOrderForDelivery(@RequestBody Long orderId, Long courierId) {
+        return orderService.changeOfOrderDeliveryStatus(orderId, courierId, SELECT_ORDER_FOR_DELIVERY);
+    }
+
+    @PostMapping("refusal")
+    OrderDTO refusalToDeliveryOrder(@RequestBody Long orderId, Long courierId) {
+        return orderService.changeOfOrderDeliveryStatus(orderId, courierId, REFUSAL_TO_DELIVERY_ORDER);
+    }
+
+    @PostMapping("complete")
+    OrderDTO completeTheOrderForDelivery(@RequestBody Long orderId,@RequestBody Long courierId) {
+        return orderService.changeOfOrderDeliveryStatus(orderId, courierId, COMPLETE_THE_ORDER_FOR_DELIVERY);
     }
 }

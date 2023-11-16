@@ -1,6 +1,7 @@
 package by.pvt.fooddelivery.api.controller;
 
 import by.pvt.fooddelivery.dto.ProductDTO;
+import by.pvt.fooddelivery.enums.ProductType;
 import by.pvt.fooddelivery.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
@@ -39,4 +40,24 @@ public class ProductRestController {
         productService.deleteProductById(id);
     }
 
+    @PostMapping("restaurant/{id}")
+    List<ProductDTO> findProductsByProductTypeAndRestaurantId(@RequestBody ProductType type, @PathVariable("id") Long restaurantId) {
+        return productService.findProductsByProductTypeAndRestaurantId(type, restaurantId);
+    }
+
+    @GetMapping("restaurant/{id}")
+    List<ProductDTO> findProductsByRestaurantId(@PathVariable("id") Long restaurantId) {
+        return productService.findProductsByRestaurantId(restaurantId);
+
+    }
+
+    @PostMapping("name")
+    List<ProductDTO> findProductsByName(@RequestBody String productName) {
+        return productService.findProductsByName(productName);
+    }
+
+    @PostMapping("type")
+    List<ProductDTO> findProductsByProductType(@RequestBody ProductType type) {
+        return productService.findProductsByProductType(type);
+    }
 }

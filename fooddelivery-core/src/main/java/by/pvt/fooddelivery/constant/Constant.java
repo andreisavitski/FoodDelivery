@@ -20,4 +20,8 @@ public class Constant {
     public static final BigDecimal FREE_DELIVERY = new BigDecimal(0);
     public static final String DELETE_PRODUCT_ORDER = "delete";
     public static final String ADD_PRODUCT_ORDER = "add";
+    public static final String SELECT_ORDER_FOR_DELIVERY = "select";
+    public static final String COMPLETE_THE_ORDER_FOR_DELIVERY = "complete";
+    public static final String REFUSAL_TO_DELIVERY_ORDER = "refusal";
+    public static final Long NAMELESS_COURIER = 1L;
 }

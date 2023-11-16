@@ -4,14 +4,16 @@ import by.pvt.fooddelivery.enums.OrderStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Cascade;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Map;
 
 import static by.pvt.fooddelivery.domain.AbstractEntity.SEQUENCE_GENERATOR;
 import static jakarta.persistence.EnumType.STRING;
 import static jakarta.persistence.FetchType.EAGER;
+import static org.hibernate.annotations.CascadeType.ALL;
 
 @Getter
 @Setter
@@ -29,12 +31,22 @@ public class Order extends AbstractEntity {
     @Column(name = "total_cost")
     private BigDecimal totalCost;
     private LocalDateTime ordered;
-    @ManyToMany(fetch = EAGER)
-    @JoinTable(name = "orders_product",
-            joinColumns = @JoinColumn(name = "orders_id"),
-            inverseJoinColumns = @JoinColumn(name = "product_id"))
-    private List<Product> products;
+    //    @ManyToMany(fetch = EAGER)
+//    @JoinTable(name = "orders_product",
+//            joinColumns = @JoinColumn(name = "orders_id"),
+//            inverseJoinColumns = @JoinColumn(name = "product_id"))
+//    private List<Product> products;
+    @ElementCollection(fetch = EAGER)
+    @Cascade(ALL)
+    @CollectionTable(name = "orders_product",
+            joinColumns = @JoinColumn(name = "orders_id"))
+    @MapKeyJoinColumn(name = "product_id")
+    @Column(name = "count")
+    private Map<Product, Long> products;
     @Column(name = "order_status")
     @Enumerated(STRING)
     private OrderStatus orderStatus;
+    @ManyToOne
+    @JoinColumn(name = "courier_id")
+    private Courier courier;
 }

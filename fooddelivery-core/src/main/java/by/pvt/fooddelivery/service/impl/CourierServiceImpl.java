@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import static by.pvt.fooddelivery.enums.CourierStatus.FREE;
 import static by.pvt.fooddelivery.exception.ApplicationError.COURIER_NOT_FOUND;
 
 @Service
@@ -24,7 +25,9 @@ public class CourierServiceImpl implements CourierService {
     @Override
     @Transactional
     public CourierResponse register(CourierRequest courierRequest) {
-        return courierMapper.toDTO(courierRepository.save(courierMapper.toCourier(courierRequest)));
+        Courier courier = courierMapper.toCourier(courierRequest);
+        courier.setStatus(FREE);
+        return courierMapper.toDTO(courierRepository.save(courier));
     }
 
     @Override

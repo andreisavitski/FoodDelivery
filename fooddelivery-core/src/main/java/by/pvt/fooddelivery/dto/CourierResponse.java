@@ -1,5 +1,6 @@
 package by.pvt.fooddelivery.dto;
 
+import by.pvt.fooddelivery.enums.CourierStatus;
 import lombok.Data;
 
 @Data
@@ -10,4 +11,5 @@ public class CourierResponse {
     private String email;
     private String login;
     private String phoneNumber;
+    private CourierStatus status;
 }

@@ -4,8 +4,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 
-import java.util.List;
-
 import static by.pvt.fooddelivery.constant.Constant.PHONE_NUMBER_VALIDATION;
 
 @Data
@@ -16,5 +14,4 @@ public class RestaurantDTO {
     private AddressDTO addressDTO;
     @Pattern(regexp = PHONE_NUMBER_VALIDATION)
     private String phoneNumber;
-    private List<ProductDTO> products;
 }

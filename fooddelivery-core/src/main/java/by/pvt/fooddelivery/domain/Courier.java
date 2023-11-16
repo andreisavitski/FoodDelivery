@@ -1,13 +1,15 @@
 package by.pvt.fooddelivery.domain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.SequenceGenerator;
-import jakarta.persistence.Table;
+import by.pvt.fooddelivery.enums.CourierStatus;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 import static by.pvt.fooddelivery.domain.AbstractEntity.SEQUENCE_GENERATOR;
+import static jakarta.persistence.CascadeType.ALL;
+import static jakarta.persistence.FetchType.EAGER;
 
 @Getter
 @Setter
@@ -26,4 +28,7 @@ public class Courier extends AbstractEntity {
     private String password;
     @Column(name = "phone_number", unique = true)
     private String phoneNumber;
+    @OneToMany(mappedBy = "courier", cascade = ALL, fetch = EAGER)
+    private List<Order> orders;
+    private CourierStatus status;
 }

@@ -5,7 +5,7 @@ import by.pvt.fooddelivery.dto.OrderDTO;
 import java.util.List;
 
 public interface OrderService {
-    OrderDTO addOrder(OrderDTO orderDTO);
+    OrderDTO addOrder(String clientLogin);
 
     void deleteOrderById(Long orderId);
 
@@ -18,4 +18,8 @@ public interface OrderService {
     void updateProductOrder(Long quantity, Long orderId, Long productId, String condition);
 
     OrderDTO checkout(Long orderId);
+
+    List<OrderDTO> findOrdersForDelivery();
+
+    OrderDTO changeOfOrderDeliveryStatus(Long orderId, Long courierId, String condition);
 }
