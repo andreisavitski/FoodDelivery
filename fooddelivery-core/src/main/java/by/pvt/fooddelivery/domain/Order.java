@@ -4,16 +4,19 @@ import by.pvt.fooddelivery.enums.OrderStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Map;
 
 import static by.pvt.fooddelivery.domain.AbstractEntity.SEQUENCE_GENERATOR;
+import static jakarta.persistence.CascadeType.*;
 import static jakarta.persistence.EnumType.STRING;
 import static jakarta.persistence.FetchType.EAGER;
-import static org.hibernate.annotations.CascadeType.ALL;
+import static org.hibernate.annotations.OnDeleteAction.CASCADE;
+import static org.hibernate.annotations.OnDeleteAction.SET_NULL;
 
 @Getter
 @Setter
@@ -23,6 +26,7 @@ import static org.hibernate.annotations.CascadeType.ALL;
 public class Order extends AbstractEntity {
     @ManyToOne
     @JoinColumn(name = "client_id")
+    @OnDelete(action = SET_NULL)
     private Client client;
     @JoinColumn(name = "service_fee")
     private BigDecimal serviceFee;
@@ -31,13 +35,7 @@ public class Order extends AbstractEntity {
     @Column(name = "total_cost")
     private BigDecimal totalCost;
     private LocalDateTime ordered;
-    //    @ManyToMany(fetch = EAGER)
-//    @JoinTable(name = "orders_product",
-//            joinColumns = @JoinColumn(name = "orders_id"),
-//            inverseJoinColumns = @JoinColumn(name = "product_id"))
-//    private List<Product> products;
     @ElementCollection(fetch = EAGER)
-    @Cascade(ALL)
     @CollectionTable(name = "orders_product",
             joinColumns = @JoinColumn(name = "orders_id"))
     @MapKeyJoinColumn(name = "product_id")

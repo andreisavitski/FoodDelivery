@@ -8,11 +8,14 @@ import by.pvt.fooddelivery.mapper.AdminMapper;
 import by.pvt.fooddelivery.repository.AdminRepository;
 import by.pvt.fooddelivery.service.AdminService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import static by.pvt.fooddelivery.constant.Constant.ADMIN;
+import static by.pvt.fooddelivery.exception.ApplicationError.ADMIN_NOT_ADDED;
 import static by.pvt.fooddelivery.exception.ApplicationError.ADMIN_NOT_FOUND;
 
 @Service
@@ -20,21 +23,15 @@ import static by.pvt.fooddelivery.exception.ApplicationError.ADMIN_NOT_FOUND;
 public class AdminServiceImpl implements AdminService {
     private final AdminRepository adminRepository;
     private final AdminMapper adminMapper;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     @Transactional
     public AdminResponse register(AdminRequest adminRequest) {
-        return adminMapper.toDTO(adminRepository.save(adminMapper.toAdmin(adminRequest)));
-    }
-
-    @Override
-    public AdminResponse authorize(AdminRequest adminRequest) {
-        Admin admin = adminRepository.findByEmail(adminRequest.getEmail()).orElseThrow(() -> new ApplicationException(ADMIN_NOT_FOUND));
-        if (admin.getPassword().equals(adminRequest.getPassword())) {
-            return adminMapper.toDTO(admin);
-        } else {
-            throw new ApplicationException(ADMIN_NOT_FOUND);
-        }
+        Admin admin = adminMapper.toAdmin(adminRequest);
+        admin.setPassword(passwordEncoder.encode(adminRequest.getPassword()));
+        admin.setRole(ADMIN);
+        return adminMapper.toDTO(adminRepository.save(checkingUniqueLoginAndPhoneNumber(admin)));
     }
 
     @Override
@@ -60,6 +57,14 @@ public class AdminServiceImpl implements AdminService {
     @Override
     @Transactional
     public AdminResponse updateAdmin(AdminRequest adminRequest) {
-        return adminMapper.toDTO(adminRepository.save(adminMapper.toAdmin(adminRequest)));
+        findAdminById(adminRequest.getId());
+        return adminMapper.toDTO(adminRepository.save(checkingUniqueLoginAndPhoneNumber(adminMapper.toAdmin(adminRequest))));
+    }
+
+    private Admin checkingUniqueLoginAndPhoneNumber(Admin admin) {
+        if (!adminRepository.findAll().stream().filter(a -> a.getLogin().equals(admin.getLogin())).filter(a -> a.getPhoneNumber().equals(admin.getPhoneNumber())).toList().isEmpty()) {
+            throw new ApplicationException(ADMIN_NOT_ADDED);
+        }
+        return admin;
     }
 }

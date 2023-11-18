@@ -8,12 +8,15 @@ import by.pvt.fooddelivery.mapper.CourierMapper;
 import by.pvt.fooddelivery.repository.CourierRepository;
 import by.pvt.fooddelivery.service.CourierService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import static by.pvt.fooddelivery.constant.Constant.COURIER;
 import static by.pvt.fooddelivery.enums.CourierStatus.FREE;
+import static by.pvt.fooddelivery.exception.ApplicationError.COURIER_NOT_ADDED;
 import static by.pvt.fooddelivery.exception.ApplicationError.COURIER_NOT_FOUND;
 
 @Service
@@ -21,23 +24,16 @@ import static by.pvt.fooddelivery.exception.ApplicationError.COURIER_NOT_FOUND;
 public class CourierServiceImpl implements CourierService {
     private final CourierRepository courierRepository;
     private final CourierMapper courierMapper;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     @Transactional
     public CourierResponse register(CourierRequest courierRequest) {
         Courier courier = courierMapper.toCourier(courierRequest);
+        courier.setPassword(passwordEncoder.encode(courierRequest.getPassword()));
         courier.setStatus(FREE);
-        return courierMapper.toDTO(courierRepository.save(courier));
-    }
-
-    @Override
-    public CourierResponse authorize(CourierRequest courierRequest) {
-        Courier courier = courierRepository.findByEmail(courierRequest.getEmail()).orElseThrow(() -> new ApplicationException(COURIER_NOT_FOUND));
-        if (courier.getPassword().equals(courierRequest.getPassword())) {
-            return courierMapper.toDTO(courier);
-        } else {
-            throw new ApplicationException(COURIER_NOT_FOUND);
-        }
+        courier.setRole(COURIER);
+        return courierMapper.toDTO(courierRepository.save(checkingUniqueLoginAndPhoneNumber(courier)));
     }
 
     @Override
@@ -63,6 +59,14 @@ public class CourierServiceImpl implements CourierService {
     @Override
     @Transactional
     public CourierResponse updateCourier(CourierRequest courierRequest) {
-        return courierMapper.toDTO(courierRepository.save(courierMapper.toCourier(courierRequest)));
+        findCourierById(courierRequest.getId());
+        return courierMapper.toDTO(courierRepository.save(checkingUniqueLoginAndPhoneNumber(courierMapper.toCourier(courierRequest))));
+    }
+
+    private Courier checkingUniqueLoginAndPhoneNumber(Courier courier) {
+        if (!courierRepository.findAll().stream().filter(c -> c.getLogin().equals(courier.getLogin())).filter(c -> c.getPhoneNumber().equals(courier.getPhoneNumber())).toList().isEmpty()) {
+            throw new ApplicationException(COURIER_NOT_ADDED);
+        }
+        return courier;
     }
 }

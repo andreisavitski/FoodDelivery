@@ -5,9 +5,10 @@ public enum ProductType {
     CHICKEN,
     PIZZA,
     BURGER,
-    SHAURMA,
+    SHAWARMA,
     SALAD,
     STEAK,
     PANCAKES,
+    BELYASH,
     SODA
 }

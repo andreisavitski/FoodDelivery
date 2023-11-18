@@ -1,4 +1,4 @@
-package by.pvt.fooddelivery.api.config;
+package by.pvt.fooddelivery.config;
 
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -23,13 +23,13 @@ public class WebMvcConfig implements WebMvcConfigurer {
         resolvers.add(new PageableHandlerMethodArgumentResolver());
     }
 
-    @Bean
-    public MessageSource messageSource() {
-        ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
-        messageSource.setBasenames("webapp/templates/Messages");
-        messageSource.setUseCodeAsDefaultMessage(true);
-        messageSource.setDefaultEncoding("UTF-8");
-        messageSource.setUseCodeAsDefaultMessage(true);
-        return messageSource;
-    }
+//    @Bean
+//    public MessageSource messageSource() {
+//        ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
+//        messageSource.setBasenames("webapp/templates/Messages");
+//        messageSource.setUseCodeAsDefaultMessage(true);
+//        messageSource.setDefaultEncoding("UTF-8");
+//        messageSource.setUseCodeAsDefaultMessage(true);
+//        return messageSource;
+//    }
 }

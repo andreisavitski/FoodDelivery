@@ -26,4 +26,5 @@ public class Admin extends AbstractEntity {
     private String password;
     @Column(name = "phone_number", unique = true)
     private String phoneNumber;
+    private String role;
 }

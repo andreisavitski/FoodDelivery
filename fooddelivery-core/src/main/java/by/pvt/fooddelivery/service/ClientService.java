@@ -8,8 +8,6 @@ import java.util.List;
 public interface ClientService {
     ClientResponse register(ClientRequest clientRequest);
 
-    ClientResponse authorize(ClientRequest clientRequest);
-
     void deleteClientById(Long clientId);
 
     ClientResponse findClientById(Long clientId);

@@ -23,5 +23,9 @@ public class Constant {
     public static final String SELECT_ORDER_FOR_DELIVERY = "select";
     public static final String COMPLETE_THE_ORDER_FOR_DELIVERY = "complete";
     public static final String REFUSAL_TO_DELIVERY_ORDER = "refusal";
+    public static final String SUPER_ADMIN = "SUPER_ADMIN";
+    public static final String ADMIN = "ADMIN";
+    public static final String CLIENT = "CLIENT";
+    public static final String COURIER = "COURIER";
     public static final Long NAMELESS_COURIER = 1L;
 }

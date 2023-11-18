@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import static by.pvt.fooddelivery.exception.ApplicationError.RESTAURANT_NOT_ADDED;
 import static by.pvt.fooddelivery.exception.ApplicationError.RESTAURANT_NOT_FOUND;
 
 @Service
@@ -22,19 +23,18 @@ public class RestaurantServiceImpl implements RestaurantService {
     @Override
     @Transactional
     public RestaurantDTO addRestaurant(RestaurantDTO restaurantDTO) {
-        return restaurantMapper.toDTO(restaurantRepository.save(restaurantMapper.toRestaurant(restaurantDTO)));
+        return restaurantMapper.toDTO(restaurantRepository.save(restaurantMapper.toRestaurant(checkingUniqueName(restaurantDTO))));
     }
 
     @Override
     @Transactional
     public void deleteRestaurantById(Long restaurantId) {
-        restaurantRepository.deleteById(restaurantId);
+        restaurantRepository.delete(restaurantMapper.toRestaurant(findRestaurantById(restaurantId)));
     }
 
     @Override
     public RestaurantDTO findRestaurantById(Long restaurantId) {
-        return restaurantMapper.toDTO(restaurantRepository.findById(restaurantId).orElseThrow(()
-                -> new ApplicationException(RESTAURANT_NOT_FOUND)));
+        return restaurantMapper.toDTO(restaurantRepository.findById(restaurantId).orElseThrow(() -> new ApplicationException(RESTAURANT_NOT_FOUND)));
     }
 
     @Override
@@ -49,6 +49,14 @@ public class RestaurantServiceImpl implements RestaurantService {
     @Override
     @Transactional
     public RestaurantDTO updateRestaurant(RestaurantDTO restaurantDTO) {
-        return restaurantMapper.toDTO(restaurantRepository.save(restaurantMapper.toRestaurant(restaurantDTO)));
+        findRestaurantById(restaurantDTO.getId());
+        return restaurantMapper.toDTO(restaurantRepository.save(restaurantMapper.toRestaurant(checkingUniqueName(restaurantDTO))));
+    }
+
+    private RestaurantDTO checkingUniqueName(RestaurantDTO restaurantDTO) {
+        if (!restaurantRepository.findAll().stream().filter(restaurant -> restaurant.getName().equals(restaurantDTO.getName())).toList().isEmpty()) {
+            throw new ApplicationException(RESTAURANT_NOT_ADDED);
+        }
+        return restaurantDTO;
     }
 }

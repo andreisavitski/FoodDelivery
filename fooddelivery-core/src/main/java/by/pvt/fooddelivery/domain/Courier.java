@@ -9,6 +9,7 @@ import java.util.List;
 
 import static by.pvt.fooddelivery.domain.AbstractEntity.SEQUENCE_GENERATOR;
 import static jakarta.persistence.CascadeType.ALL;
+import static jakarta.persistence.EnumType.STRING;
 import static jakarta.persistence.FetchType.EAGER;
 
 @Getter
@@ -30,5 +31,7 @@ public class Courier extends AbstractEntity {
     private String phoneNumber;
     @OneToMany(mappedBy = "courier", cascade = ALL, fetch = EAGER)
     private List<Order> orders;
+    @Enumerated(STRING)
     private CourierStatus status;
+    private String role;
 }

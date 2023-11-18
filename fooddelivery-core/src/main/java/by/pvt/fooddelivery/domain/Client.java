@@ -3,11 +3,16 @@ package by.pvt.fooddelivery.domain;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.List;
 
 import static by.pvt.fooddelivery.domain.AbstractEntity.SEQUENCE_GENERATOR;
-import static jakarta.persistence.CascadeType.*;
+import static jakarta.persistence.CascadeType.ALL;
+import static jakarta.persistence.CascadeType.REMOVE;
+import static org.hibernate.annotations.OnDeleteAction.*;
+import static org.hibernate.annotations.OnDeleteAction.CASCADE;
 
 @Getter
 @Setter
@@ -28,6 +33,8 @@ public class Client extends AbstractEntity {
     private Address address;
     @Column(name = "phone_number", unique = true)
     private String phoneNumber;
-    @OneToMany(mappedBy = "client", cascade = ALL)
+    @OneToMany(mappedBy = "client")
+    @OnDelete(action = SET_NULL)
     private List<Order> orders;
+    private String role;
 }

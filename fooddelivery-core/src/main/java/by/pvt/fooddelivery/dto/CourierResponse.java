@@ -12,4 +12,5 @@ public class CourierResponse {
     private String login;
     private String phoneNumber;
     private CourierStatus status;
+    private String role;
 }

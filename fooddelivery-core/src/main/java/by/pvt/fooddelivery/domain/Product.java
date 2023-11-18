@@ -2,7 +2,9 @@ package by.pvt.fooddelivery.domain;
 
 import by.pvt.fooddelivery.enums.ProductType;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
@@ -27,6 +29,4 @@ public class Product extends AbstractEntity {
     private BigDecimal price;
     @Enumerated(STRING)
     private ProductType type;
-//    @ManyToMany(mappedBy = "products", fetch = EAGER)
-//    private Set<Order> orders;
 }

@@ -10,4 +10,5 @@ public class AdminResponse {
     private String email;
     private String login;
     private String phoneNumber;
+    private String role;
 }

@@ -1,7 +1,7 @@
-package by.pvt.fooddelivery.api.controller;
+package by.pvt.fooddelivery.controller;
 
 import by.pvt.fooddelivery.dto.OrderDTO;
-import by.pvt.fooddelivery.dto.OrderProductsDTO;
+import by.pvt.fooddelivery.logging.Logging;
 import by.pvt.fooddelivery.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
@@ -17,63 +17,75 @@ import static by.pvt.fooddelivery.constant.Constant.*;
 public class OrderRestController {
     private final OrderService orderService;
 
+    @Logging
     @GetMapping
     public List<OrderDTO> getOrders() {
         return orderService.findAllOrders();
     }
 
+    @Logging
     @PostMapping
     public OrderDTO addOrder(@RequestBody String clientLogin) {
         return orderService.addOrder(clientLogin);
     }
 
+    @Logging
     @GetMapping("{id}")
     public OrderDTO getOrder(@PathVariable("id") Long id) {
         return orderService.findOrderById(id);
     }
 
+    @Logging
     @PutMapping
     public OrderDTO updateOrder(@RequestBody @Validated OrderDTO dto) {
         return orderService.updateOrder(dto);
     }
 
+    @Logging
     @DeleteMapping("{id}")
     public void deleteOrder(@PathVariable("id") Long id) {
         orderService.deleteOrderById(id);
     }
 
+    @Logging
     @PostMapping("product")
-    public void addProductToOrder(@RequestBody @Validated OrderProductsDTO orderProductsDTO) {
-        orderService.updateProductOrder(orderProductsDTO.getQuantityProducts(), orderProductsDTO.getOrderId(), orderProductsDTO.getProductId(), ADD_PRODUCT_ORDER);
+    public void addProductToOrder(@RequestBody Long quantityProducts, @RequestBody Long orderId, @RequestBody Long productId) {
+        orderService.updateProductOrder(quantityProducts, orderId, productId, ADD_PRODUCT_ORDER);
     }
 
+    @Logging
     @DeleteMapping("product")
-    public void deleteProductToOrder(@RequestBody @Validated OrderProductsDTO orderProductsDTO) {
-        orderService.updateProductOrder(orderProductsDTO.getQuantityProducts(), orderProductsDTO.getOrderId(), orderProductsDTO.getProductId(), DELETE_PRODUCT_ORDER);
+    public void deleteProductToOrder(@RequestBody Long quantityProducts, @RequestBody Long orderId, @RequestBody Long productId) {
+        orderService.updateProductOrder(quantityProducts, orderId, productId, DELETE_PRODUCT_ORDER);
     }
 
+    @Logging
     @GetMapping("checkout/{id}")
     public OrderDTO checkout(@PathVariable("id") Long id) {
         return orderService.checkout(id);
     }
 
+    @Logging
     @GetMapping("free")
     List<OrderDTO> findOrdersForDelivery() {
         return orderService.findOrdersForDelivery();
     }
 
+    @Logging
     @PostMapping("select")
-    OrderDTO selectOrderForDelivery(@RequestBody Long orderId, Long courierId) {
+    OrderDTO selectOrderForDelivery(@RequestBody Long orderId, @RequestBody Long courierId) {
         return orderService.changeOfOrderDeliveryStatus(orderId, courierId, SELECT_ORDER_FOR_DELIVERY);
     }
 
+    @Logging
     @PostMapping("refusal")
-    OrderDTO refusalToDeliveryOrder(@RequestBody Long orderId, Long courierId) {
+    OrderDTO refusalToDeliveryOrder(@RequestBody Long orderId, @RequestBody Long courierId) {
         return orderService.changeOfOrderDeliveryStatus(orderId, courierId, REFUSAL_TO_DELIVERY_ORDER);
     }
 
+    @Logging
     @PostMapping("complete")
-    OrderDTO completeTheOrderForDelivery(@RequestBody Long orderId,@RequestBody Long courierId) {
+    OrderDTO completeTheOrderForDelivery(@RequestBody Long orderId, @RequestBody Long courierId) {
         return orderService.changeOfOrderDeliveryStatus(orderId, courierId, COMPLETE_THE_ORDER_FOR_DELIVERY);
     }
 }

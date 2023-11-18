@@ -7,4 +7,6 @@ import java.util.Optional;
 
 public interface CourierRepository extends JpaRepository<Courier, Long> {
     Optional<Courier> findByEmail(String email);
+
+    Optional<Courier> findByLogin(String login);
 }

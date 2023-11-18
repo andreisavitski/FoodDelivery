@@ -1,5 +1,6 @@
 package by.pvt.fooddelivery.service.impl;
 
+import by.pvt.fooddelivery.domain.Client;
 import by.pvt.fooddelivery.domain.Courier;
 import by.pvt.fooddelivery.domain.Order;
 import by.pvt.fooddelivery.domain.Product;
@@ -47,7 +48,7 @@ public class OrderServiceImpl implements OrderService {
         order.setOrdered(LocalDateTime.now());
         order.setOrderStatus(NOT_FORMED);
         order.setCourier(courierRepository.findById(NAMELESS_COURIER).orElseThrow(() -> new ApplicationException(COURIER_NOT_FOUND)));
-        return orderMapper.toDTO(orderRepository.save(costCheck(order.getProducts(), order)));
+        return orderMapper.toDTO(orderRepository.save(costChecking(order.getProducts(), order)));
     }
 
     @Override
@@ -73,7 +74,11 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public OrderDTO updateOrder(OrderDTO orderDTO) {
-        return orderMapper.toDTO(orderRepository.save(orderMapper.toOrder(orderDTO)));
+        findOrderById(orderDTO.getId());
+        Client client = clientRepository.findByLogin(orderDTO.getClientLogin()).orElseThrow(() -> new ApplicationException(CLIENT_NOT_FOUND));
+        Order order = orderMapper.toOrder(orderDTO);
+        order.setClient(client);
+        return orderMapper.toDTO(orderRepository.save(order));
     }
 
     @Override
@@ -84,7 +89,7 @@ public class OrderServiceImpl implements OrderService {
         Product product = productRepository.findById(productId).orElseThrow(() -> new ApplicationException(PRODUCT_NOT_FOUND));
         updateProductOrder(quantity, product, orderProducts, condition);
         order.setProducts(orderProducts);
-        orderRepository.save(costCheck(orderProducts, order));
+        orderRepository.save(costChecking(orderProducts, order));
     }
 
     @Override
@@ -97,7 +102,11 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<OrderDTO> findOrdersForDelivery() {
-        return orderRepository.findByOrderStatus(WAITING_FOR_COURIER).stream().map(orderMapper::toDTO).toList();
+        List<OrderDTO> orders = orderRepository.findByOrderStatus(WAITING_FOR_COURIER).stream().map(orderMapper::toDTO).toList();
+        if (orders.isEmpty()) {
+            throw new ApplicationException(ORDER_NOT_FOUND);
+        }
+        return orders;
     }
 
     @Override
@@ -146,7 +155,7 @@ public class OrderServiceImpl implements OrderService {
                 }
             }
             case ADD_PRODUCT_ORDER -> {
-                if (!restaurantCheck(product, orderProducts)) {
+                if (!restaurantChecking(product, orderProducts)) {
                     throw new ApplicationException(ERROR_ADDING_A_PRODUCT);
                 }
                 orderProducts.merge(product, quantity, Long::sum);
@@ -154,7 +163,7 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
-    private boolean restaurantCheck(Product product, Map<Product, Long> orderProducts) {
+    private boolean restaurantChecking(Product product, Map<Product, Long> orderProducts) {
         if (orderProducts.isEmpty()) {
             return true;
         }
@@ -162,7 +171,7 @@ public class OrderServiceImpl implements OrderService {
         return products.get(0).getRestaurant().equals(product.getRestaurant());
     }
 
-    private Order costCheck(Map<Product, Long> orderProducts, Order order) {
+    private Order costChecking(Map<Product, Long> orderProducts, Order order) {
         BigDecimal totalCost = calculationTotalCost(orderProducts);
         if (totalCost.compareTo(FREE_DELIVERY_CONDITION) < 0 && totalCost.compareTo(SERVICE_FEE.add(COST_OF_DELIVERY)) != 0) {
             order.setTotalCost(totalCost);
