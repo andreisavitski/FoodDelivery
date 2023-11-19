@@ -1,4 +1,4 @@
-package by.pvt.fooddelivery.service.impl;
+package by.pvt.fooddelivery.security;
 
 import by.pvt.fooddelivery.exception.ApplicationException;
 import org.springframework.beans.factory.annotation.Autowired;

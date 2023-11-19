@@ -1,18 +1,18 @@
 package by.pvt.fooddelivery.service;
 
-import by.pvt.fooddelivery.dto.ClientRequest;
-import by.pvt.fooddelivery.dto.ClientResponse;
+import by.pvt.fooddelivery.dto.ClientRequestDTO;
+import by.pvt.fooddelivery.dto.ClientResponseDTO;
 
 import java.util.List;
 
 public interface ClientService {
-    ClientResponse register(ClientRequest clientRequest);
+    ClientResponseDTO register(ClientRequestDTO clientRequestDTO);
 
     void deleteClientById(Long clientId);
 
-    ClientResponse findClientById(Long clientId);
+    ClientResponseDTO findClientById(Long clientId);
 
-    List<ClientResponse> findAllClients();
+    List<ClientResponseDTO> findAllClients();
 
-    ClientResponse updateClient(ClientRequest clientRequest);
+    ClientResponseDTO updateClient(ClientRequestDTO clientRequestDTO);
 }

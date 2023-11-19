@@ -2,7 +2,7 @@ package by.pvt.fooddelivery.constant;
 
 import java.math.BigDecimal;
 
-public class Constant {
+public class AppConstants {
     /**
      * a digit must occur at least once
      * a lower case letter must occur at least once

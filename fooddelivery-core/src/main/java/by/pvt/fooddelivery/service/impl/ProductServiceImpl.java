@@ -11,6 +11,7 @@ import by.pvt.fooddelivery.repository.ProductRepository;
 import by.pvt.fooddelivery.repository.RestaurantRepository;
 import by.pvt.fooddelivery.service.ProductService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -45,6 +46,7 @@ public class ProductServiceImpl implements ProductService {
         return productMapper.toDTO(productRepository.findById(productId).orElseThrow(() -> new ApplicationException(PRODUCT_NOT_FOUND)));
     }
 
+    @Cacheable("products")
     @Override
     public List<ProductDTO> findAllProducts() {
         List<ProductDTO> products = productRepository.findAll().stream().map(productMapper::toDTO).toList();

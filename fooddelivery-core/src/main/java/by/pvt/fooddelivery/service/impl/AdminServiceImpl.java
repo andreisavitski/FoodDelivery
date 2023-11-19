@@ -1,8 +1,8 @@
 package by.pvt.fooddelivery.service.impl;
 
 import by.pvt.fooddelivery.domain.Admin;
-import by.pvt.fooddelivery.dto.AdminRequest;
-import by.pvt.fooddelivery.dto.AdminResponse;
+import by.pvt.fooddelivery.dto.AdminRequestDTO;
+import by.pvt.fooddelivery.dto.AdminResponseDTO;
 import by.pvt.fooddelivery.exception.ApplicationException;
 import by.pvt.fooddelivery.mapper.AdminMapper;
 import by.pvt.fooddelivery.repository.AdminRepository;
@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import static by.pvt.fooddelivery.constant.Constant.ADMIN;
+import static by.pvt.fooddelivery.constant.AppConstants.ADMIN;
 import static by.pvt.fooddelivery.exception.ApplicationError.ADMIN_NOT_ADDED;
 import static by.pvt.fooddelivery.exception.ApplicationError.ADMIN_NOT_FOUND;
 
@@ -27,9 +27,9 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     @Transactional
-    public AdminResponse register(AdminRequest adminRequest) {
-        Admin admin = adminMapper.toAdmin(adminRequest);
-        admin.setPassword(passwordEncoder.encode(adminRequest.getPassword()));
+    public AdminResponseDTO register(AdminRequestDTO adminRequestDTO) {
+        Admin admin = adminMapper.toAdmin(adminRequestDTO);
+        admin.setPassword(passwordEncoder.encode(adminRequestDTO.getPassword()));
         admin.setRole(ADMIN);
         return adminMapper.toDTO(adminRepository.save(checkingUniqueLoginAndPhoneNumber(admin)));
     }
@@ -41,13 +41,13 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public AdminResponse findAdminById(Long adminId) {
+    public AdminResponseDTO findAdminById(Long adminId) {
         return adminMapper.toDTO(adminRepository.findById(adminId).orElseThrow(() -> new ApplicationException(ADMIN_NOT_FOUND)));
     }
 
     @Override
-    public List<AdminResponse> findAllAdmins() {
-        List<AdminResponse> admins = adminRepository.findAll().stream().map(adminMapper::toDTO).toList();
+    public List<AdminResponseDTO> findAllAdmins() {
+        List<AdminResponseDTO> admins = adminRepository.findAll().stream().map(adminMapper::toDTO).toList();
         if (admins.isEmpty()) {
             throw new ApplicationException(ADMIN_NOT_FOUND);
         }
@@ -56,9 +56,9 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     @Transactional
-    public AdminResponse updateAdmin(AdminRequest adminRequest) {
-        findAdminById(adminRequest.getId());
-        return adminMapper.toDTO(adminRepository.save(checkingUniqueLoginAndPhoneNumber(adminMapper.toAdmin(adminRequest))));
+    public AdminResponseDTO updateAdmin(AdminRequestDTO adminRequestDTO) {
+        findAdminById(adminRequestDTO.getId());
+        return adminMapper.toDTO(adminRepository.save(checkingUniqueLoginAndPhoneNumber(adminMapper.toAdmin(adminRequestDTO))));
     }
 
     private Admin checkingUniqueLoginAndPhoneNumber(Admin admin) {

@@ -1,8 +1,8 @@
 package by.pvt.fooddelivery.controller;
 
-import by.pvt.fooddelivery.dto.ClientRequest;
-import by.pvt.fooddelivery.dto.ClientResponse;
-import by.pvt.fooddelivery.logging.Logging;
+import by.pvt.fooddelivery.dto.ClientRequestDTO;
+import by.pvt.fooddelivery.dto.ClientResponseDTO;
+import by.pvt.fooddelivery.logging.MethodLogging;
 import by.pvt.fooddelivery.service.ClientService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
@@ -16,31 +16,31 @@ import java.util.List;
 public class ClientRestController {
     private final ClientService clientService;
 
-    @Logging
+    @MethodLogging
     @GetMapping
-    public List<ClientResponse> getClients() {
+    public List<ClientResponseDTO> getClients() {
         return clientService.findAllClients();
     }
 
-    @Logging
+    @MethodLogging
     @PostMapping("register")
-    public ClientResponse addClient(@RequestBody @Validated ClientRequest dto) {
+    public ClientResponseDTO addClient(@RequestBody @Validated ClientRequestDTO dto) {
         return clientService.register(dto);
     }
 
-    @Logging
+    @MethodLogging
     @GetMapping("{id}")
-    public ClientResponse getClient(@PathVariable("id") Long id) {
+    public ClientResponseDTO getClient(@PathVariable("id") Long id) {
         return clientService.findClientById(id);
     }
 
-    @Logging
+    @MethodLogging
     @PutMapping
-    public ClientResponse updateClient(@RequestBody @Validated ClientRequest dto) {
+    public ClientResponseDTO updateClient(@RequestBody @Validated ClientRequestDTO dto) {
         return clientService.updateClient(dto);
     }
 
-    @Logging
+    @MethodLogging
     @DeleteMapping("{id}")
     public void deleteClient(@PathVariable("id") Long id) {
         clientService.deleteClientById(id);

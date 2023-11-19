@@ -1,30 +1,32 @@
 package by.pvt.fooddelivery.domain;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
 import static by.pvt.fooddelivery.domain.AbstractEntity.SEQUENCE_GENERATOR;
-import static org.hibernate.annotations.CacheConcurrencyStrategy.READ_ONLY;
 
 @Getter
 @Setter
 @Entity
 @Table(name = "admins")
-@Cacheable
-@org.hibernate.annotations.Cache(usage = READ_ONLY, region = "admin")
 @SequenceGenerator(name = SEQUENCE_GENERATOR, sequenceName = "admin_seq", allocationSize = 1)
 public class Admin extends AbstractEntity {
     @Column(name = "first_name")
     private String firstName;
     @Column(name = "last_name")
     private String lastName;
-    @Column(unique = true)
+    @Column(name = "email", unique = true)
     private String email;
-    @Column(unique = true)
+    @Column(name = "login", unique = true)
     private String login;
+    @Column(name = "password")
     private String password;
     @Column(name = "phone_number", unique = true)
     private String phoneNumber;
+    @Column(name = "role")
     private String role;
 }

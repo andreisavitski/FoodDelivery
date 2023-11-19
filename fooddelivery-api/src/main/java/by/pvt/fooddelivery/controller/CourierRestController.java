@@ -1,8 +1,8 @@
 package by.pvt.fooddelivery.controller;
 
-import by.pvt.fooddelivery.dto.CourierRequest;
-import by.pvt.fooddelivery.dto.CourierResponse;
-import by.pvt.fooddelivery.logging.Logging;
+import by.pvt.fooddelivery.dto.CourierRequestDTO;
+import by.pvt.fooddelivery.dto.CourierResponseDTO;
+import by.pvt.fooddelivery.logging.MethodLogging;
 import by.pvt.fooddelivery.service.CourierService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
@@ -16,31 +16,31 @@ import java.util.List;
 public class CourierRestController {
     private final CourierService courierService;
 
-    @Logging
+    @MethodLogging
     @GetMapping
-    public List<CourierResponse> getClients() {
+    public List<CourierResponseDTO> getClients() {
         return courierService.findAllCouriers();
     }
 
-    @Logging
+    @MethodLogging
     @PostMapping("register")
-    public CourierResponse addCourier(@RequestBody @Validated CourierRequest dto) {
+    public CourierResponseDTO addCourier(@RequestBody @Validated CourierRequestDTO dto) {
         return courierService.register(dto);
     }
 
-    @Logging
+    @MethodLogging
     @GetMapping("{id}")
-    public CourierResponse getCourier(@PathVariable("id") Long id) {
+    public CourierResponseDTO getCourier(@PathVariable("id") Long id) {
         return courierService.findCourierById(id);
     }
 
-    @Logging
+    @MethodLogging
     @PutMapping
-    public CourierResponse updateCourier(@RequestBody @Validated CourierRequest dto) {
+    public CourierResponseDTO updateCourier(@RequestBody @Validated CourierRequestDTO dto) {
         return courierService.updateCourier(dto);
     }
 
-    @Logging
+    @MethodLogging
     @DeleteMapping("{id}")
     public void deleteCourier(@PathVariable("id") Long id) {
         courierService.deleteCourierById(id);

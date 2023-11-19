@@ -1,8 +1,8 @@
 package by.pvt.fooddelivery.controller;
 
-import by.pvt.fooddelivery.dto.AdminRequest;
-import by.pvt.fooddelivery.dto.AdminResponse;
-import by.pvt.fooddelivery.logging.Logging;
+import by.pvt.fooddelivery.dto.AdminRequestDTO;
+import by.pvt.fooddelivery.dto.AdminResponseDTO;
+import by.pvt.fooddelivery.logging.MethodLogging;
 import by.pvt.fooddelivery.service.AdminService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,31 +19,31 @@ import static org.springframework.http.HttpStatus.CREATED;
 public class AdminRestController {
     private final AdminService adminService;
 
-    @Logging
+    @MethodLogging
     @GetMapping
-    public List<AdminResponse> getAdmins() {
+    public List<AdminResponseDTO> getAdmins() {
         return adminService.findAllAdmins();
     }
 
-    @Logging
+    @MethodLogging
     @PostMapping("register")
-    public ResponseEntity<AdminResponse> addAdmin(@RequestBody @Validated AdminRequest dto) {
+    public ResponseEntity<AdminResponseDTO> addAdmin(@RequestBody @Validated AdminRequestDTO dto) {
         return new ResponseEntity<>(adminService.register(dto), CREATED);
     }
 
-    @Logging
+    @MethodLogging
     @GetMapping("{id}")
-    public AdminResponse getAdmin(@PathVariable("id") Long id) {
+    public AdminResponseDTO getAdmin(@PathVariable("id") Long id) {
         return adminService.findAdminById(id);
     }
 
-    @Logging
+    @MethodLogging
     @PutMapping
-    public AdminResponse updateAdmin(@RequestBody @Validated AdminRequest dto) {
+    public AdminResponseDTO updateAdmin(@RequestBody @Validated AdminRequestDTO dto) {
         return adminService.updateAdmin(dto);
     }
 
-    @Logging
+    @MethodLogging
     @DeleteMapping("{id}")
     public void deleteAdmin(@PathVariable("id") Long id) {
         adminService.deleteAdminById(id);

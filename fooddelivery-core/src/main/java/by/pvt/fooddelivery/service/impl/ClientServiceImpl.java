@@ -1,8 +1,8 @@
 package by.pvt.fooddelivery.service.impl;
 
 import by.pvt.fooddelivery.domain.Client;
-import by.pvt.fooddelivery.dto.ClientRequest;
-import by.pvt.fooddelivery.dto.ClientResponse;
+import by.pvt.fooddelivery.dto.ClientRequestDTO;
+import by.pvt.fooddelivery.dto.ClientResponseDTO;
 import by.pvt.fooddelivery.exception.ApplicationException;
 import by.pvt.fooddelivery.mapper.ClientMapper;
 import by.pvt.fooddelivery.repository.ClientRepository;
@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import static by.pvt.fooddelivery.constant.Constant.CLIENT;
+import static by.pvt.fooddelivery.constant.AppConstants.CLIENT;
 import static by.pvt.fooddelivery.exception.ApplicationError.CLIENT_NOT_ADDED;
 import static by.pvt.fooddelivery.exception.ApplicationError.CLIENT_NOT_FOUND;
 
@@ -27,22 +27,12 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     @Transactional
-    public ClientResponse register(ClientRequest clientRequest) {
-        Client client = clientMapper.toClient(clientRequest);
-        client.setPassword(passwordEncoder.encode(clientRequest.getPassword()));
+    public ClientResponseDTO register(ClientRequestDTO clientRequestDTO) {
+        Client client = clientMapper.toClient(clientRequestDTO);
+        client.setPassword(passwordEncoder.encode(clientRequestDTO.getPassword()));
         client.setRole(CLIENT);
         return clientMapper.toDTO(clientRepository.save(checkingUniqueLoginAndPhoneNumber(client)));
     }
-
-//    @Override
-//    public ClientResponse authorize(ClientRequest clientRequest) {
-//        Client client = clientRepository.findByEmail(clientRequest.getEmail()).orElseThrow(() -> new ApplicationException(CLIENT_NOT_FOUND));
-//        if (client.getPassword().equals(clientRequest.getPassword())) {
-//            return clientMapper.toDTO(client);
-//        } else {
-//            throw new ApplicationException(CLIENT_NOT_FOUND);
-//        }
-//    }
 
     @Override
     @Transactional
@@ -51,13 +41,13 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public ClientResponse findClientById(Long clientId) {
+    public ClientResponseDTO findClientById(Long clientId) {
         return clientMapper.toDTO(clientRepository.findById(clientId).orElseThrow(() -> new ApplicationException(CLIENT_NOT_FOUND)));
     }
 
     @Override
-    public List<ClientResponse> findAllClients() {
-        List<ClientResponse> clients = clientRepository.findAll().stream().map(clientMapper::toDTO).toList();
+    public List<ClientResponseDTO> findAllClients() {
+        List<ClientResponseDTO> clients = clientRepository.findAll().stream().map(clientMapper::toDTO).toList();
         if (clients.isEmpty()) {
             throw new ApplicationException(CLIENT_NOT_FOUND);
         }
@@ -66,9 +56,9 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     @Transactional
-    public ClientResponse updateClient(ClientRequest clientRequest) {
-        findClientById(clientRequest.getId());
-        return clientMapper.toDTO(clientRepository.save(checkingUniqueLoginAndPhoneNumber(clientMapper.toClient(clientRequest))));
+    public ClientResponseDTO updateClient(ClientRequestDTO clientRequestDTO) {
+        findClientById(clientRequestDTO.getId());
+        return clientMapper.toDTO(clientRepository.save(checkingUniqueLoginAndPhoneNumber(clientMapper.toClient(clientRequestDTO))));
     }
 
     private Client checkingUniqueLoginAndPhoneNumber(Client client) {

@@ -1,15 +1,15 @@
 package by.pvt.fooddelivery.mapper;
 
 import by.pvt.fooddelivery.domain.Courier;
-import by.pvt.fooddelivery.dto.CourierRequest;
-import by.pvt.fooddelivery.dto.CourierResponse;
+import by.pvt.fooddelivery.dto.CourierRequestDTO;
+import by.pvt.fooddelivery.dto.CourierResponseDTO;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public interface CourierMapper {
-    Courier toCourier(CourierRequest courierRequest);
+    Courier toCourier(CourierRequestDTO courierRequestDTO);
 
-    Courier toCourier(CourierResponse courierResponse);
+    Courier toCourier(CourierResponseDTO courierResponseDTO);
 
-    CourierResponse toDTO(Courier courier);
+    CourierResponseDTO toDTO(Courier courier);
 }

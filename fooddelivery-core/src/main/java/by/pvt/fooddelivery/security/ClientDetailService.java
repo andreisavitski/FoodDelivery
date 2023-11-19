@@ -1,8 +1,7 @@
-package by.pvt.fooddelivery.service.impl;
+package by.pvt.fooddelivery.security;
 
 import by.pvt.fooddelivery.exception.ApplicationException;
 import by.pvt.fooddelivery.repository.ClientRepository;
-import by.pvt.fooddelivery.security.ClientDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

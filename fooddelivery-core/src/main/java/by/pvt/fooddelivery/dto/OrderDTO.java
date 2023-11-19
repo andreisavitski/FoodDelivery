@@ -19,5 +19,5 @@ public class OrderDTO {
     private LocalDateTime ordered;
     private Map<ProductDTO, Long> products;
     private OrderStatus orderStatus;
-    private CourierResponse courierResponse;
+    private CourierResponseDTO courierResponseDTO;
 }

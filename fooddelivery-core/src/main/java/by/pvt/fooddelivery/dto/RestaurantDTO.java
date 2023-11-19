@@ -3,11 +3,9 @@ package by.pvt.fooddelivery.dto;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
-import static by.pvt.fooddelivery.constant.Constant.PHONE_NUMBER_VALIDATION;
+import static by.pvt.fooddelivery.constant.AppConstants.PHONE_NUMBER_VALIDATION;
 
 @Data
 public class RestaurantDTO {

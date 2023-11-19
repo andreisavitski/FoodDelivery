@@ -1,7 +1,7 @@
 package by.pvt.fooddelivery.controller;
 
 import by.pvt.fooddelivery.dto.RestaurantDTO;
-import by.pvt.fooddelivery.logging.Logging;
+import by.pvt.fooddelivery.logging.MethodLogging;
 import by.pvt.fooddelivery.service.RestaurantService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
@@ -15,31 +15,31 @@ import java.util.List;
 public class RestaurantRestController {
     private final RestaurantService restaurantService;
 
-    @Logging
+    @MethodLogging
     @GetMapping
     public List<RestaurantDTO> getRestaurants() {
         return restaurantService.findAllRestaurants();
     }
 
-    @Logging
+    @MethodLogging
     @PostMapping
     public RestaurantDTO addRestaurant(@RequestBody @Validated RestaurantDTO dto) {
         return restaurantService.addRestaurant(dto);
     }
 
-    @Logging
+    @MethodLogging
     @GetMapping("{id}")
     public RestaurantDTO getRestaurant(@PathVariable("id") Long id) {
         return restaurantService.findRestaurantById(id);
     }
 
-    @Logging
+    @MethodLogging
     @PutMapping
     public RestaurantDTO updateRestaurant(@RequestBody @Validated RestaurantDTO dto) {
         return restaurantService.updateRestaurant(dto);
     }
 
-    @Logging
+    @MethodLogging
     @DeleteMapping("{id}")
     public void deleteRestaurant(@PathVariable("id") Long id) {
         restaurantService.deleteRestaurantById(id);

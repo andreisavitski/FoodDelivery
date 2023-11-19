@@ -6,11 +6,11 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
-import static by.pvt.fooddelivery.constant.Constant.PASSWORD_VALIDATION;
-import static by.pvt.fooddelivery.constant.Constant.PHONE_NUMBER_VALIDATION;
+import static by.pvt.fooddelivery.constant.AppConstants.PASSWORD_VALIDATION;
+import static by.pvt.fooddelivery.constant.AppConstants.PHONE_NUMBER_VALIDATION;
 
 @Data
-public class ClientRequest {
+public class AdminRequestDTO {
     private Long id;
     @NotBlank
     @Size(min = 1, max = 50)
@@ -25,7 +25,6 @@ public class ClientRequest {
     private String login;
     @Pattern(regexp = PASSWORD_VALIDATION)
     private String password;
-    private AddressDTO addressDTO;
     @Pattern(regexp = PHONE_NUMBER_VALIDATION)
     private String phoneNumber;
 }

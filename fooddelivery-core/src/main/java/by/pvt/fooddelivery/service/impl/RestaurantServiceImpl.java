@@ -6,6 +6,7 @@ import by.pvt.fooddelivery.mapper.RestaurantMapper;
 import by.pvt.fooddelivery.repository.RestaurantRepository;
 import by.pvt.fooddelivery.service.RestaurantService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,6 +38,7 @@ public class RestaurantServiceImpl implements RestaurantService {
         return restaurantMapper.toDTO(restaurantRepository.findById(restaurantId).orElseThrow(() -> new ApplicationException(RESTAURANT_NOT_FOUND)));
     }
 
+    @Cacheable("restaurants")
     @Override
     public List<RestaurantDTO> findAllRestaurants() {
         List<RestaurantDTO> restaurants = restaurantRepository.findAll().stream().map(restaurantMapper::toDTO).toList();

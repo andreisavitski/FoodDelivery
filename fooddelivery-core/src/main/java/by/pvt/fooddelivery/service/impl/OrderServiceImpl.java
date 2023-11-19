@@ -22,7 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static by.pvt.fooddelivery.constant.Constant.*;
+import static by.pvt.fooddelivery.constant.AppConstants.*;
 import static by.pvt.fooddelivery.enums.CourierStatus.BUSY;
 import static by.pvt.fooddelivery.enums.CourierStatus.FREE;
 import static by.pvt.fooddelivery.enums.OrderStatus.*;
