@@ -11,4 +11,5 @@ public class ClientResponseDTO {
     private String login;
     private AddressDTO addressDTO;
     private String phoneNumber;
+    private String role;
 }

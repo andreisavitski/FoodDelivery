@@ -1,6 +1,7 @@
 package by.pvt.fooddelivery.service;
 
 import by.pvt.fooddelivery.dto.ProductDTO;
+import by.pvt.fooddelivery.enums.ProductType;
 
 import java.util.List;
 
@@ -15,7 +16,9 @@ public interface ProductService {
 
     List<ProductDTO> findProductsByName(String productName);
 
-    List<ProductDTO> findProductsByRestaurantName(String restaurantName);
+    List<ProductDTO> findProductsByProductTypeAndRestaurantId(ProductType type, Long restaurantId);
+
+    List<ProductDTO> findProductsByProductType(ProductType type);
 
     List<ProductDTO> findProductsByRestaurantId(Long restaurantId);
 

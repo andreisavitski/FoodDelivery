@@ -14,5 +14,4 @@ public interface RestaurantService {
     List<RestaurantDTO> findAllRestaurants();
 
     RestaurantDTO updateRestaurant(RestaurantDTO restaurantDTO);
-
 }

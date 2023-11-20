@@ -4,14 +4,17 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>by.pvt.FoodDelivery</groupId>
+    <groupId>by.pvt.fooddelivery</groupId>
     <artifactId>FoodDelivery</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
+
     <modules>
         <module>fooddelivery-api</module>
         <module>fooddelivery-core</module>
+        <module>fooddelivery-server</module>
     </modules>
+
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
@@ -21,120 +24,7 @@
     <properties>
         <maven.compiler.source>19</maven.compiler.source>
         <maven.compiler.target>19</maven.compiler.target>
-        <maven.compiler.plugin>3.5.1</maven.compiler.plugin>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <hibernatecache.version>6.0.0.Alpha7</hibernatecache.version>
-        <postgresql.version>42.6.0</postgresql.version>
-        <lombok.version>1.18.28</lombok.version>
-        <lombokmapstructbinding.version>0.2.0</lombokmapstructbinding.version>
-        <mapstruct.version>1.5.5.Final</mapstruct.version>
-        <ehcache.version>2.10.9.2</ehcache.version>
     </properties>
 
-    <dependencies>
-
-        <!-- Spring Jpa -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <version>${postgresql.version}</version>
-        </dependency>
-
-        <!-- Spring Boot Starter Web -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-
-        <!-- Spring Boot Starter Validation -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-validation</artifactId>
-        </dependency>
-
-<!--        <dependency>-->
-<!--            <groupId>org.hibernate.validator</groupId>-->
-<!--            <artifactId>hibernate-validator</artifactId>-->
-<!--            <version>8.0.0.Final</version>-->
-<!--        </dependency>-->
-
-        <!-- Thymeleaf -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-thymeleaf</artifactId>
-        </dependency>
-
-        <!-- Hibernate Ehcache Relocation -->
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-ehcache</artifactId>
-            <version>${hibernatecache.version}</version>
-        </dependency>
-
-        <!-- Project Lombok -->
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>${lombok.version}</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok-mapstruct-binding</artifactId>
-            <version>${lombokmapstructbinding.version}</version>
-        </dependency>
-
-        <!-- MapStruct Core -->
-        <dependency>
-            <groupId>org.mapstruct</groupId>
-            <artifactId>mapstruct</artifactId>
-            <version>${mapstruct.version}</version>
-        </dependency>
-
-        <!-- Ehcache -->
-        <dependency>
-            <groupId>net.sf.ehcache</groupId>
-            <artifactId>ehcache</artifactId>
-            <version>${ehcache.version}</version>
-        </dependency>
-
-    </dependencies>
-
-    <build>
-        <finalName>FitnessClub</finalName>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>${maven.compiler.plugin}</version>
-                <configuration>
-                    <source>${maven.compiler.source}</source>
-                    <target>${maven.compiler.target}</target>
-                    <annotationProcessorPaths>
-                        <path>
-                            <groupId>org.mapstruct</groupId>
-                            <artifactId>mapstruct-processor</artifactId>
-                            <version>${mapstruct.version}</version>
-                        </path>
-                        <path>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok</artifactId>
-                            <version>${lombok.version}</version>
-                        </path>
-                        <path>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok-mapstruct-binding</artifactId>
-                            <version>${lombokmapstructbinding.version}</version>
-                        </path>
-                    </annotationProcessorPaths>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
 </project>

@@ -4,27 +4,28 @@ import by.pvt.fooddelivery.enums.ProductType;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import java.math.BigDecimal;
-import java.util.List;
+
+import static by.pvt.fooddelivery.domain.AbstractEntity.SEQUENCE_GENERATOR;
+import static jakarta.persistence.EnumType.STRING;
 
 @Getter
 @Setter
 @Entity
 @Table(name = "product")
-@Cacheable
-@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_ONLY, region = "product")
-@SequenceGenerator(name = AbstractEntity.SEQUENCE_GENERATOR, sequenceName = "product_seq", allocationSize = 1)
+@SequenceGenerator(name = SEQUENCE_GENERATOR, sequenceName = "product_seq", allocationSize = 1)
 public class Product extends AbstractEntity {
     @ManyToOne
     @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
+    @Column(name = "name")
     private String name;
+    @Column(name = "description")
     private String description;
+    @Column(name = "price")
     private BigDecimal price;
-    @Enumerated(EnumType.STRING)
+    @Enumerated(STRING)
+    @Column(name = "type")
     private ProductType type;
-    @ManyToMany(mappedBy = "products")
-    private List<Order> orders;
 }

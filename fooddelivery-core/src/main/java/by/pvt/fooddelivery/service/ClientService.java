@@ -6,7 +6,7 @@ import by.pvt.fooddelivery.dto.ClientResponseDTO;
 import java.util.List;
 
 public interface ClientService {
-    ClientResponseDTO registration(ClientRequestDTO clientRequestDTO);
+    ClientResponseDTO register(ClientRequestDTO clientRequestDTO);
 
     void deleteClientById(Long clientId);
 
