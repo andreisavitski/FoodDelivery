@@ -5,7 +5,7 @@ import by.pvt.fooddelivery.dto.RestaurantDTO;
 import java.util.List;
 
 public interface RestaurantService {
-    void addRestaurant(RestaurantDTO restaurantDTO);
+    RestaurantDTO addRestaurant(RestaurantDTO restaurantDTO);
 
     void deleteRestaurantById(Long restaurantId);
 
@@ -13,6 +13,6 @@ public interface RestaurantService {
 
     List<RestaurantDTO> findAllRestaurants();
 
-    void updateRestaurant(RestaurantDTO restaurantDTO);
+    RestaurantDTO updateRestaurant(RestaurantDTO restaurantDTO);
 
 }

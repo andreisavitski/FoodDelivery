@@ -5,7 +5,7 @@ import by.pvt.fooddelivery.dto.CourierDTO;
 import java.util.List;
 
 public interface CourierService {
-    void registration(CourierDTO courierDTO);
+    CourierDTO registration(CourierDTO courierDTO);
 
     void deleteCourierById(Long courierId);
 
@@ -13,5 +13,5 @@ public interface CourierService {
 
     List<CourierDTO> findAllCouriers();
 
-    void updateCourier(CourierDTO courierDTO);
+    CourierDTO updateCourier(CourierDTO courierDTO);
 }

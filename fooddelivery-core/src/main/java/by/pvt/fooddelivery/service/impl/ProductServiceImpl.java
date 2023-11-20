@@ -1,6 +1,7 @@
 package by.pvt.fooddelivery.service.impl;
 
 import by.pvt.fooddelivery.dto.ProductDTO;
+import by.pvt.fooddelivery.exception.ProductNotFoundException;
 import by.pvt.fooddelivery.mapper.ProductMapper;
 import by.pvt.fooddelivery.repository.ProductRepository;
 import by.pvt.fooddelivery.service.ProductService;
@@ -18,8 +19,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public void addProduct(ProductDTO productDTO) {
-        productRepository.save(productMapper.toProduct(productDTO));
+    public ProductDTO addProduct(ProductDTO productDTO) {
+        return productMapper.toDTO(productRepository.save(productMapper.toProduct(productDTO)));
     }
 
     @Override
@@ -31,7 +32,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductDTO findProductById(Long productId) {
         return productMapper.toDTO(productRepository.findById(productId).orElseThrow(
-                () -> new RuntimeException("Food does not exist")));
+                () -> new ProductNotFoundException("Product id " + productId + " not found")));
     }
 
     @Override
@@ -57,7 +58,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public void updateProduct(ProductDTO productDTO) {
-        productRepository.save(productMapper.toProduct(productDTO));
+    public ProductDTO updateProduct(ProductDTO productDTO) {
+        return productMapper.toDTO(productRepository.save(productMapper.toProduct(productDTO)));
     }
 }

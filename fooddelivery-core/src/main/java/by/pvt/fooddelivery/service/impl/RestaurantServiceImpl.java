@@ -18,11 +18,12 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     @Override
     @Transactional
-    public void addRestaurant(RestaurantDTO restaurantDTO) {
-        restaurantRepository.save(restaurantMapper.toRestaurant(restaurantDTO));
+    public RestaurantDTO addRestaurant(RestaurantDTO restaurantDTO) {
+        return restaurantMapper.toDTO(restaurantRepository.save(restaurantMapper.toRestaurant(restaurantDTO)));
     }
 
-    @Override@Transactional
+    @Override
+    @Transactional
     public void deleteRestaurantById(Long restaurantId) {
         restaurantRepository.deleteById(restaurantId);
     }
@@ -39,7 +40,7 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     @Override
     @Transactional
-    public void updateRestaurant(RestaurantDTO restaurantDTO) {
-        restaurantRepository.save(restaurantMapper.toRestaurant(restaurantDTO));
+    public RestaurantDTO updateRestaurant(RestaurantDTO restaurantDTO) {
+        return restaurantMapper.toDTO(restaurantRepository.save(restaurantMapper.toRestaurant(restaurantDTO)));
     }
 }
