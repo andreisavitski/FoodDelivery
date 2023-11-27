@@ -40,7 +40,6 @@ public class CourierRestController {
         return courierService.updateCourier(dto);
     }
 
-    @MethodLogging
     @DeleteMapping("{id}")
     public void deleteCourier(@PathVariable("id") Long id) {
         courierService.deleteCourierById(id);

@@ -39,7 +39,7 @@ public class RestaurantRestController {
         return restaurantService.updateRestaurant(dto);
     }
 
-    @MethodLogging
+
     @DeleteMapping("{id}")
     public void deleteRestaurant(@PathVariable("id") Long id) {
         restaurantService.deleteRestaurantById(id);

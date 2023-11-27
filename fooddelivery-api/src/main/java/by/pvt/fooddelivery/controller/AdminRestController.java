@@ -43,7 +43,6 @@ public class AdminRestController {
         return adminService.updateAdmin(dto);
     }
 
-    @MethodLogging
     @DeleteMapping("{id}")
     public void deleteAdmin(@PathVariable("id") Long id) {
         adminService.deleteAdminById(id);
