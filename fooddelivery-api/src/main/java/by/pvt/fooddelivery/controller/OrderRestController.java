@@ -1,6 +1,8 @@
 package by.pvt.fooddelivery.controller;
 
 import by.pvt.fooddelivery.dto.OrderDTO;
+import by.pvt.fooddelivery.dto.OrderDeliveryUpdaterDTO;
+import by.pvt.fooddelivery.dto.OrderProductChangerDTO;
 import by.pvt.fooddelivery.logging.MethodLogging;
 import by.pvt.fooddelivery.service.OrderService;
 import lombok.RequiredArgsConstructor;
@@ -41,22 +43,22 @@ public class OrderRestController {
         return orderService.updateOrder(dto);
     }
 
-    @MethodLogging
+
     @DeleteMapping("{id}")
     public void deleteOrder(@PathVariable("id") Long id) {
         orderService.deleteOrderById(id);
     }
 
-    @MethodLogging
+
     @PostMapping("product")
-    public void addProductToOrder(@RequestBody Long quantityProducts, @RequestBody Long orderId, @RequestBody Long productId) {
-        orderService.updateProductOrder(quantityProducts, orderId, productId, ADD_PRODUCT_ORDER);
+    public void addProductToOrder(@RequestBody OrderProductChangerDTO dto) {
+        orderService.updateProductOrder(dto.getQuantityProducts(), dto.getOrderId(), dto.getProductId(), ADD_PRODUCT_ORDER);
     }
 
-    @MethodLogging
+
     @DeleteMapping("product")
-    public void deleteProductToOrder(@RequestBody Long quantityProducts, @RequestBody Long orderId, @RequestBody Long productId) {
-        orderService.updateProductOrder(quantityProducts, orderId, productId, DELETE_PRODUCT_ORDER);
+    public void deleteProductToOrder(@RequestBody OrderProductChangerDTO dto) {
+        orderService.updateProductOrder(dto.getQuantityProducts(), dto.getOrderId(), dto.getProductId(), DELETE_PRODUCT_ORDER);
     }
 
     @MethodLogging
@@ -71,21 +73,21 @@ public class OrderRestController {
         return orderService.findOrdersForDelivery();
     }
 
-    @MethodLogging
+    //    @MethodLogging
     @PostMapping("select")
-    OrderDTO selectOrderForDelivery(@RequestBody Long orderId, @RequestBody Long courierId) {
-        return orderService.changeOfOrderDeliveryStatus(orderId, courierId, SELECT_ORDER_FOR_DELIVERY);
+    OrderDTO selectOrderForDelivery(@RequestBody OrderDeliveryUpdaterDTO dto) {
+        return orderService.changeOfOrderDeliveryStatus(dto.getOrderId(), dto.getOrderId(), SELECT_ORDER_FOR_DELIVERY);
     }
 
     @MethodLogging
     @PostMapping("refusal")
-    OrderDTO refusalToDeliveryOrder(@RequestBody Long orderId, @RequestBody Long courierId) {
-        return orderService.changeOfOrderDeliveryStatus(orderId, courierId, REFUSAL_TO_DELIVERY_ORDER);
+    OrderDTO refusalToDeliveryOrder(@RequestBody OrderDeliveryUpdaterDTO dto) {
+        return orderService.changeOfOrderDeliveryStatus(dto.getOrderId(), dto.getOrderId(), REFUSAL_TO_DELIVERY_ORDER);
     }
 
     @MethodLogging
     @PostMapping("complete")
-    OrderDTO completeTheOrderForDelivery(@RequestBody Long orderId, @RequestBody Long courierId) {
-        return orderService.changeOfOrderDeliveryStatus(orderId, courierId, COMPLETE_THE_ORDER_FOR_DELIVERY);
+    OrderDTO completeTheOrderForDelivery(@RequestBody OrderDeliveryUpdaterDTO dto) {
+        return orderService.changeOfOrderDeliveryStatus(dto.getOrderId(), dto.getOrderId(), COMPLETE_THE_ORDER_FOR_DELIVERY);
     }
 }

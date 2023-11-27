@@ -1,6 +1,7 @@
 package by.pvt.fooddelivery.controller;
 
 import by.pvt.fooddelivery.dto.ProductDTO;
+import by.pvt.fooddelivery.dto.ProductGetterDTO;
 import by.pvt.fooddelivery.enums.ProductType;
 import by.pvt.fooddelivery.logging.MethodLogging;
 import by.pvt.fooddelivery.service.ProductService;
@@ -40,16 +41,16 @@ public class ProductRestController {
         return productService.updateProduct(dto);
     }
 
-    @MethodLogging
+
     @DeleteMapping("{id}")
     public void deleteProduct(@PathVariable("id") Long id) {
         productService.deleteProductById(id);
     }
 
     @MethodLogging
-    @PostMapping("restaurant/{id}")
-    List<ProductDTO> findProductsByProductTypeAndRestaurantId(@RequestBody ProductType type, @PathVariable("id") Long restaurantId) {
-        return productService.findProductsByProductTypeAndRestaurantId(type, restaurantId);
+    @PostMapping("restaurant")
+    List<ProductDTO> findProductsByProductTypeAndRestaurantId(@RequestBody ProductGetterDTO dto) {
+        return productService.findProductsByProductTypeAndRestaurantId(ProductType.valueOf(dto.getType()), dto.getRestaurantId());
     }
 
     @MethodLogging

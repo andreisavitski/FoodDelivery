@@ -40,7 +40,7 @@ public class ClientRestController {
         return clientService.updateClient(dto);
     }
 
-    @MethodLogging
+
     @DeleteMapping("{id}")
     public void deleteClient(@PathVariable("id") Long id) {
         clientService.deleteClientById(id);
