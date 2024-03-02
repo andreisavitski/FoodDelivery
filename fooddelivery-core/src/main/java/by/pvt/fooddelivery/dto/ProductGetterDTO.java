@@ -1,9 +1,13 @@
 package by.pvt.fooddelivery.dto;
 
-import lombok.Data;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.extern.jackson.Jacksonized;
 
-@Data
+@Getter
+@Builder
+@Jacksonized
 public class ProductGetterDTO {
-    private String type;
-    private Long restaurantId;
+    private final String type;
+    private final Long restaurantId;
 }

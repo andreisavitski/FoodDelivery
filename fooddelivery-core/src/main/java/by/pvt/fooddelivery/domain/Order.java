@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Map;
 
-import static by.pvt.fooddelivery.domain.AbstractEntity.SEQUENCE_GENERATOR;
+import static by.pvt.fooddelivery.constant.AppConstants.SEQUENCE_GENERATOR;
 import static jakarta.persistence.EnumType.STRING;
 import static jakarta.persistence.FetchType.EAGER;
 

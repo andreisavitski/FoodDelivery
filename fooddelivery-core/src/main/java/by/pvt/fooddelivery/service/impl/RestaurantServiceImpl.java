@@ -24,7 +24,13 @@ public class RestaurantServiceImpl implements RestaurantService {
     @Override
     @Transactional
     public RestaurantDTO addRestaurant(RestaurantDTO restaurantDTO) {
-        return restaurantMapper.toDTO(restaurantRepository.save(restaurantMapper.toRestaurant(checkingUniqueName(restaurantDTO))));
+        return restaurantMapper.toDTO(
+                restaurantRepository.save(
+                        restaurantMapper.toRestaurant(
+                                checkingUniqueName(restaurantDTO)
+                        )
+                )
+        );
     }
 
     @Override
@@ -35,28 +41,37 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     @Override
     public RestaurantDTO findRestaurantById(Long restaurantId) {
-        return restaurantMapper.toDTO(restaurantRepository.findById(restaurantId).orElseThrow(() -> new ApplicationException(RESTAURANT_NOT_FOUND)));
+        return restaurantMapper.toDTO(restaurantRepository.findById(restaurantId).orElseThrow(
+                () -> new ApplicationException(RESTAURANT_NOT_FOUND)
+        ));
     }
 
     @Cacheable("restaurants")
     @Override
     public List<RestaurantDTO> findAllRestaurants() {
-        List<RestaurantDTO> restaurants = restaurantRepository.findAll().stream().map(restaurantMapper::toDTO).toList();
-        if (restaurants.isEmpty()) {
-            throw new ApplicationException(RESTAURANT_NOT_FOUND);
-        }
-        return restaurants;
+        return restaurantRepository.findAll().stream()
+                .map(restaurantMapper::toDTO)
+                .toList();
     }
 
     @Override
     @Transactional
     public RestaurantDTO updateRestaurant(RestaurantDTO restaurantDTO) {
         findRestaurantById(restaurantDTO.getId());
-        return restaurantMapper.toDTO(restaurantRepository.save(restaurantMapper.toRestaurant(checkingUniqueName(restaurantDTO))));
+        return restaurantMapper.toDTO(
+                restaurantRepository.save(
+                        restaurantMapper.toRestaurant(
+                                checkingUniqueName(restaurantDTO)
+                        )
+                )
+        );
     }
 
     private RestaurantDTO checkingUniqueName(RestaurantDTO restaurantDTO) {
-        if (!restaurantRepository.findAll().stream().filter(restaurant -> restaurant.getName().equals(restaurantDTO.getName())).toList().isEmpty()) {
+        if (!restaurantRepository.findAll().stream()
+                .filter(restaurant -> restaurant.getName().equals(restaurantDTO.getName()))
+                .toList()
+                .isEmpty()) {
             throw new ApplicationException(RESTAURANT_NOT_ADDED);
         }
         return restaurantDTO;

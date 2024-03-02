@@ -18,7 +18,9 @@ public class CourierDetails implements UserDetails {
     public CourierDetails(Courier courier) {
         this.name = courier.getLogin();
         this.password = courier.getPassword();
-        this.authorities = Arrays.stream(courier.getRole().split(",")).map(SimpleGrantedAuthority::new).collect(Collectors.toList());
+        this.authorities = Arrays.stream(courier.getRole().toString().split(","))
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toList());
     }
 
     @Override

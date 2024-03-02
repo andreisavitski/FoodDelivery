@@ -1,7 +1,8 @@
-package by.pvt.fooddelivery.security;
+package by.pvt.fooddelivery.service.impl.security;
 
 import by.pvt.fooddelivery.exception.ApplicationException;
 import by.pvt.fooddelivery.repository.ClientRepository;
+import by.pvt.fooddelivery.security.ClientDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -17,6 +18,8 @@ public class ClientDetailService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return clientRepository.findByLogin(username).map(ClientDetails::new).orElseThrow(() -> new ApplicationException(CLIENT_NOT_FOUND));
+        return clientRepository.findByLogin(username).map(ClientDetails::new).orElseThrow(
+                () -> new ApplicationException(CLIENT_NOT_FOUND)
+        );
     }
 }

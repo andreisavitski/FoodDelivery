@@ -43,11 +43,15 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     public OrderDTO addOrder(String clientOrder) {
         Order order = new Order();
-        order.setClient(clientRepository.findByLogin(clientOrder).orElseThrow(() -> new ApplicationException(CLIENT_NOT_FOUND)));
+        order.setClient(clientRepository.findByLogin(clientOrder).orElseThrow(
+                () -> new ApplicationException(CLIENT_NOT_FOUND)
+        ));
         order.setProducts(new HashMap<>());
         order.setOrdered(LocalDateTime.now());
         order.setOrderStatus(NOT_FORMED);
-        order.setCourier(courierRepository.findById(NAMELESS_COURIER).orElseThrow(() -> new ApplicationException(COURIER_NOT_FOUND)));
+        order.setCourier(courierRepository.findById(NAMELESS_COURIER).orElseThrow(
+                () -> new ApplicationException(COURIER_NOT_FOUND)
+        ));
         return orderMapper.toDTO(orderRepository.save(costChecking(order.getProducts(), order)));
     }
 
@@ -59,23 +63,25 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderDTO findOrderById(Long orderId) {
-        return orderMapper.toDTO(orderRepository.findById(orderId).orElseThrow(() -> new ApplicationException(ORDER_NOT_FOUND)));
+        return orderMapper.toDTO(orderRepository.findById(orderId).orElseThrow(
+                () -> new ApplicationException(ORDER_NOT_FOUND)
+        ));
     }
 
     @Override
     public List<OrderDTO> findAllOrders() {
-        List<OrderDTO> orders = orderRepository.findAll().stream().map(orderMapper::toDTO).toList();
-        if (orders.isEmpty()) {
-            throw new ApplicationException(ORDER_NOT_FOUND);
-        }
-        return orders;
+        return orderRepository.findAll().stream()
+                .map(orderMapper::toDTO)
+                .toList();
     }
 
     @Override
     @Transactional
     public OrderDTO updateOrder(OrderDTO orderDTO) {
         findOrderById(orderDTO.getId());
-        Client client = clientRepository.findByLogin(orderDTO.getClientLogin()).orElseThrow(() -> new ApplicationException(CLIENT_NOT_FOUND));
+        Client client = clientRepository.findByLogin(orderDTO.getClientLogin()).orElseThrow(
+                () -> new ApplicationException(CLIENT_NOT_FOUND)
+        );
         Order order = orderMapper.toOrder(orderDTO);
         order.setClient(client);
         return orderMapper.toDTO(orderRepository.save(order));
@@ -86,7 +92,9 @@ public class OrderServiceImpl implements OrderService {
     public void updateProductOrder(Long quantity, Long orderId, Long productId, String condition) {
         Order order = orderRepository.findById(orderId).orElseThrow(() -> new ApplicationException(ORDER_NOT_FOUND));
         Map<Product, Long> orderProducts = order.getProducts();
-        Product product = productRepository.findById(productId).orElseThrow(() -> new ApplicationException(PRODUCT_NOT_FOUND));
+        Product product = productRepository.findById(productId).orElseThrow(
+                () -> new ApplicationException(PRODUCT_NOT_FOUND)
+        );
         updateProductOrder(quantity, product, orderProducts, condition);
         order.setProducts(orderProducts);
         orderRepository.save(costChecking(orderProducts, order));
@@ -102,17 +110,17 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<OrderDTO> findOrdersForDelivery() {
-        List<OrderDTO> orders = orderRepository.findByOrderStatus(WAITING_FOR_COURIER).stream().map(orderMapper::toDTO).toList();
-        if (orders.isEmpty()) {
-            throw new ApplicationException(ORDER_NOT_FOUND);
-        }
-        return orders;
+        return orderRepository.findByOrderStatus(WAITING_FOR_COURIER).stream()
+                .map(orderMapper::toDTO)
+                .toList();
     }
 
     @Override
     public OrderDTO changeOfOrderDeliveryStatus(Long orderId, Long courierId, String condition) {
         Order order = orderRepository.findById(orderId).orElseThrow(() -> new ApplicationException(ORDER_NOT_FOUND));
-        Courier courier = courierRepository.findById(courierId).orElseThrow(() -> new ApplicationException(COURIER_NOT_FOUND));
+        Courier courier = courierRepository.findById(courierId).orElseThrow(
+                () -> new ApplicationException(COURIER_NOT_FOUND)
+        );
         switch (condition) {
             case SELECT_ORDER_FOR_DELIVERY -> {
                 order.setOrderStatus(ON_THE_WAY);
@@ -122,7 +130,9 @@ public class OrderServiceImpl implements OrderService {
             }
             case REFUSAL_TO_DELIVERY_ORDER -> {
                 order.setOrderStatus(WAITING_FOR_COURIER);
-                order.setCourier(courierRepository.findById(NAMELESS_COURIER).orElseThrow(() -> new ApplicationException(COURIER_NOT_FOUND)));
+                order.setCourier(courierRepository.findById(NAMELESS_COURIER).orElseThrow(
+                        () -> new ApplicationException(COURIER_NOT_FOUND)
+                ));
                 courier.setStatus(FREE);
             }
             case COMPLETE_THE_ORDER_FOR_DELIVERY -> {
@@ -143,7 +153,8 @@ public class OrderServiceImpl implements OrderService {
         return totalCost;
     }
 
-    private void updateProductOrder(Long quantity, Product product, Map<Product, Long> orderProducts, String condition) {
+    private void updateProductOrder(Long quantity, Product product, Map<Product, Long> orderProducts,
+                                    String condition) {
         switch (condition) {
             case DELETE_PRODUCT_ORDER -> {
                 if (orderProducts.get(product) == null) {
@@ -173,7 +184,8 @@ public class OrderServiceImpl implements OrderService {
 
     private Order costChecking(Map<Product, Long> orderProducts, Order order) {
         BigDecimal totalCost = calculationTotalCost(orderProducts);
-        if (totalCost.compareTo(FREE_DELIVERY_CONDITION) < 0 && totalCost.compareTo(SERVICE_FEE.add(COST_OF_DELIVERY)) != 0) {
+        if (totalCost.compareTo(FREE_DELIVERY_CONDITION) < 0 &&
+                totalCost.compareTo(SERVICE_FEE.add(COST_OF_DELIVERY)) != 0) {
             order.setTotalCost(totalCost);
             order.setCostOfDelivery(COST_OF_DELIVERY);
             order.setServiceFee(SERVICE_FEE);

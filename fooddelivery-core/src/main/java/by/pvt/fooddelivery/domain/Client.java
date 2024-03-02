@@ -1,12 +1,13 @@
 package by.pvt.fooddelivery.domain;
 
+import by.pvt.fooddelivery.enums.Role;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
 
-import static by.pvt.fooddelivery.domain.AbstractEntity.SEQUENCE_GENERATOR;
+import static by.pvt.fooddelivery.constant.AppConstants.SEQUENCE_GENERATOR;
 import static jakarta.persistence.CascadeType.REMOVE;
 
 @Getter
@@ -19,9 +20,9 @@ public class Client extends AbstractEntity {
     private String firstName;
     @Column(name = "last_name")
     private String lastName;
-    @Column(unique = true)
+    @Column(name = "email", unique = true)
     private String email;
-    @Column(unique = true)
+    @Column(name = "login", unique = true)
     private String login;
     @Column(name = "password")
     private String password;
@@ -31,6 +32,7 @@ public class Client extends AbstractEntity {
     private String phoneNumber;
     @OneToMany(mappedBy = "client", cascade = REMOVE)
     private List<Order> orders;
+    @Enumerated(EnumType.STRING)
     @Column(name = "role")
-    private String role;
+    private Role role;
 }

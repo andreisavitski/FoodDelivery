@@ -1,14 +1,14 @@
 package by.pvt.fooddelivery.domain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.SequenceGenerator;
-import jakarta.persistence.Table;
-import lombok.Getter;
-import lombok.Setter;
+import by.pvt.fooddelivery.enums.Role;
+import jakarta.persistence.*;
+import lombok.*;
 
-import static by.pvt.fooddelivery.domain.AbstractEntity.SEQUENCE_GENERATOR;
+import static by.pvt.fooddelivery.constant.AppConstants.SEQUENCE_GENERATOR;
 
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Getter
 @Setter
 @Entity
@@ -27,6 +27,7 @@ public class Admin extends AbstractEntity {
     private String password;
     @Column(name = "phone_number", unique = true)
     private String phoneNumber;
+    @Enumerated(EnumType.STRING)
     @Column(name = "role")
-    private String role;
+    private Role role;
 }

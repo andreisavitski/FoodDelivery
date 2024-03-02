@@ -8,7 +8,7 @@ import lombok.ToString;
 
 import java.util.List;
 
-import static by.pvt.fooddelivery.domain.AbstractEntity.SEQUENCE_GENERATOR;
+import static by.pvt.fooddelivery.constant.AppConstants.SEQUENCE_GENERATOR;
 import static jakarta.persistence.CascadeType.REMOVE;
 import static jakarta.persistence.FetchType.EAGER;
 
