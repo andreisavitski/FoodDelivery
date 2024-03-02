@@ -1,14 +1,18 @@
-package by.pvt.fooddelivery.exception.model;
+package by.pvt.fooddelivery.dto.exception;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.extern.jackson.Jacksonized;
 import org.springframework.http.HttpStatusCode;
 
-@Data
+@Getter
+@Builder
+@Jacksonized
 @AllArgsConstructor
 @NoArgsConstructor
-public class ErrorResponse {
+public class ErrorResponseDTO {
     private HttpStatusCode status;
     private String message;
 }

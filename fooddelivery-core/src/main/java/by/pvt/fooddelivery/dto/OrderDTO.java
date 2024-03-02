@@ -2,22 +2,26 @@ package by.pvt.fooddelivery.dto;
 
 import by.pvt.fooddelivery.enums.OrderStatus;
 import jakarta.validation.constraints.NotBlank;
-import lombok.Data;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.extern.jackson.Jacksonized;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Map;
 
-@Data
+@Getter
+@Builder
+@Jacksonized
 public class OrderDTO {
-    private Long id;
+    private final Long id;
     @NotBlank
-    private String clientLogin;
-    private BigDecimal totalCost;
-    private BigDecimal serviceFee;
-    private BigDecimal costOfDelivery;
-    private LocalDateTime ordered;
-    private Map<ProductDTO, Long> products;
-    private OrderStatus orderStatus;
-    private CourierResponseDTO courierResponseDTO;
+    private final String clientLogin;
+    private final BigDecimal totalCost;
+    private final BigDecimal serviceFee;
+    private final BigDecimal costOfDelivery;
+    private final LocalDateTime ordered;
+    private final Map<ProductDTO, Long> products;
+    private final OrderStatus orderStatus;
+    private final CourierResponseDTO courierResponseDTO;
 }

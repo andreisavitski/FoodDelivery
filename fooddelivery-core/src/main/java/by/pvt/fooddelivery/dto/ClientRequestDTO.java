@@ -1,29 +1,33 @@
 package by.pvt.fooddelivery.dto;
 
 import jakarta.validation.constraints.*;
-import lombok.Data;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.extern.jackson.Jacksonized;
 
 import static by.pvt.fooddelivery.constant.AppConstants.PASSWORD_VALIDATION;
 import static by.pvt.fooddelivery.constant.AppConstants.PHONE_NUMBER_VALIDATION;
 
-@Data
+@Getter
+@Builder
+@Jacksonized
 public class ClientRequestDTO {
-    private Long id;
+    private final Long id;
     @NotBlank
     @Size(min = 1, max = 50)
-    private String firstName;
+    private final String firstName;
     @NotBlank
     @Size(min = 1, max = 50)
-    private String lastName;
+    private final String lastName;
     @Email
-    private String email;
+    private final String email;
     @NotBlank
     @Size(min = 1, max = 50)
-    private String login;
+    private final String login;
     @Pattern(regexp = PASSWORD_VALIDATION)
-    private String password;
+    private final String password;
     @NotNull
-    private AddressDTO addressDTO;
+    private final AddressDTO addressDTO;
     @Pattern(regexp = PHONE_NUMBER_VALIDATION)
-    private String phoneNumber;
+    private final String phoneNumber;
 }

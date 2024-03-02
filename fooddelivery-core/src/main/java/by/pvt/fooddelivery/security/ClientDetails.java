@@ -18,7 +18,9 @@ public class ClientDetails implements UserDetails {
     public ClientDetails(Client client) {
         this.name = client.getLogin();
         this.password = client.getPassword();
-        this.authorities = Arrays.stream(client.getRole().split(",")).map(SimpleGrantedAuthority::new).collect(Collectors.toList());
+        this.authorities = Arrays.stream(client.getRole().toString().split(","))
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toList());
     }
 
     @Override

@@ -1,9 +1,13 @@
 package by.pvt.fooddelivery.dto;
 
-import lombok.Data;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.extern.jackson.Jacksonized;
 
-@Data
+@Getter
+@Builder
+@Jacksonized
 public class OrderDeliveryUpdaterDTO {
-    private Long orderId;
-    private Long courierId;
+    private final Long orderId;
+    private final Long courierId;
 }

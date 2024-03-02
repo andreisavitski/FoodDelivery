@@ -14,7 +14,7 @@ import java.util.List;
 @ComponentScan
 @EnableWebMvc
 @EnableSpringDataWebSupport
-public class WebMvcConfig implements WebMvcConfigurer {
+public class WebMvcConfiguration implements WebMvcConfigurer {
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
         resolvers.add(new PageableHandlerMethodArgumentResolver());

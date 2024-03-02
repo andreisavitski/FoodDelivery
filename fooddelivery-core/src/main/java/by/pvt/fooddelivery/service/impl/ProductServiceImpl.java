@@ -6,7 +6,6 @@ import by.pvt.fooddelivery.dto.ProductDTO;
 import by.pvt.fooddelivery.enums.ProductType;
 import by.pvt.fooddelivery.exception.ApplicationException;
 import by.pvt.fooddelivery.mapper.ProductMapper;
-import by.pvt.fooddelivery.mapper.RestaurantMapper;
 import by.pvt.fooddelivery.repository.ProductRepository;
 import by.pvt.fooddelivery.repository.RestaurantRepository;
 import by.pvt.fooddelivery.service.ProductService;
@@ -25,14 +24,21 @@ public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
     private final RestaurantRepository restaurantRepository;
     private final ProductMapper productMapper;
-    private final RestaurantMapper restaurantMapper;
 
     @Override
     @Transactional
     public ProductDTO addProduct(ProductDTO productDTO) {
         Product product = productMapper.toProduct(productDTO);
-        product.setRestaurant(restaurantRepository.findById(productDTO.getRestaurantDTO().getId()).orElseThrow(() -> new ApplicationException(RESTAURANT_NOT_FOUND)));
-        return productMapper.toDTO(productRepository.save(productMapper.toProduct(checkUniqueName(productDTO))));
+        product.setRestaurant(restaurantRepository.findById(productDTO.getRestaurantDTO().getId()).orElseThrow(
+                () -> new ApplicationException(RESTAURANT_NOT_FOUND)
+        ));
+        return productMapper.toDTO(
+                productRepository.save(
+                        productMapper.toProduct(
+                                checkUniqueName(productDTO)
+                        )
+                )
+        );
     }
 
     @Override
@@ -43,60 +49,73 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDTO findProductById(Long productId) {
-        return productMapper.toDTO(productRepository.findById(productId).orElseThrow(() -> new ApplicationException(PRODUCT_NOT_FOUND)));
+        return productMapper.toDTO(productRepository.findById(productId).orElseThrow(
+                () -> new ApplicationException(PRODUCT_NOT_FOUND)
+        ));
     }
 
     @Cacheable("products")
     @Override
     public List<ProductDTO> findAllProducts() {
-        List<ProductDTO> products = productRepository.findAll().stream().map(productMapper::toDTO).toList();
-        return checkingForNull(products);
+        return productRepository.findAll().stream()
+                .map(productMapper::toDTO)
+                .toList();
     }
 
     @Override
     public List<ProductDTO> findProductsByName(String productName) {
-        List<ProductDTO> products = productRepository.findByName(productName).stream().map(productMapper::toDTO).toList();
-        return checkingForNull(products);
+        return productRepository.findByNameContains(productName).stream()
+                .map(productMapper::toDTO)
+                .toList();
     }
 
     @Override
     public List<ProductDTO> findProductsByProductTypeAndRestaurantId(ProductType type, Long restaurantId) {
-        List<ProductDTO> products = productRepository.findByTypeAndRestaurantId(type, restaurantId).stream().map(productMapper::toDTO).toList();
-        return checkingForNull(products);
+        return productRepository.findByTypeAndRestaurantId(type, restaurantId).stream()
+                .map(productMapper::toDTO)
+                .toList();
     }
 
     @Override
     public List<ProductDTO> findProductsByProductType(ProductType type) {
-        List<ProductDTO> products = productRepository.findByType(type).stream().map(productMapper::toDTO).toList();
-        return checkingForNull(products);
+        return productRepository.findByType(type).stream()
+                .map(productMapper::toDTO)
+                .toList();
     }
 
     @Override
     public List<ProductDTO> findProductsByRestaurantId(Long restaurantId) {
-        List<ProductDTO> products = productRepository.findByRestaurantId(restaurantId).stream().map(productMapper::toDTO).toList();
-        return checkingForNull(products);
+        return productRepository.findByRestaurantId(restaurantId).stream()
+                .map(productMapper::toDTO)
+                .toList();
     }
 
     @Override
     @Transactional
     public ProductDTO updateProduct(ProductDTO productDTO) {
         findProductById(productDTO.getId());
-        return productMapper.toDTO(productRepository.save(productMapper.toProduct(checkUniqueName(productDTO))));
+        return productMapper.toDTO(
+                productRepository.save(
+                        productMapper.toProduct(
+                                checkUniqueName(productDTO)
+                        )
+                )
+        );
     }
 
     private ProductDTO checkUniqueName(ProductDTO productDTO) {
-        Restaurant restaurant = restaurantRepository.findById(productDTO.getRestaurantDTO().getId()).orElseThrow(() -> new ApplicationException(RESTAURANT_NOT_FOUND));
-        if (!restaurant.getProducts().stream().filter(product -> product.getName().equals(productDTO.getName())).toList().isEmpty()) {
+        Product product = productRepository.findById(productDTO.getId()).orElseThrow(
+                () -> new ApplicationException(PRODUCT_NOT_FOUND)
+        );
+        Restaurant restaurant = restaurantRepository.findById(product.getRestaurant().getId())
+                .orElseThrow(() -> new ApplicationException(RESTAURANT_NOT_FOUND));
+        if (!restaurant.getProducts().stream()
+                .filter(p -> p.getName().equals(productDTO.getName()))
+                .toList()
+                .isEmpty()) {
             throw new ApplicationException(PRODUCT_NOT_ADDED);
         }
-        productDTO.setRestaurantDTO(restaurantMapper.toDTO(restaurant));
-        return productDTO;
-    }
-
-    private List<ProductDTO> checkingForNull(List<ProductDTO> products) {
-        if (products.isEmpty()) {
-            throw new ApplicationException(PRODUCT_NOT_FOUND);
-        }
-        return products;
+        product.setRestaurant(restaurant);
+        return productMapper.toDTO(product);
     }
 }

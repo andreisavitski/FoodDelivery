@@ -23,9 +23,14 @@ public class AppConstants {
     public static final String SELECT_ORDER_FOR_DELIVERY = "select";
     public static final String COMPLETE_THE_ORDER_FOR_DELIVERY = "complete";
     public static final String REFUSAL_TO_DELIVERY_ORDER = "refusal";
-    public static final String SUPER_ADMIN = "SUPER_ADMIN";
-    public static final String ADMIN = "ADMIN";
-    public static final String CLIENT = "CLIENT";
-    public static final String COURIER = "COURIER";
     public static final Long NAMELESS_COURIER = 1L;
+    public static final String BEARER_PREFIX = "Bearer ";
+    public static final String HEADER_NAME = "Authorization";
+    public static final String TOKEN_KEY = "${token.signing.key}";
+    public static final String ID = "id";
+    public static final String LOGIN = "login";
+    public static final String EMAIL = "email";
+    public static final String ROLE = "role";
+    public static final Long TOKEN_VALIDITY_DURATION_MILLIS = 100000L * 60L * 24L;
+    public static final String SEQUENCE_GENERATOR = "seq";
 }

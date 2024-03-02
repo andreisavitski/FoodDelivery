@@ -1,7 +1,8 @@
-package by.pvt.fooddelivery.security;
+package by.pvt.fooddelivery.service.impl.security;
 
 import by.pvt.fooddelivery.exception.ApplicationException;
 import by.pvt.fooddelivery.repository.AdminRepository;
+import by.pvt.fooddelivery.security.AdminDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -17,6 +18,8 @@ public class AdminDetailService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return adminRepository.findByLogin(username).map(AdminDetails::new).orElseThrow(() -> new ApplicationException(ADMIN_NOT_FOUND));
+        return adminRepository.findByLogin(username).map(AdminDetails::new).orElseThrow(
+                () -> new ApplicationException(ADMIN_NOT_FOUND)
+        );
     }
 }

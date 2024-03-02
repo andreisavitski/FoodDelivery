@@ -7,7 +7,7 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 
-import static by.pvt.fooddelivery.domain.AbstractEntity.SEQUENCE_GENERATOR;
+import static by.pvt.fooddelivery.constant.AppConstants.SEQUENCE_GENERATOR;
 import static jakarta.persistence.EnumType.STRING;
 
 @Getter
