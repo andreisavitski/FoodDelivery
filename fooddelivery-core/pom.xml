@@ -15,7 +15,7 @@
     <properties>
         <maven.compiler.source>19</maven.compiler.source>
         <maven.compiler.target>19</maven.compiler.target>
-        <maven.compiler.plugin>3.5.1</maven.compiler.plugin>
+        <maven.compiler.plugin>3.8.1</maven.compiler.plugin>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <hibernatecache.version>6.0.0.Alpha7</hibernatecache.version>
         <postgresql.version>42.6.0</postgresql.version>
@@ -23,6 +23,7 @@
         <lombokmapstructbinding.version>0.2.0</lombokmapstructbinding.version>
         <mapstruct.version>1.5.5.Final</mapstruct.version>
         <ehcache.version>2.10.9.2</ehcache.version>
+        <liquibase.version>4.24.0</liquibase.version>
     </properties>
 
     <dependencies>
@@ -110,6 +111,13 @@
             <artifactId>mapstruct</artifactId>
             <version>${mapstruct.version}</version>
         </dependency>
+
+<!--        &lt;!&ndash; Liquibase &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>org.liquibase</groupId>-->
+<!--            <artifactId>liquibase-core</artifactId>-->
+<!--            <version>${liquibase.version}</version>-->
+<!--        </dependency>-->
 
         <!-- Ehcache -->
         <dependency>

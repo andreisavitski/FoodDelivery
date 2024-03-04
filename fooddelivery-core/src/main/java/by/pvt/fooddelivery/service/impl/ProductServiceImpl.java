@@ -6,8 +6,8 @@ import by.pvt.fooddelivery.dto.ProductDTO;
 import by.pvt.fooddelivery.enums.ProductType;
 import by.pvt.fooddelivery.exception.ApplicationException;
 import by.pvt.fooddelivery.mapper.ProductMapper;
-import by.pvt.fooddelivery.repository.ProductRepository;
 import by.pvt.fooddelivery.repository.RestaurantRepository;
+import by.pvt.fooddelivery.repository.product.springdata.interfaces.ProductRepository;
 import by.pvt.fooddelivery.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
@@ -21,7 +21,9 @@ import static by.pvt.fooddelivery.exception.ApplicationError.*;
 @Service
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
+    //        private final ProductRepositoryJPQL productRepository = new ProductRepositoryJPQLImpl();
     private final ProductRepository productRepository;
+    //    private final ProductRepositoryCriteria productRepository = new ProductRepositoryCriteriaImpl();
     private final RestaurantRepository restaurantRepository;
     private final ProductMapper productMapper;
 
@@ -72,6 +74,13 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<ProductDTO> findProductsByProductTypeAndRestaurantId(ProductType type, Long restaurantId) {
         return productRepository.findByTypeAndRestaurantId(type, restaurantId).stream()
+                .map(productMapper::toDTO)
+                .toList();
+    }
+
+    @Override
+    public List<ProductDTO> findByTypeAndRestaurantIdAndName(ProductType type, Long restaurantId, String name) {
+        return productRepository.findByTypeAndRestaurantIdAndNameContains(type, restaurantId, name).stream()
                 .map(productMapper::toDTO)
                 .toList();
     }

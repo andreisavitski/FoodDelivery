@@ -2,6 +2,7 @@ package by.pvt.fooddelivery.controller;
 
 import by.pvt.fooddelivery.dto.ProductDTO;
 import by.pvt.fooddelivery.dto.ProductGetterDTO;
+import by.pvt.fooddelivery.dto.ProductGetterWithNameDTO;
 import by.pvt.fooddelivery.enums.ProductType;
 import by.pvt.fooddelivery.logging.MethodLogging;
 import by.pvt.fooddelivery.service.ProductService;
@@ -61,6 +62,16 @@ public class ProductRestController {
     public List<ProductDTO> findProductsByProductTypeAndRestaurantId(@RequestBody ProductGetterDTO dto) {
         return productService.findProductsByProductTypeAndRestaurantId(
                 ProductType.valueOf(dto.getType()), dto.getRestaurantId()
+        );
+    }
+
+    @Operation(summary = "Get products by type and restaurant ID and name",
+            security = @SecurityRequirement(name = "bearerAuth"))
+    @MethodLogging
+    @PostMapping("name/restaurant")
+    public List<ProductDTO> findProductsByProductTypeAndRestaurantIdAndName(@RequestBody ProductGetterWithNameDTO dto) {
+        return productService.findByTypeAndRestaurantIdAndName(
+                ProductType.valueOf(dto.getType()), dto.getRestaurantId(), dto.getName()
         );
     }
 

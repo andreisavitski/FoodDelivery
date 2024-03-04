@@ -10,7 +10,7 @@ import by.pvt.fooddelivery.mapper.OrderMapper;
 import by.pvt.fooddelivery.repository.ClientRepository;
 import by.pvt.fooddelivery.repository.CourierRepository;
 import by.pvt.fooddelivery.repository.OrderRepository;
-import by.pvt.fooddelivery.repository.ProductRepository;
+import by.pvt.fooddelivery.repository.product.springdata.interfaces.ProductRepository;
 import by.pvt.fooddelivery.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
