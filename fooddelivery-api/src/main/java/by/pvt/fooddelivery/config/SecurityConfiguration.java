@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -54,9 +55,12 @@ public class SecurityConfiguration {
                     corsConfiguration.setAllowCredentials(true);
                     return corsConfiguration;
                 }))
+//                .csrf(csrfConfigurer ->
+//                        csrfConfigurer.ignoringRequestMatchers("/h2-console/**"))
                 .authorizeHttpRequests(request -> request
                         .requestMatchers("/admin/sign-in", "/admin/sign-up").permitAll()
                         .requestMatchers("/swagger-ui/**", "/swagger-resources/*", "/v3/api-docs/**").permitAll()
+//                        .requestMatchers("/h2-console/**").permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(ALWAYS))
                 .authenticationProvider(authenticationProvider())
