@@ -2,6 +2,7 @@ package by.pvt.fooddelivery.repository;
 
 import by.pvt.fooddelivery.domain.Order;
 import by.pvt.fooddelivery.enums.OrderStatus;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

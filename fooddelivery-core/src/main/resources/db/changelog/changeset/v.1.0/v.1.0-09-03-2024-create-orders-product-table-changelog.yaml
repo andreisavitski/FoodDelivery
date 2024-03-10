@@ -1,0 +1,29 @@
+databaseChangeLog:
+  - changeSet:
+      id: v.1.0-7-create-orders-product
+      author: as
+      changes:
+        - createTable:
+            tableName: orders_product
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: orders_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    unique: true
+                    foreignKeyName: orders
+              - column:
+                  name: product_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    unique: true
+                    foreignKeyName: product

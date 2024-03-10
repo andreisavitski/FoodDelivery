@@ -19,7 +19,7 @@ import java.math.BigDecimal;
 public class ProductDTO {
     private final Long id;
     @NotNull
-    private final RestaurantDTO restaurantDTO;
+    private RestaurantDTO restaurantDTO;
     @NotBlank
     @Size(min = 1, max = 50)
     private final String name;

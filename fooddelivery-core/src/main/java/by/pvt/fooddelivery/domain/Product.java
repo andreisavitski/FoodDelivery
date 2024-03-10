@@ -14,6 +14,7 @@ import static jakarta.persistence.EnumType.STRING;
 @Setter
 @Entity
 @Table(name = "product")
+@NamedEntityGraph(name = "product_entity-graph", attributeNodes = @NamedAttributeNode("restaurant"))
 @SequenceGenerator(name = SEQUENCE_GENERATOR, sequenceName = "product_seq", allocationSize = 1)
 public class Product extends AbstractEntity {
     @ManyToOne

@@ -10,7 +10,7 @@ import lombok.extern.jackson.Jacksonized;
 @Builder
 @Jacksonized
 public class SignInRequestDTO {
-    @Size(min = 5, max = 50)
+    @Size(min = 4, max = 50)
     @NotBlank
     private final String login;
     @Size(min = 8, max = 255)

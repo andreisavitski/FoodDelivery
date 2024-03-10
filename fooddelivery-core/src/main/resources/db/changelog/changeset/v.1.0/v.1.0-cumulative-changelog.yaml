@@ -1,0 +1,17 @@
+databaseChangeLog:
+  - include:
+      file: db/changelog/changeset/v.1.0/v.1.0-09-03-2024-create-admins-table-changelog.yaml
+  - include:
+      file: db/changelog/changeset/v.1.0/v.1.0-09-03-2024-create-client-table-changelog.yaml
+  - include:
+      file: db/changelog/changeset/v.1.0/v.1.0-09-03-2024-create-courier-table-changelog.yaml
+  - include:
+      file: db/changelog/changeset/v.1.0/v.1.0-09-03-2024-create-restaurant-table-changelog.yaml
+  - include:
+      file: db/changelog/changeset/v.1.0/v.1.0-09-03-2024-create-product-table-changelog.yaml
+  - include:
+      file: db/changelog/changeset/v.1.0/v.1.0-09-03-2024-create-orders-table-changelog.yaml
+  - include:
+      file: db/changelog/changeset/v.1.0/v.1.0-09-03-2024-create-orders-product-table-changelog.yaml
+  - include:
+      file: db/changelog/changeset/v.1.0/v.1.0-09-03-2024-insert-restaurant-changelog.xml
