@@ -1,4 +1,4 @@
-package by.pvt.fooddelivery.repository.product.springdata.graph;
+package by.pvt.fooddelivery.repository.product.graph;
 
 import by.pvt.fooddelivery.domain.Product;
 import by.pvt.fooddelivery.enums.ProductType;
@@ -9,12 +9,12 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ProductRepositorySpringDataGraph extends JpaRepository<Product, Long> {
+public interface ProductRepositoryGraph1v extends JpaRepository<Product, Long> {
+    @EntityGraph(type = EntityGraph.EntityGraphType.FETCH, attributePaths = "restaurant")
     List<Product> findByNameContains(String productName);
 
     List<Product> findByTypeAndRestaurantId(ProductType type, Long restaurantId);
 
-    @EntityGraph(attributePaths = {"item"})
     List<Product> findByTypeAndRestaurantIdAndNameContains(ProductType type, Long restaurantId, String name);
 
     List<Product> findByRestaurantId(Long restaurantId);

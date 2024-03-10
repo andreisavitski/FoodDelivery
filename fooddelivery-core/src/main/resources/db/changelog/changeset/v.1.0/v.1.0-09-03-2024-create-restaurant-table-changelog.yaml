@@ -1,10 +1,10 @@
 databaseChangeLog:
   - changeSet:
-      id: v.1.0-2-create-client
-      author: Andrei Savitski
+      id: v.1.0-4-create-restaurant
+      author: as
       changes:
         - createTable:
-            tableName: client
+            tableName: restaurant
             columns:
               - column:
                   name: id
@@ -14,25 +14,28 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: first_name
-                  type: varchar(255)
-              - column:
-                  name: last_name
-                  type: varchar(255)
-              - column:
-                  name: email
+                  name: name
                   type: varchar(255)
                   constraints:
                     nullable: false
-                    unique: false
+                    unique: true
               - column:
-                  name: login
+                  name: city
                   type: varchar(255)
                   constraints:
-                    unique: false
                     nullable: false
               - column:
-                  name: password
+                  name: street
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: number_of_house
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: index
                   type: varchar(255)
                   constraints:
                     nullable: false
@@ -40,8 +43,4 @@ databaseChangeLog:
                   name: phone_number
                   type: varchar(255)
                   constraints:
-                    unique: false
-                    nullable: false
-              - column:
-                  name: role
-                  type: varchar(255)
+                    unique: true

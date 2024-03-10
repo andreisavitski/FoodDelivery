@@ -1,0 +1,19 @@
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="v.1.0 insert-restaurant" author="as">
+        <insert tableName="restaurant">
+            <column name="id" value="666"/>
+            <column name="name" value="KFC"/>
+            <column name="city" value="Grodno"/>
+            <column name="street" value="Lenina"/>
+            <column name="number_of_house" value="3"/>
+            <column name="index" value="25586"/>
+            <column name="phone_number" value="+375295669854"/>
+        </insert>
+
+    </changeSet>
+
+</databaseChangeLog>

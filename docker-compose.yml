@@ -6,7 +6,6 @@ networks:
 
 services:
   fooddelivery-backend:
-#    image: fooddelivery-backend:1.0
     container_name: fooddelivery
     build: ./
     ports:
@@ -17,7 +16,6 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://fooddeliverydb:5432/fooddeliverydb
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=sa
-#      - SPRING_DATASOURCE_DRIVER-CLASS-NAME=org.postgresql.Driver
     networks:
       - web
 
@@ -50,7 +48,3 @@ services:
       - ./data/pgadmin-data:/var/lib/pgadmin
     networks:
       - web
-
-#volumes:
-#  db-data:
-#  pgadmin-data:

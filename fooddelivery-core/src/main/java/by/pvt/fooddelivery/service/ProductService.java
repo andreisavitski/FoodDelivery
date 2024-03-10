@@ -1,8 +1,8 @@
 package by.pvt.fooddelivery.service;
 
-import by.pvt.fooddelivery.domain.Product;
 import by.pvt.fooddelivery.dto.ProductDTO;
 import by.pvt.fooddelivery.enums.ProductType;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -13,11 +13,12 @@ public interface ProductService {
 
     ProductDTO findProductById(Long productId);
 
-    List<ProductDTO> findAllProducts();
+    Page<ProductDTO> findAllProducts(Long offset, Long pageSize, String field);
 
     List<ProductDTO> findProductsByName(String productName);
 
     List<ProductDTO> findProductsByProductTypeAndRestaurantId(ProductType type, Long restaurantId);
+
     List<ProductDTO> findByTypeAndRestaurantIdAndName(ProductType type, Long restaurantId, String name);
 
     List<ProductDTO> findProductsByProductType(ProductType type);
@@ -25,4 +26,5 @@ public interface ProductService {
     List<ProductDTO> findProductsByRestaurantId(Long restaurantId);
 
     ProductDTO updateProduct(ProductDTO productDTO);
+    List<ProductDTO> findByNameWithSpecification(String name);
 }

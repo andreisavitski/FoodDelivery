@@ -3,6 +3,7 @@ package by.pvt.fooddelivery.controller;
 import by.pvt.fooddelivery.dto.ProductDTO;
 import by.pvt.fooddelivery.dto.ProductGetterDTO;
 import by.pvt.fooddelivery.dto.ProductGetterWithNameDTO;
+import by.pvt.fooddelivery.dto.ProductPaginationDTO;
 import by.pvt.fooddelivery.enums.ProductType;
 import by.pvt.fooddelivery.logging.MethodLogging;
 import by.pvt.fooddelivery.service.ProductService;
@@ -10,6 +11,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,8 +27,15 @@ public class ProductRestController {
     @MethodLogging
     @GetMapping
     @Operation(summary = "Get all products", security = @SecurityRequirement(name = "bearerAuth"))
-    public List<ProductDTO> getProducts() {
-        return productService.findAllProducts();
+    public Page<ProductDTO> getProducts(@RequestBody ProductPaginationDTO dto) {
+        return productService.findAllProducts(dto.getOffset(), dto.getPageSize(), dto.getField());
+    }
+
+    @MethodLogging
+    @PostMapping("namespec")
+    @Operation(summary = "Get products by name with specification", security = @SecurityRequirement(name = "bearerAuth"))
+    public List<ProductDTO> getProductsByNameWithSpecification(@RequestBody String name) {
+        return productService.findByNameWithSpecification(name);
     }
 
     @Operation(summary = "Add a product", security = @SecurityRequirement(name = "bearerAuth"))

@@ -1,0 +1,43 @@
+databaseChangeLog:
+  - changeSet:
+      id: v.1.0-6-create-orders
+      author: as
+      changes:
+        - createTable:
+            tableName: orders
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: client_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: client
+              - column:
+                  name: service_fee
+                  type: numeric(38,2)
+              - column:
+                  name: cost_of_delivery
+                  type: numeric(38,2)
+              - column:
+                  name: total_cost
+                  type: numeric(38,2)
+              - column:
+                  name: ordered
+                  type: timestamp without time zone(6)
+              - column:
+                  name: order_status
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: courier_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: courier

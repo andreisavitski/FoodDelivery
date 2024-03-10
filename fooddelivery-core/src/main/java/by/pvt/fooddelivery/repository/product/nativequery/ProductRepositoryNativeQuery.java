@@ -1,4 +1,4 @@
-package by.pvt.fooddelivery.repository.product.springdata.nativequery;
+package by.pvt.fooddelivery.repository.product.nativequery;
 
 import by.pvt.fooddelivery.domain.Product;
 import by.pvt.fooddelivery.enums.ProductType;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ProductRepositorySpringDataNativeQuery extends JpaRepository<Product, Long> {
+public interface ProductRepositoryNativeQuery extends JpaRepository<Product, Long> {
     List<Product> findByNameContains(String productName);
 
     List<Product> findByTypeAndRestaurantId(ProductType type, Long restaurantId);

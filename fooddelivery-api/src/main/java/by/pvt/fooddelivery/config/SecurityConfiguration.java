@@ -55,12 +55,11 @@ public class SecurityConfiguration {
                     corsConfiguration.setAllowCredentials(true);
                     return corsConfiguration;
                 }))
-//                .csrf(csrfConfigurer ->
-//                        csrfConfigurer.ignoringRequestMatchers("/h2-console/**"))
                 .authorizeHttpRequests(request -> request
                         .requestMatchers("/admin/sign-in", "/admin/sign-up").permitAll()
+                        .requestMatchers("/client/sign-in", "/client/sign-up").permitAll()
+                        .requestMatchers("/courier/sign-in", "/courier/sign-up").permitAll()
                         .requestMatchers("/swagger-ui/**", "/swagger-resources/*", "/v3/api-docs/**").permitAll()
-//                        .requestMatchers("/h2-console/**").permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(ALWAYS))
                 .authenticationProvider(authenticationProvider())
