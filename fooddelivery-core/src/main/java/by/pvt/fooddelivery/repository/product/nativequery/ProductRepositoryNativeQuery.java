@@ -1,6 +1,6 @@
 package by.pvt.fooddelivery.repository.product.nativequery;
 
-import by.pvt.fooddelivery.domain.Product;
+import by.pvt.fooddelivery.entity.Product;
 import by.pvt.fooddelivery.enums.ProductType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

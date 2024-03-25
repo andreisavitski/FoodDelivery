@@ -2,17 +2,17 @@
 <ehcache>
     <defaultCache maxElementsInMemory="100" eternal="false"
                   timeToIdleSeconds="500" timeToLiveSeconds="1000"/>
-    <cache name="by.pvt.fooddelivery.domain.Restaurant"
+    <cache name="by.pvt.fooddelivery.entity.Restaurant"
            maxElementsInMemory="500"
            eternal="false"
            timeToIdleSeconds="30"
            timeToLiveSeconds="60"/>
-    <cache name="by.pvt.fooddelivery.domain.Admin"
+    <cache name="by.pvt.fooddelivery.entity.Admin"
            maxElementsInMemory="500"
            eternal="false"
            timeToIdleSeconds="30"
            timeToLiveSeconds="60"/>
-    <cache name="by.pvt.fooddelivery.domain.Product"
+    <cache name="by.pvt.fooddelivery.entity.Product"
            maxElementsInMemory="500"
            eternal="false"
            timeToIdleSeconds="30"

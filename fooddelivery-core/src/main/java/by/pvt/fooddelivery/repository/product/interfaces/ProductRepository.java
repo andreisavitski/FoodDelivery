@@ -1,6 +1,6 @@
 package by.pvt.fooddelivery.repository.product.interfaces;
 
-import by.pvt.fooddelivery.domain.Product;
+import by.pvt.fooddelivery.entity.Product;
 import by.pvt.fooddelivery.enums.ProductType;
 import lombok.NonNull;
 import org.springframework.data.jpa.domain.Specification;

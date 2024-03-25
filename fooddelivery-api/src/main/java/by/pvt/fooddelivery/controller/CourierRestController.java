@@ -17,10 +17,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("courier")
+@RequestMapping("/api/v1/courier")
 @RequiredArgsConstructor
 @Tag(name = "COURIER", description = "Allows you to manage couriers")
 public class CourierRestController {
+
     private final CourierService courierService;
 
     @Operation(summary = "Get all couriers", security = @SecurityRequirement(name = "bearerAuth"))
@@ -32,7 +33,7 @@ public class CourierRestController {
 
     @Operation(summary = "Get a courier by ID", security = @SecurityRequirement(name = "bearerAuth"))
     @MethodLogging
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public CourierResponseDTO getCourier(@PathVariable("id") Long id) {
         return courierService.findCourierById(id);
     }
@@ -45,7 +46,7 @@ public class CourierRestController {
     }
 
     @Operation(summary = "Delete a courier by ID", security = @SecurityRequirement(name = "bearerAuth"))
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public void deleteCourier(@PathVariable("id") Long id) {
         courierService.deleteCourierById(id);
     }

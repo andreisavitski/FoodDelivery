@@ -1,6 +1,6 @@
 package by.pvt.fooddelivery.service.impl;
 
-import by.pvt.fooddelivery.domain.Admin;
+import by.pvt.fooddelivery.entity.Admin;
 import by.pvt.fooddelivery.dto.AdminRequestDTO;
 import by.pvt.fooddelivery.dto.AdminResponseDTO;
 import by.pvt.fooddelivery.dto.security.JwtAuthenticationResponseDTO;
@@ -29,11 +29,17 @@ import static by.pvt.fooddelivery.exception.ApplicationError.ADMIN_NOT_FOUND;
 @Service
 @RequiredArgsConstructor
 public class AdminServiceImpl implements AdminService {
+
     private final CompositeUserDetailService compositeUserDetailService;
+
     private final AdminRepository adminRepository;
+
     private final AdminMapper adminMapper;
+
     private final PasswordEncoder passwordEncoder;
+
     private final JwtService jwtService;
+
     private final AuthenticationManager authenticationManager;
 
     @Override

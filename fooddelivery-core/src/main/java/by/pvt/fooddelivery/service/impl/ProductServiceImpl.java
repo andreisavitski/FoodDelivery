@@ -1,13 +1,15 @@
 package by.pvt.fooddelivery.service.impl;
 
-import by.pvt.fooddelivery.domain.Product;
-import by.pvt.fooddelivery.domain.Restaurant;
+import by.pvt.fooddelivery.entity.Product;
+import by.pvt.fooddelivery.entity.Restaurant;
 import by.pvt.fooddelivery.dto.ProductDTO;
 import by.pvt.fooddelivery.enums.ProductType;
 import by.pvt.fooddelivery.exception.ApplicationException;
 import by.pvt.fooddelivery.mapper.ProductMapper;
 import by.pvt.fooddelivery.repository.RestaurantRepository;
+import by.pvt.fooddelivery.repository.product.criteria.CriteriaProductRepository;
 import by.pvt.fooddelivery.repository.product.interfaces.ProductRepository;
+import by.pvt.fooddelivery.repository.product.jdbctemplate.JdbcTemplateProductRepository;
 import by.pvt.fooddelivery.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
@@ -27,8 +29,15 @@ import static by.pvt.fooddelivery.repository.product.specification.ProductSpecif
 @Service
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
+
+    private final CriteriaProductRepository criteriaProductRepository;
+
+    private final JdbcTemplateProductRepository templateProductRepository;
+
     private final ProductRepository productRepository;
+
     private final RestaurantRepository restaurantRepository;
+
     private final ProductMapper productMapper;
 
     @Override
@@ -111,6 +120,21 @@ public class ProductServiceImpl implements ProductService {
         Specification<Product> productSpecification = filterProductByName(name);
         List<Product> products = productRepository.findAll(productSpecification);
         return products.stream()
+                .map(productMapper::toDTO)
+                .toList();
+    }
+
+    @Override
+    public List<ProductDTO> findProductsByRestaurantIdWithJdbcTemplate(Long restaurantId) {
+        return templateProductRepository.findByRestaurantId(restaurantId).stream()
+                .map(productMapper::toDTO)
+                .toList();
+    }
+
+    @Override
+    public List<ProductDTO> findProductsByRestaurantIdWithCriteria(ProductType type, Long restaurantId, String name) {
+        return criteriaProductRepository.findByTypeAndRestaurantIdAndNameContains(type, restaurantId, name)
+                .stream()
                 .map(productMapper::toDTO)
                 .toList();
     }

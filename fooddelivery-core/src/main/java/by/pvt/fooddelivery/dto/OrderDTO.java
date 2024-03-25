@@ -8,20 +8,30 @@ import lombok.extern.jackson.Jacksonized;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 
 @Getter
 @Builder
 @Jacksonized
 public class OrderDTO {
+
     private final Long id;
+
     @NotBlank
     private final String clientLogin;
+
     private final BigDecimal totalCost;
+
     private final BigDecimal serviceFee;
+
     private final BigDecimal costOfDelivery;
+
     private final LocalDateTime ordered;
-    private final Map<ProductDTO, Long> products;
+
+    private final List<ProductDTO> products;
+
     private final OrderStatus orderStatus;
+
     private final CourierResponseDTO courierResponseDTO;
 }

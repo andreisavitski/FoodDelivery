@@ -41,7 +41,9 @@ import static org.springframework.security.config.http.SessionCreationPolicy.ALW
 @EnableMethodSecurity
 @RequiredArgsConstructor
 public class SecurityConfiguration {
+
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
+
     private final CompositeUserDetailService compositeUserDetailService;
 
     @Bean
@@ -56,9 +58,9 @@ public class SecurityConfiguration {
                     return corsConfiguration;
                 }))
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers("/admin/sign-in", "/admin/sign-up").permitAll()
-                        .requestMatchers("/client/sign-in", "/client/sign-up").permitAll()
-                        .requestMatchers("/courier/sign-in", "/courier/sign-up").permitAll()
+                        .requestMatchers("/api/v1/admin/sign-in", "/api/v1/admin/sign-up").permitAll()
+                        .requestMatchers("/api/v1/client/sign-in", "/api/v1/client/sign-up").permitAll()
+                        .requestMatchers("/api/v1/courier/sign-in", "/api/v1/courier/sign-up").permitAll()
                         .requestMatchers("/swagger-ui/**", "/swagger-resources/*", "/v3/api-docs/**").permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(ALWAYS))

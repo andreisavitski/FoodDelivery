@@ -12,10 +12,11 @@ public interface OrderService {
     OrderDTO findOrderById(Long orderId);
 
     List<OrderDTO> findAllOrders();
+    List<OrderDTO> findOrdersByClientId(Long id);
 
     OrderDTO updateOrder(OrderDTO orderDTO);
 
-    void updateProductOrder(Long quantity, Long orderId, Long productId, String condition);
+    void updateProductOrder(Long orderId, Long productId, String condition);
 
     OrderDTO checkout(Long orderId);
 

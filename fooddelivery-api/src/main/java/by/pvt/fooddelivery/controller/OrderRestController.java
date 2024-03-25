@@ -17,10 +17,11 @@ import java.util.List;
 import static by.pvt.fooddelivery.constant.AppConstants.*;
 
 @RestController
-@RequestMapping("order")
+@RequestMapping("/api/v1/order")
 @RequiredArgsConstructor
 @Tag(name = "ORDER", description = "Allows you to manage orders")
 public class OrderRestController {
+
     private final OrderService orderService;
 
     @Operation(summary = "Getting all orders", security = @SecurityRequirement(name = "bearerAuth"))
@@ -28,6 +29,13 @@ public class OrderRestController {
     @GetMapping
     public List<OrderDTO> getOrders() {
         return orderService.findAllOrders();
+    }
+
+    @Operation(summary = "Getting orders by client ID", security = @SecurityRequirement(name = "bearerAuth"))
+    @MethodLogging
+    @PostMapping("/client/{id}")
+    public List<OrderDTO> getOrdersByClientId(@PathVariable("id") Long id) {
+        return orderService.findOrdersByClientId(id);
     }
 
     @Operation(summary = "Create an order", security = @SecurityRequirement(name = "bearerAuth"))
@@ -39,7 +47,7 @@ public class OrderRestController {
 
     @Operation(summary = "Getting an order by ID", security = @SecurityRequirement(name = "bearerAuth"))
     @MethodLogging
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public OrderDTO getOrder(@PathVariable("id") Long id) {
         return orderService.findOrderById(id);
     }
@@ -52,57 +60,53 @@ public class OrderRestController {
     }
 
     @Operation(summary = "Deleting an order by ID", security = @SecurityRequirement(name = "bearerAuth"))
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public void deleteOrder(@PathVariable("id") Long id) {
         orderService.deleteOrderById(id);
     }
 
     @Operation(summary = "Add product to order", security = @SecurityRequirement(name = "bearerAuth"))
-    @PostMapping("product")
+    @PostMapping("/product")
     public void addProductToOrder(@RequestBody OrderProductChangerDTO dto) {
-        orderService.updateProductOrder(
-                dto.getQuantityProducts(), dto.getOrderId(), dto.getProductId(), ADD_PRODUCT_ORDER
-        );
+        orderService.updateProductOrder(dto.getOrderId(), dto.getProductId(), ADD_PRODUCT_ORDER);
     }
 
     @Operation(summary = "Remove product from order", security = @SecurityRequirement(name = "bearerAuth"))
-    @DeleteMapping("product")
+    @DeleteMapping("/product")
     public void removeProductFromOrder(@RequestBody OrderProductChangerDTO dto) {
-        orderService.updateProductOrder(
-                dto.getQuantityProducts(), dto.getOrderId(), dto.getProductId(), DELETE_PRODUCT_ORDER
-        );
+        orderService.updateProductOrder(dto.getOrderId(), dto.getProductId(), DELETE_PRODUCT_ORDER);
     }
 
     @Operation(summary = "Placing an order", security = @SecurityRequirement(name = "bearerAuth"))
     @MethodLogging
-    @GetMapping("checkout/{id}")
+    @GetMapping("/checkout/{id}")
     public OrderDTO checkout(@PathVariable("id") Long id) {
         return orderService.checkout(id);
     }
 
     @Operation(summary = "Search for available orders", security = @SecurityRequirement(name = "bearerAuth"))
     @MethodLogging
-    @GetMapping("free")
+    @GetMapping("/free")
     List<OrderDTO> findOrdersForDelivery() {
         return orderService.findOrdersForDelivery();
     }
 
     @Operation(summary = "Order fulfillment by courier", security = @SecurityRequirement(name = "bearerAuth"))
-    @PostMapping("select")
+    @PostMapping("/select")
     OrderDTO selectOrderForDelivery(@RequestBody OrderDeliveryUpdaterDTO dto) {
-        return orderService.changeOfOrderDeliveryStatus(dto.getOrderId(), dto.getOrderId(), SELECT_ORDER_FOR_DELIVERY);
+        return orderService.changeOfOrderDeliveryStatus(dto.getOrderId(), dto.getCourierId(), SELECT_ORDER_FOR_DELIVERY);
     }
 
     @Operation(summary = "Cancellation of an order", security = @SecurityRequirement(name = "bearerAuth"))
     @MethodLogging
-    @PostMapping("refusal")
+    @PostMapping("/refusal")
     OrderDTO refusalToDeliveryOrder(@RequestBody OrderDeliveryUpdaterDTO dto) {
-        return orderService.changeOfOrderDeliveryStatus(dto.getOrderId(), dto.getOrderId(), REFUSAL_TO_DELIVERY_ORDER);
+        return orderService.changeOfOrderDeliveryStatus(dto.getOrderId(), dto.getCourierId(), REFUSAL_TO_DELIVERY_ORDER);
     }
 
     @Operation(summary = "Completion of order by courier", security = @SecurityRequirement(name = "bearerAuth"))
     @MethodLogging
-    @PostMapping("complete")
+    @PostMapping("/complete")
     OrderDTO completeTheOrderForDelivery(@RequestBody OrderDeliveryUpdaterDTO dto) {
         return orderService.changeOfOrderDeliveryStatus(
                 dto.getOrderId(), dto.getOrderId(), COMPLETE_THE_ORDER_FOR_DELIVERY

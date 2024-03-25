@@ -1,26 +1,26 @@
 package by.pvt.fooddelivery.service.impl;
 
-import by.pvt.fooddelivery.domain.Client;
-import by.pvt.fooddelivery.domain.Courier;
-import by.pvt.fooddelivery.domain.Order;
-import by.pvt.fooddelivery.domain.Product;
 import by.pvt.fooddelivery.dto.OrderDTO;
+import by.pvt.fooddelivery.entity.Client;
+import by.pvt.fooddelivery.entity.Courier;
+import by.pvt.fooddelivery.entity.Order;
+import by.pvt.fooddelivery.entity.Product;
 import by.pvt.fooddelivery.exception.ApplicationException;
 import by.pvt.fooddelivery.mapper.OrderMapper;
+import by.pvt.fooddelivery.mapper.OrderMessageMapper;
 import by.pvt.fooddelivery.repository.ClientRepository;
 import by.pvt.fooddelivery.repository.CourierRepository;
 import by.pvt.fooddelivery.repository.OrderRepository;
 import by.pvt.fooddelivery.repository.product.interfaces.ProductRepository;
 import by.pvt.fooddelivery.service.OrderService;
+import by.pvt.fooddelivery.service.rabbitmq.RabbitMQProducer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static by.pvt.fooddelivery.constant.AppConstants.*;
 import static by.pvt.fooddelivery.enums.CourierStatus.BUSY;
@@ -28,16 +28,24 @@ import static by.pvt.fooddelivery.enums.CourierStatus.FREE;
 import static by.pvt.fooddelivery.enums.OrderStatus.*;
 import static by.pvt.fooddelivery.exception.ApplicationError.*;
 import static java.math.BigDecimal.ZERO;
-import static java.math.BigDecimal.valueOf;
 
 @Service
 @RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
+
+    private final RabbitMQProducer producerService;
+
     private final OrderRepository orderRepository;
+
     private final ProductRepository productRepository;
+
     private final ClientRepository clientRepository;
+
     private final CourierRepository courierRepository;
+
     private final OrderMapper orderMapper;
+
+    private final OrderMessageMapper orderMessageMapper;
 
     @Override
     @Transactional
@@ -46,7 +54,6 @@ public class OrderServiceImpl implements OrderService {
         order.setClient(clientRepository.findByLogin(clientOrder).orElseThrow(
                 () -> new ApplicationException(CLIENT_NOT_FOUND)
         ));
-        order.setProducts(new HashMap<>());
         order.setOrdered(LocalDateTime.now());
         order.setOrderStatus(NOT_FORMED);
         order.setCourier(courierRepository.findById(NAMELESS_COURIER).orElseThrow(
@@ -76,6 +83,13 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public List<OrderDTO> findOrdersByClientId(Long id) {
+        return orderRepository.findByClientId(id).stream()
+                .map(orderMapper::toDTO)
+                .toList();
+    }
+
+    @Override
     @Transactional
     public OrderDTO updateOrder(OrderDTO orderDTO) {
         findOrderById(orderDTO.getId());
@@ -89,13 +103,13 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
-    public void updateProductOrder(Long quantity, Long orderId, Long productId, String condition) {
+    public void updateProductOrder(Long orderId, Long productId, String condition) {
         Order order = orderRepository.findById(orderId).orElseThrow(() -> new ApplicationException(ORDER_NOT_FOUND));
-        Map<Product, Long> orderProducts = order.getProducts();
+        List<Product> orderProducts = order.getProducts();
         Product product = productRepository.findById(productId).orElseThrow(
                 () -> new ApplicationException(PRODUCT_NOT_FOUND)
         );
-        updateProductOrder(quantity, product, orderProducts, condition);
+        updateProductOrder(product, orderProducts, condition);
         order.setProducts(orderProducts);
         orderRepository.save(costChecking(orderProducts, order));
     }
@@ -139,50 +153,51 @@ public class OrderServiceImpl implements OrderService {
                 order.setOrdered(LocalDateTime.now());
                 order.setOrderStatus(DONE);
                 courier.setStatus(FREE);
+                producerService.sendJsonMessage(orderMessageMapper.toDTO(order));
             }
         }
         return orderMapper.toDTO(orderRepository.save(order));
     }
 
 
-    private BigDecimal calculationTotalCost(Map<Product, Long> products) {
+    private BigDecimal calculationTotalCost(List<Product> products) {
         BigDecimal totalCost = ZERO;
-        for (Map.Entry<Product, Long> entry : products.entrySet()) {
-            totalCost = totalCost.add(entry.getKey().getPrice().multiply(valueOf(entry.getValue())));
+        if (products == null) {
+            return ZERO;
+        }
+        for (Product entry : products) {
+            totalCost = totalCost.add(entry.getPrice().multiply((entry.getPrice())));
         }
         return totalCost;
     }
 
-    private void updateProductOrder(Long quantity, Product product, Map<Product, Long> orderProducts,
+    private void updateProductOrder(Product product, List<Product> orderProducts,
                                     String condition) {
         switch (condition) {
             case DELETE_PRODUCT_ORDER -> {
-                if (orderProducts.get(product) == null) {
+                if (!orderProducts.contains(product)) {
                     throw new ApplicationException(PRODUCT_NOT_FOUND);
                 }
-                orderProducts.put(product, orderProducts.get(product) - quantity);
-                if (orderProducts.get(product) <= 0) {
-                    orderProducts.remove(product);
-                }
+                orderProducts.remove(product);
             }
             case ADD_PRODUCT_ORDER -> {
                 if (!restaurantChecking(product, orderProducts)) {
                     throw new ApplicationException(ERROR_ADDING_A_PRODUCT);
                 }
-                orderProducts.merge(product, quantity, Long::sum);
+                orderProducts.add(product);
             }
         }
     }
 
-    private boolean restaurantChecking(Product product, Map<Product, Long> orderProducts) {
+    private boolean restaurantChecking(Product product, List<Product> orderProducts) {
         if (orderProducts.isEmpty()) {
             return true;
         }
-        List<Product> products = orderProducts.keySet().stream().toList();
+        List<Product> products = orderProducts.stream().toList();
         return products.get(0).getRestaurant().equals(product.getRestaurant());
     }
 
-    private Order costChecking(Map<Product, Long> orderProducts, Order order) {
+    private Order costChecking(List<Product> orderProducts, Order order) {
         BigDecimal totalCost = calculationTotalCost(orderProducts);
         if (totalCost.compareTo(FREE_DELIVERY_CONDITION) < 0 &&
                 totalCost.compareTo(SERVICE_FEE.add(COST_OF_DELIVERY)) != 0) {

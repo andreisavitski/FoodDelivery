@@ -5,9 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import lombok.extern.jackson.Jacksonized;
 
 import java.math.BigDecimal;
@@ -17,16 +15,22 @@ import java.math.BigDecimal;
 @Builder
 @Jacksonized
 public class ProductDTO {
-    private final Long id;
+
+    private Long id;
+
     @NotNull
     private RestaurantDTO restaurantDTO;
+
     @NotBlank
     @Size(min = 1, max = 50)
-    private final String name;
+    private String name;
+
     @Size(min = 1, max = 2000)
-    private final String description;
+    private String description;
+
     @Positive
-    private final BigDecimal price;
+    private BigDecimal price;
+
     @NotNull
-    private final ProductType type;
+    private ProductType type;
 }

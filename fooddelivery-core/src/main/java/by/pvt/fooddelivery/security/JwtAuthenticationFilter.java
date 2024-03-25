@@ -25,7 +25,9 @@ import static by.pvt.fooddelivery.constant.AppConstants.HEADER_NAME;
 @Component
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
+
     private final JwtService jwtService;
+
     private final CompositeUserDetailService compositeUserDetailService;
 
     @Override

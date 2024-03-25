@@ -18,10 +18,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("product")
+@RequestMapping("/api/v1/product")
 @RequiredArgsConstructor
 @Tag(name = "PRODUCT", description = "Allows you to manage products")
 public class ProductRestController {
+
     private final ProductService productService;
 
     @MethodLogging
@@ -32,7 +33,7 @@ public class ProductRestController {
     }
 
     @MethodLogging
-    @PostMapping("namespec")
+    @PostMapping("/namespec")
     @Operation(summary = "Get products by name with specification", security = @SecurityRequirement(name = "bearerAuth"))
     public List<ProductDTO> getProductsByNameWithSpecification(@RequestBody String name) {
         return productService.findByNameWithSpecification(name);
@@ -47,7 +48,7 @@ public class ProductRestController {
 
     @Operation(summary = "Get a product by ID", security = @SecurityRequirement(name = "bearerAuth"))
     @MethodLogging
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public ProductDTO getProduct(@PathVariable("id") Long id) {
         return productService.findProductById(id);
     }
@@ -60,14 +61,14 @@ public class ProductRestController {
     }
 
     @Operation(summary = "Delete product", security = @SecurityRequirement(name = "bearerAuth"))
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public void deleteProduct(@PathVariable("id") Long id) {
         productService.deleteProductById(id);
     }
 
     @Operation(summary = "Get products by type and restaurant ID", security = @SecurityRequirement(name = "bearerAuth"))
     @MethodLogging
-    @PostMapping("restaurant")
+    @PostMapping("/restaurant")
     public List<ProductDTO> findProductsByProductTypeAndRestaurantId(@RequestBody ProductGetterDTO dto) {
         return productService.findProductsByProductTypeAndRestaurantId(
                 ProductType.valueOf(dto.getType()), dto.getRestaurantId()
@@ -77,7 +78,7 @@ public class ProductRestController {
     @Operation(summary = "Get products by type and restaurant ID and name",
             security = @SecurityRequirement(name = "bearerAuth"))
     @MethodLogging
-    @PostMapping("name/restaurant")
+    @PostMapping("/name/restaurant")
     public List<ProductDTO> findProductsByProductTypeAndRestaurantIdAndName(@RequestBody ProductGetterWithNameDTO dto) {
         return productService.findByTypeAndRestaurantIdAndName(
                 ProductType.valueOf(dto.getType()), dto.getRestaurantId(), dto.getName()
@@ -86,22 +87,41 @@ public class ProductRestController {
 
     @Operation(summary = "Receive products using restaurant ID", security = @SecurityRequirement(name = "bearerAuth"))
     @MethodLogging
-    @GetMapping("restaurant/{id}")
+    @GetMapping("/restaurant/{id}")
     public List<ProductDTO> findProductsByRestaurantId(@PathVariable("id") Long restaurantId) {
         return productService.findProductsByRestaurantId(restaurantId);
     }
 
     @Operation(summary = "Get products by name", security = @SecurityRequirement(name = "bearerAuth"))
     @MethodLogging
-    @PostMapping("name")
+    @PostMapping("/name")
     public List<ProductDTO> findProductsByName(@RequestBody String productName) {
         return productService.findProductsByName(productName);
     }
 
     @Operation(summary = "Get products by type", security = @SecurityRequirement(name = "bearerAuth"))
     @MethodLogging
-    @PostMapping("type")
+    @PostMapping("/type")
     public List<ProductDTO> findProductsByProductType(@RequestBody ProductType type) {
         return productService.findProductsByProductType(type);
+    }
+
+    @Operation(summary = "Receive products using restaurant ID with Jdbc Template",
+            security = @SecurityRequirement(name = "bearerAuth"))
+    @MethodLogging
+    @GetMapping("/jdbc/restaurant/{id}")
+    public List<ProductDTO> findProductsByRestaurantIdWithJdbcTemplate(@PathVariable("id") Long restaurantId) {
+        return productService.findProductsByRestaurantIdWithJdbcTemplate(restaurantId);
+    }
+
+    @Operation(summary = "Get products by type and restaurant ID and name with Criteria",
+            security = @SecurityRequirement(name = "bearerAuth"))
+    @MethodLogging
+    @PostMapping("/criteria/name/restaurant")
+    public List<ProductDTO> findProductsByProductTypeAndRestaurantIdAndNameWithCriteria(
+            @RequestBody ProductGetterWithNameDTO dto) {
+        return productService.findProductsByRestaurantIdWithCriteria(
+                ProductType.valueOf(dto.getType()), dto.getRestaurantId(), dto.getName()
+        );
     }
 }

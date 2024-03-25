@@ -4,26 +4,31 @@ databaseChangeLog:
       author: as
       changes:
         - createTable:
-            tableName: orders_product
+            tableName: orders_products
             columns:
               - column:
-                  name: id
+                  name: order_id
                   type: bigint
-                  autoIncrement: true
                   constraints:
                     primaryKey: true
                     nullable: false
-              - column:
-                  name: orders_id
-                  type: bigint
-                  constraints:
-                    nullable: false
-                    unique: true
                     foreignKeyName: orders
               - column:
                   name: product_id
                   type: bigint
                   constraints:
+                    primaryKey: true
                     nullable: false
-                    unique: true
                     foreignKeyName: product
+        - addForeignKeyConstraint:
+            constraintName: fk_orders_products
+            baseTableName: orders_products
+            baseColumnNames: order_id
+            referencedTableName: orders
+            referencedColumnNames: id
+        - addForeignKeyConstraint:
+            constraintName: fk_products_orders
+            baseTableName: orders_products
+            baseColumnNames: product_id
+            referencedTableName: product
+            referencedColumnNames: id

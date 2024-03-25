@@ -1,6 +1,6 @@
 package by.pvt.fooddelivery.repository;
 
-import by.pvt.fooddelivery.domain.Client;
+import by.pvt.fooddelivery.entity.Client;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

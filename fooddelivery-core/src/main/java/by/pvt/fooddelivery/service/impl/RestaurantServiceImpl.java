@@ -18,7 +18,9 @@ import static by.pvt.fooddelivery.exception.ApplicationError.RESTAURANT_NOT_FOUN
 @Service
 @RequiredArgsConstructor
 public class RestaurantServiceImpl implements RestaurantService {
+
     private final RestaurantRepository restaurantRepository;
+
     private final RestaurantMapper restaurantMapper;
 
     @Override

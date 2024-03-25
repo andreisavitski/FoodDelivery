@@ -1,6 +1,6 @@
 package by.pvt.fooddelivery.service.impl;
 
-import by.pvt.fooddelivery.domain.Client;
+import by.pvt.fooddelivery.entity.Client;
 import by.pvt.fooddelivery.dto.ClientRequestDTO;
 import by.pvt.fooddelivery.dto.ClientResponseDTO;
 import by.pvt.fooddelivery.dto.security.JwtAuthenticationResponseDTO;
@@ -29,11 +29,17 @@ import static by.pvt.fooddelivery.exception.ApplicationError.CLIENT_NOT_FOUND;
 @Service
 @RequiredArgsConstructor
 public class ClientServiceImpl implements ClientService {
+
     private final CompositeUserDetailService compositeUserDetailService;
+
     private final AuthenticationManager authenticationManager;
+
     private final ClientRepository clientRepository;
+
     private final ClientMapper clientMapper;
+
     private final PasswordEncoder passwordEncoder;
+
     private final JwtService jwtService;
 
     @Override

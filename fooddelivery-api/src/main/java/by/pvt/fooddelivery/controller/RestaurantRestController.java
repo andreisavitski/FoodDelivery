@@ -13,10 +13,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("restaurant")
+@RequestMapping("/api/v1/restaurant")
 @RequiredArgsConstructor
 @Tag(name = "RESTAURANT", description = "Allows you to manage restaurants")
 public class RestaurantRestController {
+
     private final RestaurantService restaurantService;
 
     @Operation(summary = "Get all restaurants", security = @SecurityRequirement(name = "bearerAuth"))
@@ -35,7 +36,7 @@ public class RestaurantRestController {
 
     @Operation(summary = "Get a restaurant by ID", security = @SecurityRequirement(name = "bearerAuth"))
     @MethodLogging
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public RestaurantDTO getRestaurant(@PathVariable("id") Long id) {
         return restaurantService.findRestaurantById(id);
     }
@@ -48,7 +49,7 @@ public class RestaurantRestController {
     }
 
     @Operation(summary = "Delete restaurant", security = @SecurityRequirement(name = "bearerAuth"))
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public void deleteRestaurant(@PathVariable("id") Long id) {
         restaurantService.deleteRestaurantById(id);
     }

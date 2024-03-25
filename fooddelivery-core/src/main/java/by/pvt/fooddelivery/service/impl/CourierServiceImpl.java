@@ -1,6 +1,6 @@
 package by.pvt.fooddelivery.service.impl;
 
-import by.pvt.fooddelivery.domain.Courier;
+import by.pvt.fooddelivery.entity.Courier;
 import by.pvt.fooddelivery.dto.CourierRequestDTO;
 import by.pvt.fooddelivery.dto.CourierResponseDTO;
 import by.pvt.fooddelivery.dto.security.JwtAuthenticationResponseDTO;
@@ -30,11 +30,17 @@ import static by.pvt.fooddelivery.exception.ApplicationError.COURIER_NOT_FOUND;
 @Service
 @RequiredArgsConstructor
 public class CourierServiceImpl implements CourierService {
+
     private final CompositeUserDetailService compositeUserDetailService;
+
     private final AuthenticationManager authenticationManager;
+
     private final JwtService jwtService;
+
     private final CourierRepository courierRepository;
+
     private final CourierMapper courierMapper;
+
     private final PasswordEncoder passwordEncoder;
 
     @Override

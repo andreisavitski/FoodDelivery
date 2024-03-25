@@ -6,7 +6,7 @@ networks:
 
 services:
   fooddelivery-backend:
-    container_name: fooddelivery
+    container_name: fooddelivery-backend
     build: ./
     ports:
       - "8080:8080"
@@ -16,6 +16,20 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://fooddeliverydb:5432/fooddeliverydb
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=sa
+      - eureka.client.serviceUrl.defaultZone=http://eureka-server:8761/eureka/
+    networks:
+      - web
+
+  fooddelivery-order-logger:
+    container_name: fooddelivery-order-logger_container
+    image: fooddelivery-order-logger:latest
+    environment:
+       - SPRING_DATA_MONGODB_URI=mongodb://orderloggerdb:27017/orderloggerdb
+       - eureka.client.serviceUrl.defaultZone=http://eureka-server:8761/eureka/
+    ports:
+      - "8081:8081"
+    depends_on:
+      - orderloggerdb
     networks:
       - web
 
@@ -26,7 +40,7 @@ services:
       - POSTGRES_DB=fooddeliverydb
       - POSTGRES_USER=${DB_USER:-postgres}
       - POSTGRES_PASSWORD=${DB_PASSWORD:-sa}
-      - PGDATA=/data/postgres
+#      - PGDATA=/data/postgres
     ports:
       - "5432:5432"
     volumes:
@@ -35,12 +49,25 @@ services:
     networks:
       - web
 
+  orderloggerdb:
+    image: mongo:latest
+    container_name: orderloggerdb
+    restart: always
+    environment:
+      - MONGO_INITDB_DATABASE=orderloggerdb
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./data/db-data:/data/mongo
+    networks:
+      - web
+
   pgadmin:
-    container_name: pgadmin4
+    container_name: pgadmin4_container
     image: dpage/pgadmin4:7.3
     restart: always
     environment:
-      PGADMIN_DEFAULT_EMAIL: admin1@admin.com
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
       PGADMIN_DEFAULT_PASSWORD: root
     ports:
       - "5050:80"
@@ -48,3 +75,13 @@ services:
       - ./data/pgadmin-data:/var/lib/pgadmin
     networks:
       - web
+
+  eureka-server:
+    image: fooddelivery-eureka-server:latest
+    ports:
+      - "8761:8761"
+    networks:
+      - web
+    environment:
+      eureka.instance.hostname: eureka-server
+      eureka.client.serviceUrl.defaultZone: http://eureka-server:8761/eureka
