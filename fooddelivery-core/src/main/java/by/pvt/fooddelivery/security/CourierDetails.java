@@ -1,6 +1,6 @@
 package by.pvt.fooddelivery.security;
 
-import by.pvt.fooddelivery.domain.Courier;
+import by.pvt.fooddelivery.entity.Courier;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

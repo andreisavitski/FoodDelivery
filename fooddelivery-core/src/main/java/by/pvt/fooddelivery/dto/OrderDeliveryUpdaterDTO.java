@@ -8,6 +8,8 @@ import lombok.extern.jackson.Jacksonized;
 @Builder
 @Jacksonized
 public class OrderDeliveryUpdaterDTO {
+
     private final Long orderId;
+
     private final Long courierId;
 }

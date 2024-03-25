@@ -15,20 +15,27 @@ import static by.pvt.fooddelivery.constant.AppConstants.PHONE_NUMBER_VALIDATION;
 @Builder
 @Jacksonized
 public class AdminRequestDTO {
+
     private final Long id;
+
     @NotBlank
     @Size(min = 1, max = 50)
     private final String firstName;
+
     @NotBlank
     @Size(min = 1, max = 50)
     private final String lastName;
+
     @Email
     private final String email;
+
     @NotBlank
     @Size(min = 1, max = 50)
     private final String login;
+
     @Pattern(regexp = PASSWORD_VALIDATION)
     private final String password;
+
     @Pattern(regexp = PHONE_NUMBER_VALIDATION)
     private final String phoneNumber;
 }

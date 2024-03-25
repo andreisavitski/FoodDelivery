@@ -12,5 +12,6 @@ import lombok.extern.jackson.Jacksonized;
 @NoArgsConstructor
 @AllArgsConstructor
 public class JwtAuthenticationResponseDTO {
+
     private String token;
 }

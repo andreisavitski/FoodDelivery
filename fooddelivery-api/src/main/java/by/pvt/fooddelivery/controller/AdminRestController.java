@@ -17,10 +17,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("admin")
+@RequestMapping("/api/v1/admin")
 @RequiredArgsConstructor
 @Tag(name = "ADMIN", description = "Allows you to manage administrators")
 public class AdminRestController {
+
     private final AdminService adminService;
 
     @Operation(summary = "Get all administrators", security = @SecurityRequirement(name = "bearerAuth"))
@@ -32,7 +33,7 @@ public class AdminRestController {
 
     @Operation(summary = "Get an administrator by ID", security = @SecurityRequirement(name = "bearerAuth"))
     @MethodLogging
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public AdminResponseDTO getAdmin(@PathVariable("id") Long id) {
         return adminService.findAdminById(id);
     }
@@ -45,7 +46,7 @@ public class AdminRestController {
     }
 
     @Operation(summary = "Delete an administrator by ID", security = @SecurityRequirement(name = "bearerAuth"))
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public void deleteAdmin(@PathVariable("id") Long id) {
         adminService.deleteAdminById(id);
     }

@@ -8,6 +8,8 @@ import lombok.extern.jackson.Jacksonized;
 @Builder
 @Jacksonized
 public class ProductGetterDTO {
+
     private final String type;
+
     private final Long restaurantId;
 }

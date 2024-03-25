@@ -1,13 +1,12 @@
-package by.pvt.fooddelivery.domain;
+package by.pvt.fooddelivery.entity;
 
 import by.pvt.fooddelivery.enums.ProductType;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.math.BigDecimal;
+import java.util.List;
 
-import static by.pvt.fooddelivery.constant.AppConstants.SEQUENCE_GENERATOR;
 import static jakarta.persistence.EnumType.STRING;
 
 @Getter
@@ -15,18 +14,25 @@ import static jakarta.persistence.EnumType.STRING;
 @Entity
 @Table(name = "product")
 @NamedEntityGraph(name = "product_entity-graph", attributeNodes = @NamedAttributeNode("restaurant"))
-@SequenceGenerator(name = SEQUENCE_GENERATOR, sequenceName = "product_seq", allocationSize = 1)
 public class Product extends AbstractEntity {
+
     @ManyToOne
     @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
+
     @Column(name = "name")
     private String name;
+
     @Column(name = "description")
     private String description;
+
     @Column(name = "price")
     private BigDecimal price;
+
     @Enumerated(STRING)
     @Column(name = "type")
     private ProductType type;
+
+    @ManyToMany(mappedBy = "products")
+    private List<Order> orders;
 }

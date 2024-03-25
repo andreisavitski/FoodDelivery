@@ -17,10 +17,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("client")
+@RequestMapping("/api/v1/client")
 @RequiredArgsConstructor
 @Tag(name = "CLIENT", description = "Allows you to manage clients")
 public class ClientRestController {
+
     private final ClientService clientService;
 
     @Operation(summary = "Get all clients", security = @SecurityRequirement(name = "bearerAuth"))
@@ -32,7 +33,7 @@ public class ClientRestController {
 
     @Operation(summary = "Get a client by ID", security = @SecurityRequirement(name = "bearerAuth"))
     @MethodLogging
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public ClientResponseDTO getClient(@PathVariable("id") Long id) {
         return clientService.findClientById(id);
     }
@@ -45,7 +46,7 @@ public class ClientRestController {
     }
 
     @Operation(summary = "Delete a client by ID", security = @SecurityRequirement(name = "bearerAuth"))
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public void deleteClient(@PathVariable("id") Long id) {
         clientService.deleteClientById(id);
     }

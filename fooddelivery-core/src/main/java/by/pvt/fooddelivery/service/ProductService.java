@@ -26,5 +26,10 @@ public interface ProductService {
     List<ProductDTO> findProductsByRestaurantId(Long restaurantId);
 
     ProductDTO updateProduct(ProductDTO productDTO);
+
     List<ProductDTO> findByNameWithSpecification(String name);
+
+    List<ProductDTO> findProductsByRestaurantIdWithJdbcTemplate(Long restaurantId);
+
+    List<ProductDTO> findProductsByRestaurantIdWithCriteria(ProductType type, Long restaurantId, String name);
 }

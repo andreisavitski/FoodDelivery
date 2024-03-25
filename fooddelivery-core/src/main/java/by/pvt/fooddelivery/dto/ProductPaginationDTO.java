@@ -9,8 +9,11 @@ import lombok.extern.jackson.Jacksonized;
 @Builder
 @Jacksonized
 public class ProductPaginationDTO {
+
     private final Long offset;
+
     @NonNull
     private final Long pageSize;
+
     private final String field;
 }

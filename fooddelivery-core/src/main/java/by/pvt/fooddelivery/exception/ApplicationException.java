@@ -5,7 +5,9 @@ import org.springframework.http.HttpStatus;
 
 @Getter
 public class ApplicationException extends RuntimeException {
+
     private final HttpStatus status;
+
     private final String code;
 
     public ApplicationException(AppError appError) {

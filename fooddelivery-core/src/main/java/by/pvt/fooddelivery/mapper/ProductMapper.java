@@ -1,6 +1,6 @@
 package by.pvt.fooddelivery.mapper;
 
-import by.pvt.fooddelivery.domain.Product;
+import by.pvt.fooddelivery.entity.Product;
 import by.pvt.fooddelivery.dto.ProductDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

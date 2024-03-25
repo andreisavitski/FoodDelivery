@@ -1,6 +1,6 @@
 package by.pvt.fooddelivery.repository.product.specification;
 
-import by.pvt.fooddelivery.domain.Product;
+import by.pvt.fooddelivery.entity.Product;
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.jpa.domain.Specification;
 
