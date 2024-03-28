@@ -75,6 +75,13 @@
             <artifactId>jjwt-jackson</artifactId>
         </dependency>
 
+        <!-- Spring Boot Starter Logging Aspect -->
+        <dependency>
+            <groupId>by.pvt.spring-boot-starter-logging-aspect</groupId>
+            <artifactId>spring-boot-starter-logging-aspect</artifactId>
+            <version>0.0.1</version>
+        </dependency>
+
         <!-- Spring Boot Starter Test -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -100,8 +107,24 @@
         </dependency>
 
         <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-stream-binder-rabbit</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-stream-binder-kafka</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-amqp</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka</artifactId>
+            <version>3.0.15</version>
         </dependency>
 
         <!-- Hibernate Ehcache Relocation -->
@@ -240,6 +263,7 @@
             <plugin>
                 <groupId>org.bsc.maven</groupId>
                 <artifactId>maven-processor-plugin</artifactId>
+                <version>3.3.3</version>
                 <executions>
                     <execution>
                         <goals>

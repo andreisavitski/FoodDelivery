@@ -24,8 +24,8 @@ services:
     container_name: fooddelivery-order-logger_container
     image: fooddelivery-order-logger:latest
     environment:
-       - SPRING_DATA_MONGODB_URI=mongodb://orderloggerdb:27017/orderloggerdb
-       - eureka.client.serviceUrl.defaultZone=http://eureka-server:8761/eureka/
+      - SPRING_DATA_MONGODB_URI=mongodb://orderloggerdb:27017/orderloggerdb
+      - eureka.client.serviceUrl.defaultZone=http://eureka-server:8761/eureka/
     ports:
       - "8081:8081"
     depends_on:
@@ -40,7 +40,7 @@ services:
       - POSTGRES_DB=fooddeliverydb
       - POSTGRES_USER=${DB_USER:-postgres}
       - POSTGRES_PASSWORD=${DB_PASSWORD:-sa}
-#      - PGDATA=/data/postgres
+      - PGDATA=/data/postgres
     ports:
       - "5432:5432"
     volumes:
@@ -85,3 +85,56 @@ services:
     environment:
       eureka.instance.hostname: eureka-server
       eureka.client.serviceUrl.defaultZone: http://eureka-server:8761/eureka
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: 'rabbitmq'
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - ./data/rabbitmq/data/:/var/lib/rabbitmq/
+      - ./data/rabbitmq/log/:/var/log/rabbitmq
+    networks:
+      - web
+
+  zookeeper:
+    image: bitnami/zookeeper:3.9.2
+    hostname: zookeeper
+    container_name: zookeeper
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+      ALLOW_ANONYMOUS_LOGIN: yes
+    volumes:
+      - ./data/zoo/data:/var/lib/zookeeper/data
+      - ./data/zoo/log:/var/lib/zookeeper/log
+    ports:
+      - "2181:2181"
+    networks:
+      - web
+
+  kafka:
+    image: bitnami/kafka:3.4.1
+    container_name: kafka
+    ports:
+      - "9092:9092"
+    volumes:
+      - ./data/kafka/data:/var/lib/kafka/data
+    environment:
+      KAFKA_CFG_ZOOKEEPER_CONNECT: zookeeper:2181
+      ALLOW_PLAINTEXT_LISTENER: yes
+      KAFKA_CFG_LISTENERS: PLAINTEXT://:9092
+      KAFKA_CFG_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+    networks:
+      - web
+
+  kafka-ui:
+    container_name: kafka-ui
+    image: provectuslabs/kafka-ui:latest
+    ports:
+      - 8082:8080
+    environment:
+      DYNAMIC_CONFIG_ENABLED: true
+    networks:
+      - web

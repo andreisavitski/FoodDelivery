@@ -4,7 +4,7 @@ import by.pvt.fooddelivery.dto.ClientRequestDTO;
 import by.pvt.fooddelivery.dto.ClientResponseDTO;
 import by.pvt.fooddelivery.dto.security.JwtAuthenticationResponseDTO;
 import by.pvt.fooddelivery.dto.security.SignInRequestDTO;
-import by.pvt.fooddelivery.logging.MethodLogging;
+import by.pvt.loggingaspect.MethodLogging;
 import by.pvt.fooddelivery.service.ClientService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;

@@ -13,8 +13,9 @@ import by.pvt.fooddelivery.repository.CourierRepository;
 import by.pvt.fooddelivery.repository.OrderRepository;
 import by.pvt.fooddelivery.repository.product.interfaces.ProductRepository;
 import by.pvt.fooddelivery.service.OrderService;
-import by.pvt.fooddelivery.service.rabbitmq.RabbitMQProducer;
+import by.pvt.fooddelivery.service.messagebroker.ProducerService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,7 +34,8 @@ import static java.math.BigDecimal.ZERO;
 @RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
 
-    private final RabbitMQProducer producerService;
+    @Qualifier("kafka")
+    private final ProducerService producerService;
 
     private final OrderRepository orderRepository;
 
@@ -153,7 +155,7 @@ public class OrderServiceImpl implements OrderService {
                 order.setOrdered(LocalDateTime.now());
                 order.setOrderStatus(DONE);
                 courier.setStatus(FREE);
-                producerService.sendJsonMessage(orderMessageMapper.toDTO(order));
+                producerService.sendMessage(orderMessageMapper.toDTO(order));
             }
         }
         return orderMapper.toDTO(orderRepository.save(order));
