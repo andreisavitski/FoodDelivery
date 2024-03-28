@@ -1,8 +1,8 @@
 package by.pvt.fooddelivery.controller;
 
 import by.pvt.fooddelivery.dto.RestaurantDTO;
-import by.pvt.fooddelivery.logging.MethodLogging;
 import by.pvt.fooddelivery.service.RestaurantService;
+import by.pvt.loggingaspect.MethodLogging;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;

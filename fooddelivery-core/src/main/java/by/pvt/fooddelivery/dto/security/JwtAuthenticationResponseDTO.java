@@ -1,13 +1,11 @@
 package by.pvt.fooddelivery.dto.security;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.extern.jackson.Jacksonized;
 
 @Getter
 @Builder
+@ToString
 @Jacksonized
 @NoArgsConstructor
 @AllArgsConstructor

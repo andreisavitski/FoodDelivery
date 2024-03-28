@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class RabbitMQConfig {
+public class RabbitMQProducerConfig {
 
     @Value("${rabbitmq.queue.json.name}")
     private String jsonQueue;

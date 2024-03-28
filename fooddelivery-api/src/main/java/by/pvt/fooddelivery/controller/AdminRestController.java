@@ -4,8 +4,8 @@ import by.pvt.fooddelivery.dto.AdminRequestDTO;
 import by.pvt.fooddelivery.dto.AdminResponseDTO;
 import by.pvt.fooddelivery.dto.security.JwtAuthenticationResponseDTO;
 import by.pvt.fooddelivery.dto.security.SignInRequestDTO;
-import by.pvt.fooddelivery.logging.MethodLogging;
 import by.pvt.fooddelivery.service.AdminService;
+import by.pvt.loggingaspect.MethodLogging;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -52,12 +52,14 @@ public class AdminRestController {
     }
 
     @Operation(summary = "Administrator registration", security = @SecurityRequirement(name = "bearerAuth"))
+    @MethodLogging
     @PostMapping("/sign-up")
     public JwtAuthenticationResponseDTO signUp(@RequestBody @Valid AdminRequestDTO request) {
         return adminService.signUp(request);
     }
 
     @Operation(summary = "Administrator authorization", security = @SecurityRequirement(name = "bearerAuth"))
+    @MethodLogging
     @PostMapping("/sign-in")
     public JwtAuthenticationResponseDTO signIn(@RequestBody @Valid SignInRequestDTO request) {
         return adminService.signIn(request);
