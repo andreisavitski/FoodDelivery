@@ -7,8 +7,6 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
@@ -16,9 +14,7 @@ public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpec
     @EntityGraph(type = EntityGraph.EntityGraphType.FETCH, value = "product_entity-graph")
     List<Product> findByNameContains(String productName);
 
-    @Query(name = "product.findByTypeAndRestaurantId", nativeQuery = true)
-    List<Product> findByTypeAndRestaurantId(@Param("type") ProductType type,
-                                            @Param("restaurantId") Long restaurantId);
+    List<Product> findByTypeAndRestaurantId(ProductType type, Long restaurantId);
 
     List<Product> findByTypeAndRestaurantIdAndNameContains(ProductType type, Long restaurantId, String name);
 
@@ -26,5 +22,6 @@ public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpec
 
     List<Product> findByType(ProductType type);
 
-    @NonNull List<Product> findAll(@NonNull Specification<Product> spec);
+    @NonNull
+    List<Product> findAll(@NonNull Specification<Product> spec);
 }

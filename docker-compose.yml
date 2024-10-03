@@ -7,7 +7,8 @@ networks:
 services:
   fooddelivery-backend:
     container_name: fooddelivery-backend
-    build: ./
+#    build: ./
+    image: fooddelivery-backend:latest
     ports:
       - "8080:8080"
     depends_on:
@@ -86,17 +87,17 @@ services:
       eureka.instance.hostname: eureka-server
       eureka.client.serviceUrl.defaultZone: http://eureka-server:8761/eureka
 
-  rabbitmq:
-    image: rabbitmq:3-management-alpine
-    container_name: 'rabbitmq'
-    ports:
-      - 5672:5672
-      - 15672:15672
-    volumes:
-      - ./data/rabbitmq/data/:/var/lib/rabbitmq/
-      - ./data/rabbitmq/log/:/var/log/rabbitmq
-    networks:
-      - web
+#  rabbitmq:
+#    image: rabbitmq:3-management-alpine
+#    container_name: 'rabbitmq'
+#    ports:
+#      - 5672:5672
+#      - 15672:15672
+#    volumes:
+#      - ./data/rabbitmq/data/:/var/lib/rabbitmq/
+#      - ./data/rabbitmq/log/:/var/log/rabbitmq
+#    networks:
+#      - web
 
   zookeeper:
     image: bitnami/zookeeper:3.9.2
@@ -123,18 +124,18 @@ services:
       - ./data/kafka/data:/var/lib/kafka/data
     environment:
       KAFKA_CFG_ZOOKEEPER_CONNECT: zookeeper:2181
-      ALLOW_PLAINTEXT_LISTENER: yes
+#/#      ALLOW_PLAINTEXT_LISTENER: yes
       KAFKA_CFG_LISTENERS: PLAINTEXT://:9092
       KAFKA_CFG_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
     networks:
       - web
 
-  kafka-ui:
-    container_name: kafka-ui
-    image: provectuslabs/kafka-ui:latest
-    ports:
-      - 8082:8080
-    environment:
-      DYNAMIC_CONFIG_ENABLED: true
-    networks:
-      - web
+#  kafka-ui:
+#    container_name: kafka-ui
+#    image: provectuslabs/kafka-ui:latest
+#    ports:
+#      - 8082:8080
+#    environment:
+#      DYNAMIC_CONFIG_ENABLED: true
+#    networks:
+#      - web
